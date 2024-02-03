@@ -43,6 +43,15 @@
         "documentation": {}
     },
     {
+        "label": "options",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "options",
+        "description": "options",
+        "detail": "options",
+        "documentation": {}
+    },
+    {
         "label": "admin",
         "importPath": "django.contrib",
         "description": "django.contrib",
@@ -310,14 +319,6 @@
         "importPath": "sys",
         "description": "sys",
         "detail": "sys",
-        "documentation": {}
-    },
-    {
-        "label": ".options",
-        "kind": 6,
-        "importPath": ".options",
-        "description": ".options",
-        "detail": ".options",
         "documentation": {}
     },
     {
