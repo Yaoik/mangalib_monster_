@@ -9,6 +9,22 @@
         "documentation": {}
     },
     {
+        "label": "Coroutine",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Coroutine",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "launch",
         "importPath": "pyppeteer",
         "description": "pyppeteer",
@@ -22,6 +38,22 @@
         "description": "pyppeteer_stealth",
         "isExtraImport": true,
         "detail": "pyppeteer_stealth",
+        "documentation": {}
+    },
+    {
+        "label": "Page",
+        "importPath": "pyppeteer.page",
+        "description": "pyppeteer.page",
+        "isExtraImport": true,
+        "detail": "pyppeteer.page",
+        "documentation": {}
+    },
+    {
+        "label": "NetworkError",
+        "importPath": "pyppeteer.errors",
+        "description": "pyppeteer.errors",
+        "isExtraImport": true,
+        "detail": "pyppeteer.errors",
         "documentation": {}
     },
     {
@@ -43,12 +75,28 @@
         "documentation": {}
     },
     {
-        "label": "options",
+        "label": "BaseCommand",
+        "importPath": "django.core.management.base",
+        "description": "django.core.management.base",
+        "isExtraImport": true,
+        "detail": "django.core.management.base",
+        "documentation": {}
+    },
+    {
+        "label": "CommandError",
+        "importPath": "django.core.management.base",
+        "description": "django.core.management.base",
+        "isExtraImport": true,
+        "detail": "django.core.management.base",
+        "documentation": {}
+    },
+    {
+        "label": "random",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "options",
-        "description": "options",
-        "detail": "options",
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
         "documentation": {}
     },
     {
@@ -322,48 +370,75 @@
         "documentation": {}
     },
     {
-        "label": "extract_text_between_braces",
-        "kind": 2,
+        "label": "Parser",
+        "kind": 6,
         "importPath": "monster.manga.management.commands.parser",
         "description": "monster.manga.management.commands.parser",
-        "peekOfCode": "def extract_text_between_braces(input_text:str):\n    input_text = input_text.replace('\\n', '')\n    pattern = r\"\\{(.+)\\}\"\n    match = re.search(pattern, input_text)\n    if match:\n        return json.loads('{'+match.group(1).strip()+'}')\n    else:\n        return None\nasync def get_json_from_url(url:str):\n    browser = await launch(headless=True)",
+        "peekOfCode": "class Parser:\n    def __init__(self) -> None:\n        self.browser = None\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        await self.browser.close()\n    async def parse_link(self, url):\n        page:Page = await self.browser.newPage()\n        await stealth(page)",
         "detail": "monster.manga.management.commands.parser",
         "documentation": {}
     },
     {
-        "label": "main",
-        "kind": 2,
+        "label": "Command",
+        "kind": 6,
         "importPath": "monster.manga.management.commands.parser",
         "description": "monster.manga.management.commands.parser",
-        "peekOfCode": "def main():\n    return asyncio.get_event_loop().run_until_complete(get_json_from_url('https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'))\nif __name__ == '__main__':       \n    print(main())\n    print(options.params)\n    #    await page.screenshot({\"path\": \"images/python.png\", 'fullPage':True})",
+        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    async def main(self):\n        urls = [f'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page={i+1}&chapterPage=1&user_id=425502' for i in range(3)]\n        parser = Parser()\n        await parser.initialize_browser()\n        await parser.parse_links_list(urls)\n    def handle(self, *args, **options):\n        asyncio.get_event_loop().run_until_complete(self.main())",
+        "detail": "monster.manga.management.commands.parser",
+        "documentation": {}
+    },
+    {
+        "label": "_api",
+        "kind": 5,
+        "importPath": "monster.manga.management.commands.parser",
+        "description": "monster.manga.management.commands.parser",
+        "peekOfCode": "_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',\n    'https://mangalib.me/api/comments/branch?comment_id={id}',\n    'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',\n    'https://mangalib.me/user?comm_id=173519921&section=comments',\n]\n_url = 'https://mangalib.me/naruto?section=chapters'\nURL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'\nclass Parser:",
+        "detail": "monster.manga.management.commands.parser",
+        "documentation": {}
+    },
+    {
+        "label": "_url",
+        "kind": 5,
+        "importPath": "monster.manga.management.commands.parser",
+        "description": "monster.manga.management.commands.parser",
+        "peekOfCode": "_url = 'https://mangalib.me/naruto?section=chapters'\nURL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'\nclass Parser:\n    def __init__(self) -> None:\n        self.browser = None\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        await self.browser.close()\n    async def parse_link(self, url):",
+        "detail": "monster.manga.management.commands.parser",
+        "documentation": {}
+    },
+    {
+        "label": "URL",
+        "kind": 5,
+        "importPath": "monster.manga.management.commands.parser",
+        "description": "monster.manga.management.commands.parser",
+        "peekOfCode": "URL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'\nclass Parser:\n    def __init__(self) -> None:\n        self.browser = None\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        await self.browser.close()\n    async def parse_link(self, url):\n        page:Page = await self.browser.newPage()",
         "detail": "monster.manga.management.commands.parser",
         "documentation": {}
     },
     {
         "label": "cookies",
         "kind": 5,
-        "importPath": "monster.manga.management.options",
-        "description": "monster.manga.management.options",
+        "importPath": "monster.manga.management.commands._options",
+        "description": "monster.manga.management.commands._options",
         "peekOfCode": "cookies = {\n    '_ym_uid': '1700672134433078668',\n    '_ym_d': '1700672134',\n    'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d': 'eyJpdiI6IlRKUlRCQ0VDTFBmSVdHQ29XdkxDcGc9PSIsInZhbHVlIjoiV3dhdk1tUm5UVStieU1CaTRnRGxmT2FBRjlBb0dBamV2NzBvbW9WaktrcC9KYnM0RXpUbW5RTUJDaytycStoSGV6akVqOUYxbFF1Vm9wY2dBNWl2ekIrbEhJYU9pM05HWkZKRE9TNm92ZHI0Vis2RmtyaXBsbTcxa2FDVm9lYmwxOVg4RFFnNHFSOGFSMnN5K1ZYbHhicC9TdTdkR3ZQRDIyZ3R1RThIUE9xQWZxRFA1WU81WStNa3JOdDM4cC81M0hZYWhsdWVaSW1sTmZGbEk2RklSVWpYZWtNcThXRjFna1RtdGM2RVNGZz0iLCJtYWMiOiJhZjg4M2JjMzc3NjE4OWE4MDQxYjU4OTY3MDUxOWM1NjQ3NWYwYmUyZjI3N2Q4YzkyZmM2MTg3Y2RkNzc5OTUyIiwidGFnIjoiIn0%3D',\n    '_ga_SF8S8RTHBE': 'GS1.1.1704764584.6.0.1704764584.60.0.0',\n    '_ga': 'GA1.1.1798067509.1700672135',\n    '_count': 'eyJpdiI6Ik43WitnR3dBTkc2M2FiT2dHR2VZaEE9PSIsInZhbHVlIjoiN2JvNGhRazhwWnlneXJoQisrNFFORkc5ZC8vRDJwemVJRXVjZlZxQmt5TldWbHZxNkEvU2p4THRhSmZCSlk0cCIsIm1hYyI6IjE1ODBlZjQwMTYyNzA2ZjU1YzliY2RjYWU0YmVkMTYxNGRiZTBiYjBjYmNjNzRhYjA3YmEyZmEwZmU4MmZjMTYiLCJ0YWciOiIifQ%3D%3D',\n    'XSRF-TOKEN': 'eyJpdiI6InRPdlNGTm1xUnpGUHA4RGFkcjBrRlE9PSIsInZhbHVlIjoiSzMzeTlVclJSeGx3WDVCS3crWFc2NlpCdmZjdEJ3eWFHT2swaUF3blVhcE45WlB4RFFpM0FlZDVHb2phQU41ZlplSFlYUXRMclpuY1ZFekpOTGNCUmtJbFc3bVgyd3RxSHpKVkNraEJXSjRCUit1SXZTQ1BaSXNZWkZMQnVwZUwiLCJtYWMiOiJmMTA1ZTUwYmEzMjA4Yzg3MTQ3OTlhMzM3OGM1MzBiNzQxYWEzMDA3OTQ5NzM0YThkOGUxM2M2N2M5OTQwZDI5IiwidGFnIjoiIn0%3D',\n    'mangalib_session': 'eyJpdiI6IkJwVVcwbzdPMGtBVUx1R0JSYmM1amc9PSIsInZhbHVlIjoid29kNEE2amNramJnY1Jjbkt5N1N0aTBJbW04cVlCSE95NnBmZUhBcVk1b3BrVUJnQ1AyR3ZhV3lBdllWTlB3NU1pa1NGY3VTTGNteHFsT0hoRG5FRi9PaGw5empFVlIra3RsU1E0WjBtemRXWTZpc01RdjdWaDRIQW1Zb0pkZUMiLCJtYWMiOiJhZjEzYjEyOTJmMGUwYzU3NmEzOTZjNTYwNDgzMDAxZmYwYmIxMWJjNTA3MWI0NDhjYzQyM2Q2MTI0YjFjMzYyIiwidGFnIjoiIn0%3D',\n}",
-        "detail": "monster.manga.management.options",
+        "detail": "monster.manga.management.commands._options",
         "documentation": {}
     },
     {
         "label": "headers",
         "kind": 5,
-        "importPath": "monster.manga.management.options",
-        "description": "monster.manga.management.options",
+        "importPath": "monster.manga.management.commands._options",
+        "description": "monster.manga.management.commands._options",
         "peekOfCode": "headers = {\n    'authority': 'mangalib.me',\n    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',\n    'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',\n    'cache-control': 'no-cache',\n    # 'cookie': '_ym_uid=1700672134433078668; _ym_d=1700672134; remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IlRKUlRCQ0VDTFBmSVdHQ29XdkxDcGc9PSIsInZhbHVlIjoiV3dhdk1tUm5UVStieU1CaTRnRGxmT2FBRjlBb0dBamV2NzBvbW9WaktrcC9KYnM0RXpUbW5RTUJDaytycStoSGV6akVqOUYxbFF1Vm9wY2dBNWl2ekIrbEhJYU9pM05HWkZKRE9TNm92ZHI0Vis2RmtyaXBsbTcxa2FDVm9lYmwxOVg4RFFnNHFSOGFSMnN5K1ZYbHhicC9TdTdkR3ZQRDIyZ3R1RThIUE9xQWZxRFA1WU81WStNa3JOdDM4cC81M0hZYWhsdWVaSW1sTmZGbEk2RklSVWpYZWtNcThXRjFna1RtdGM2RVNGZz0iLCJtYWMiOiJhZjg4M2JjMzc3NjE4OWE4MDQxYjU4OTY3MDUxOWM1NjQ3NWYwYmUyZjI3N2Q4YzkyZmM2MTg3Y2RkNzc5OTUyIiwidGFnIjoiIn0%3D; _ga_SF8S8RTHBE=GS1.1.1704764584.6.0.1704764584.60.0.0; _ga=GA1.1.1798067509.1700672135; _count=eyJpdiI6Ik43WitnR3dBTkc2M2FiT2dHR2VZaEE9PSIsInZhbHVlIjoiN2JvNGhRazhwWnlneXJoQisrNFFORkc5ZC8vRDJwemVJRXVjZlZxQmt5TldWbHZxNkEvU2p4THRhSmZCSlk0cCIsIm1hYyI6IjE1ODBlZjQwMTYyNzA2ZjU1YzliY2RjYWU0YmVkMTYxNGRiZTBiYjBjYmNjNzRhYjA3YmEyZmEwZmU4MmZjMTYiLCJ0YWciOiIifQ%3D%3D; XSRF-TOKEN=eyJpdiI6InRPdlNGTm1xUnpGUHA4RGFkcjBrRlE9PSIsInZhbHVlIjoiSzMzeTlVclJSeGx3WDVCS3crWFc2NlpCdmZjdEJ3eWFHT2swaUF3blVhcE45WlB4RFFpM0FlZDVHb2phQU41ZlplSFlYUXRMclpuY1ZFekpOTGNCUmtJbFc3bVgyd3RxSHpKVkNraEJXSjRCUit1SXZTQ1BaSXNZWkZMQnVwZUwiLCJtYWMiOiJmMTA1ZTUwYmEzMjA4Yzg3MTQ3OTlhMzM3OGM1MzBiNzQxYWEzMDA3OTQ5NzM0YThkOGUxM2M2N2M5OTQwZDI5IiwidGFnIjoiIn0%3D; mangalib_session=eyJpdiI6IkJwVVcwbzdPMGtBVUx1R0JSYmM1amc9PSIsInZhbHVlIjoid29kNEE2amNramJnY1Jjbkt5N1N0aTBJbW04cVlCSE95NnBmZUhBcVk1b3BrVUJnQ1AyR3ZhV3lBdllWTlB3NU1pa1NGY3VTTGNteHFsT0hoRG5FRi9PaGw5empFVlIra3RsU1E0WjBtemRXWTZpc01RdjdWaDRIQW1Zb0pkZUMiLCJtYWMiOiJhZjEzYjEyOTJmMGUwYzU3NmEzOTZjNTYwNDgzMDAxZmYwYmIxMWJjNTA3MWI0NDhjYzQyM2Q2MTI0YjFjMzYyIiwidGFnIjoiIn0%3D',\n    'dnt': '1',\n    'pragma': 'no-cache',\n    'referer': 'https://www.google.com/',\n    'sec-ch-ua': '\"Not A(Brand\";v=\"99\", \"Google Chrome\";v=\"121\", \"Chromium\";v=\"121\"',",
-        "detail": "monster.manga.management.options",
+        "detail": "monster.manga.management.commands._options",
         "documentation": {}
     },
     {
         "label": "params",
         "kind": 5,
-        "importPath": "monster.manga.management.options",
-        "description": "monster.manga.management.options",
+        "importPath": "monster.manga.management.commands._options",
+        "description": "monster.manga.management.commands._options",
         "peekOfCode": "params = {\n    'section': 'info',\n    'ui': '425502',\n}",
-        "detail": "monster.manga.management.options",
+        "detail": "monster.manga.management.commands._options",
         "documentation": {}
     },
     {
