@@ -8,6 +8,10 @@ import json
 import re
 from ..commands import _options as request_options
 from django.core.management.base import BaseCommand, CommandError
+import logging
+import time
+
+logging.basicConfig(level=logging.INFO, filename=f"logs\\pars_py_log_{time.time()}.log", filemode="w+", format="%(asctime)s %(levelname)s %(message)s")
 
 _api = [
     'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',
@@ -34,7 +38,11 @@ class Parser:
     async def parse_link(self, url):
         page:Page = await self.browser.newPage()
         await stealth(page)
-        await page.goto(url)
+        try:
+            await page.goto(url)
+        except NetworkError as e:
+            print(f'При обработке {url}\tпроизошла ошибка: {e}')
+            return None
         return page
     
     async def async_generator(self, max_concurrent:int, coroutines:list[Coroutine]):
@@ -46,19 +54,21 @@ class Parser:
 
         for coroutine in asyncio.as_completed([execute_with_semaphore(c) for c in coroutines]):
             yield await coroutine
-            
+
     async def parse_links_list(self, url_list):
-        coroutines = [self.parse_link(i) for i in url_list]
+        coroutines = [self.parse_link(url) for url in url_list]
+        max_concurrent = 32  # Здесь вы можете установить максимальное количество одновременно выполняющихся корутин
 
-        max_concurrent = 16  # Здесь вы можете установить максимальное количество одновременно выполняющихся корутин
-
+        tasks = []
         async for result in self.async_generator(max_concurrent, coroutines):
-            try:
-                print(await self.get_json_from_page(result))
-            except NetworkError:
-                print('Ошибка сети')
-                  
-        # Закрытие браузера
+            if not result is None:
+                print('Запрос сделан')
+                task = asyncio.create_task(self.get_json_from_page(result))
+                tasks.append(task)
+        
+        results = await asyncio.gather(*tasks)
+        print(results)
+
         await self.close_browser()
     
     @staticmethod

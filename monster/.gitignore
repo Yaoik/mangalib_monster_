@@ -1,2 +1,4 @@
 *\.pyc
 */options.py
+**/logs
+**/__pycache__
