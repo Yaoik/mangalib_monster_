@@ -1,0 +1,629 @@
+[
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "launch",
+        "importPath": "pyppeteer",
+        "description": "pyppeteer",
+        "isExtraImport": true,
+        "detail": "pyppeteer",
+        "documentation": {}
+    },
+    {
+        "label": "stealth",
+        "importPath": "pyppeteer_stealth",
+        "description": "pyppeteer_stealth",
+        "isExtraImport": true,
+        "detail": "pyppeteer_stealth",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "django.contrib.auth.models",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "AbstractUser",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "AbstractUser",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "django.contrib.auth.validators",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.contrib.auth.validators",
+        "description": "django.contrib.auth.validators",
+        "detail": "django.contrib.auth.validators",
+        "documentation": {}
+    },
+    {
+        "label": "django.utils.timezone",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.utils.timezone",
+        "description": "django.utils.timezone",
+        "detail": "django.utils.timezone",
+        "documentation": {}
+    },
+    {
+        "label": "users.managers",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "users.managers",
+        "description": "users.managers",
+        "detail": "users.managers",
+        "documentation": {}
+    },
+    {
+        "label": "UserManager",
+        "importPath": "users.managers",
+        "description": "users.managers",
+        "isExtraImport": true,
+        "detail": "users.managers",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "users.models",
+        "description": "users.models",
+        "isExtraImport": true,
+        "detail": "users.models",
+        "documentation": {}
+    },
+    {
+        "label": "gettext_lazy",
+        "importPath": "django.utils.translation",
+        "description": "django.utils.translation",
+        "isExtraImport": true,
+        "detail": "django.utils.translation",
+        "documentation": {}
+    },
+    {
+        "label": "gettext_lazy",
+        "importPath": "django.utils.translation",
+        "description": "django.utils.translation",
+        "isExtraImport": true,
+        "detail": "django.utils.translation",
+        "documentation": {}
+    },
+    {
+        "label": "BaseUserManager",
+        "importPath": "django.contrib.auth.base_user",
+        "description": "django.contrib.auth.base_user",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.base_user",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": ".options",
+        "kind": 6,
+        "importPath": ".options",
+        "description": ".options",
+        "detail": ".options",
+        "documentation": {}
+    },
+    {
+        "label": "extract_text_between_braces",
+        "kind": 2,
+        "importPath": "monster.manga.management.commands.parser",
+        "description": "monster.manga.management.commands.parser",
+        "peekOfCode": "def extract_text_between_braces(input_text:str):\n    input_text = input_text.replace('\\n', '')\n    pattern = r\"\\{(.+)\\}\"\n    match = re.search(pattern, input_text)\n    if match:\n        return json.loads('{'+match.group(1).strip()+'}')\n    else:\n        return None\nasync def get_json_from_url(url:str):\n    browser = await launch(headless=True)",
+        "detail": "monster.manga.management.commands.parser",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "monster.manga.management.commands.parser",
+        "description": "monster.manga.management.commands.parser",
+        "peekOfCode": "def main():\n    return asyncio.get_event_loop().run_until_complete(get_json_from_url('https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'))\nif __name__ == '__main__':       \n    print(main())\n    print(options.params)\n    #    await page.screenshot({\"path\": \"images/python.png\", 'fullPage':True})",
+        "detail": "monster.manga.management.commands.parser",
+        "documentation": {}
+    },
+    {
+        "label": "cookies",
+        "kind": 5,
+        "importPath": "monster.manga.management.options",
+        "description": "monster.manga.management.options",
+        "peekOfCode": "cookies = {\n    '_ym_uid': '1700672134433078668',\n    '_ym_d': '1700672134',\n    'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d': 'eyJpdiI6IlRKUlRCQ0VDTFBmSVdHQ29XdkxDcGc9PSIsInZhbHVlIjoiV3dhdk1tUm5UVStieU1CaTRnRGxmT2FBRjlBb0dBamV2NzBvbW9WaktrcC9KYnM0RXpUbW5RTUJDaytycStoSGV6akVqOUYxbFF1Vm9wY2dBNWl2ekIrbEhJYU9pM05HWkZKRE9TNm92ZHI0Vis2RmtyaXBsbTcxa2FDVm9lYmwxOVg4RFFnNHFSOGFSMnN5K1ZYbHhicC9TdTdkR3ZQRDIyZ3R1RThIUE9xQWZxRFA1WU81WStNa3JOdDM4cC81M0hZYWhsdWVaSW1sTmZGbEk2RklSVWpYZWtNcThXRjFna1RtdGM2RVNGZz0iLCJtYWMiOiJhZjg4M2JjMzc3NjE4OWE4MDQxYjU4OTY3MDUxOWM1NjQ3NWYwYmUyZjI3N2Q4YzkyZmM2MTg3Y2RkNzc5OTUyIiwidGFnIjoiIn0%3D',\n    '_ga_SF8S8RTHBE': 'GS1.1.1704764584.6.0.1704764584.60.0.0',\n    '_ga': 'GA1.1.1798067509.1700672135',\n    '_count': 'eyJpdiI6Ik43WitnR3dBTkc2M2FiT2dHR2VZaEE9PSIsInZhbHVlIjoiN2JvNGhRazhwWnlneXJoQisrNFFORkc5ZC8vRDJwemVJRXVjZlZxQmt5TldWbHZxNkEvU2p4THRhSmZCSlk0cCIsIm1hYyI6IjE1ODBlZjQwMTYyNzA2ZjU1YzliY2RjYWU0YmVkMTYxNGRiZTBiYjBjYmNjNzRhYjA3YmEyZmEwZmU4MmZjMTYiLCJ0YWciOiIifQ%3D%3D',\n    'XSRF-TOKEN': 'eyJpdiI6InRPdlNGTm1xUnpGUHA4RGFkcjBrRlE9PSIsInZhbHVlIjoiSzMzeTlVclJSeGx3WDVCS3crWFc2NlpCdmZjdEJ3eWFHT2swaUF3blVhcE45WlB4RFFpM0FlZDVHb2phQU41ZlplSFlYUXRMclpuY1ZFekpOTGNCUmtJbFc3bVgyd3RxSHpKVkNraEJXSjRCUit1SXZTQ1BaSXNZWkZMQnVwZUwiLCJtYWMiOiJmMTA1ZTUwYmEzMjA4Yzg3MTQ3OTlhMzM3OGM1MzBiNzQxYWEzMDA3OTQ5NzM0YThkOGUxM2M2N2M5OTQwZDI5IiwidGFnIjoiIn0%3D',\n    'mangalib_session': 'eyJpdiI6IkJwVVcwbzdPMGtBVUx1R0JSYmM1amc9PSIsInZhbHVlIjoid29kNEE2amNramJnY1Jjbkt5N1N0aTBJbW04cVlCSE95NnBmZUhBcVk1b3BrVUJnQ1AyR3ZhV3lBdllWTlB3NU1pa1NGY3VTTGNteHFsT0hoRG5FRi9PaGw5empFVlIra3RsU1E0WjBtemRXWTZpc01RdjdWaDRIQW1Zb0pkZUMiLCJtYWMiOiJhZjEzYjEyOTJmMGUwYzU3NmEzOTZjNTYwNDgzMDAxZmYwYmIxMWJjNTA3MWI0NDhjYzQyM2Q2MTI0YjFjMzYyIiwidGFnIjoiIn0%3D',\n}",
+        "detail": "monster.manga.management.options",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "kind": 5,
+        "importPath": "monster.manga.management.options",
+        "description": "monster.manga.management.options",
+        "peekOfCode": "headers = {\n    'authority': 'mangalib.me',\n    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',\n    'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',\n    'cache-control': 'no-cache',\n    # 'cookie': '_ym_uid=1700672134433078668; _ym_d=1700672134; remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IlRKUlRCQ0VDTFBmSVdHQ29XdkxDcGc9PSIsInZhbHVlIjoiV3dhdk1tUm5UVStieU1CaTRnRGxmT2FBRjlBb0dBamV2NzBvbW9WaktrcC9KYnM0RXpUbW5RTUJDaytycStoSGV6akVqOUYxbFF1Vm9wY2dBNWl2ekIrbEhJYU9pM05HWkZKRE9TNm92ZHI0Vis2RmtyaXBsbTcxa2FDVm9lYmwxOVg4RFFnNHFSOGFSMnN5K1ZYbHhicC9TdTdkR3ZQRDIyZ3R1RThIUE9xQWZxRFA1WU81WStNa3JOdDM4cC81M0hZYWhsdWVaSW1sTmZGbEk2RklSVWpYZWtNcThXRjFna1RtdGM2RVNGZz0iLCJtYWMiOiJhZjg4M2JjMzc3NjE4OWE4MDQxYjU4OTY3MDUxOWM1NjQ3NWYwYmUyZjI3N2Q4YzkyZmM2MTg3Y2RkNzc5OTUyIiwidGFnIjoiIn0%3D; _ga_SF8S8RTHBE=GS1.1.1704764584.6.0.1704764584.60.0.0; _ga=GA1.1.1798067509.1700672135; _count=eyJpdiI6Ik43WitnR3dBTkc2M2FiT2dHR2VZaEE9PSIsInZhbHVlIjoiN2JvNGhRazhwWnlneXJoQisrNFFORkc5ZC8vRDJwemVJRXVjZlZxQmt5TldWbHZxNkEvU2p4THRhSmZCSlk0cCIsIm1hYyI6IjE1ODBlZjQwMTYyNzA2ZjU1YzliY2RjYWU0YmVkMTYxNGRiZTBiYjBjYmNjNzRhYjA3YmEyZmEwZmU4MmZjMTYiLCJ0YWciOiIifQ%3D%3D; XSRF-TOKEN=eyJpdiI6InRPdlNGTm1xUnpGUHA4RGFkcjBrRlE9PSIsInZhbHVlIjoiSzMzeTlVclJSeGx3WDVCS3crWFc2NlpCdmZjdEJ3eWFHT2swaUF3blVhcE45WlB4RFFpM0FlZDVHb2phQU41ZlplSFlYUXRMclpuY1ZFekpOTGNCUmtJbFc3bVgyd3RxSHpKVkNraEJXSjRCUit1SXZTQ1BaSXNZWkZMQnVwZUwiLCJtYWMiOiJmMTA1ZTUwYmEzMjA4Yzg3MTQ3OTlhMzM3OGM1MzBiNzQxYWEzMDA3OTQ5NzM0YThkOGUxM2M2N2M5OTQwZDI5IiwidGFnIjoiIn0%3D; mangalib_session=eyJpdiI6IkJwVVcwbzdPMGtBVUx1R0JSYmM1amc9PSIsInZhbHVlIjoid29kNEE2amNramJnY1Jjbkt5N1N0aTBJbW04cVlCSE95NnBmZUhBcVk1b3BrVUJnQ1AyR3ZhV3lBdllWTlB3NU1pa1NGY3VTTGNteHFsT0hoRG5FRi9PaGw5empFVlIra3RsU1E0WjBtemRXWTZpc01RdjdWaDRIQW1Zb0pkZUMiLCJtYWMiOiJhZjEzYjEyOTJmMGUwYzU3NmEzOTZjNTYwNDgzMDAxZmYwYmIxMWJjNTA3MWI0NDhjYzQyM2Q2MTI0YjFjMzYyIiwidGFnIjoiIn0%3D',\n    'dnt': '1',\n    'pragma': 'no-cache',\n    'referer': 'https://www.google.com/',\n    'sec-ch-ua': '\"Not A(Brand\";v=\"99\", \"Google Chrome\";v=\"121\", \"Chromium\";v=\"121\"',",
+        "detail": "monster.manga.management.options",
+        "documentation": {}
+    },
+    {
+        "label": "params",
+        "kind": 5,
+        "importPath": "monster.manga.management.options",
+        "description": "monster.manga.management.options",
+        "peekOfCode": "params = {\n    'section': 'info',\n    'ui': '425502',\n}",
+        "detail": "monster.manga.management.options",
+        "documentation": {}
+    },
+    {
+        "label": "MangaConfig",
+        "kind": 6,
+        "importPath": "monster.manga.apps",
+        "description": "monster.manga.apps",
+        "peekOfCode": "class MangaConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'manga'",
+        "detail": "monster.manga.apps",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "monster.monster.asgi",
+        "description": "monster.monster.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "monster.monster.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-x7134e7y@h@1zya#oxa$7+h5lrwcf9*!^f3l)4gm%5i)xkiq70'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "SECRET_KEY = 'django-insecure-x7134e7y@h@1zya#oxa$7+h5lrwcf9*!^f3l)4gm%5i)xkiq70'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'users',",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'users',\n    'manga',\n    'rest_framework',",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n]\nROOT_URLCONF = 'monster.urls'",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "ROOT_URLCONF = 'monster.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'monster.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/4.2/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation\n# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'users.User'",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'users.User'",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'users.User'",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "STATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'users.User'",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_AUTO_FIELD",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'users.User'",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_USER_MODEL",
+        "kind": 5,
+        "importPath": "monster.monster.settings",
+        "description": "monster.monster.settings",
+        "peekOfCode": "AUTH_USER_MODEL = 'users.User'",
+        "detail": "monster.monster.settings",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "monster.monster.urls",
+        "description": "monster.monster.urls",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n]",
+        "detail": "monster.monster.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "monster.monster.wsgi",
+        "description": "monster.monster.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "monster.monster.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.users.migrations.0001_initial",
+        "description": "monster.users.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        ('auth', '0012_alter_user_first_name_max_length'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='User',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "monster.users.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.users.migrations.0002_alter_user_options_remove_user_username",
+        "description": "monster.users.migrations.0002_alter_user_options_remove_user_username",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('users', '0001_initial'),\n    ]\n    operations = [\n        migrations.AlterModelOptions(\n            name='user',\n            options={'verbose_name': 'Пользователь', 'verbose_name_plural': 'Пользователь'},\n        ),\n        migrations.RemoveField(",
+        "detail": "monster.users.migrations.0002_alter_user_options_remove_user_username",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.users.migrations.0003_alter_user_managers",
+        "description": "monster.users.migrations.0003_alter_user_managers",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('users', '0002_alter_user_options_remove_user_username'),\n    ]\n    operations = [\n        migrations.AlterModelManagers(\n            name='user',\n            managers=[\n                ('objects', users.managers.UserManager()),\n            ],",
+        "detail": "monster.users.migrations.0003_alter_user_managers",
+        "documentation": {}
+    },
+    {
+        "label": "UsersConfig",
+        "kind": 6,
+        "importPath": "monster.users.apps",
+        "description": "monster.users.apps",
+        "peekOfCode": "class UsersConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'users'",
+        "detail": "monster.users.apps",
+        "documentation": {}
+    },
+    {
+        "label": "UserManager",
+        "kind": 6,
+        "importPath": "monster.users.managers",
+        "description": "monster.users.managers",
+        "peekOfCode": "class UserManager(BaseUserManager):\n    use_in_migrations = True\n    def create_user(self, email, password=None, **extra_fields):\n        if not email:\n            raise ValueError('Users require an email field')\n        email = self.normalize_email(email)\n        user = self.model(email=email, **extra_fields)\n        user.set_password(password)\n        user.save(using=self._db)\n        return user",
+        "detail": "monster.users.managers",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 6,
+        "importPath": "monster.users.models",
+        "description": "monster.users.models",
+        "peekOfCode": "class User(AbstractUser):\n    email = models.EmailField(_(\"email address\"), blank=False, null=False, unique=True)\n    username = None\n    REQUIRED_FIELDS = []\n    USERNAME_FIELD = 'email'\n    objects = UserManager()\n    class Meta:\n        verbose_name_plural = 'Пользователь'\n        verbose_name = 'Пользователь'\n    def __str__(self):",
+        "detail": "monster.users.models",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "monster.manage",
+        "description": "monster.manage",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'monster.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "detail": "monster.manage",
+        "documentation": {}
+    }
+]
