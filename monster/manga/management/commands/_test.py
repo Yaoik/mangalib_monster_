@@ -1,7 +1,7 @@
 from typing import Any
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 import json
-
+import re
 
 with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\\manga\\management\\commands\\test.txt', 'r', encoding='utf-8') as f:
     data = '\n'.join(f.readlines())
@@ -19,6 +19,7 @@ def add_img(result_data:dict[str, Any], soup:BeautifulSoup):
     except AssertionError:
         result_data['img'] = None
         return False
+
 def add_tags(result_data:dict[str, Any], soup:BeautifulSoup):
     result_data.setdefault('tags', [])
     try:
@@ -31,6 +32,7 @@ def add_tags(result_data:dict[str, Any], soup:BeautifulSoup):
     except AssertionError:
         result_data.setdefault('tags', [])
         return False  
+
 def add_description(result_data:dict[str, Any], soup:BeautifulSoup):
     result_data.setdefault('description', None)
     try:
@@ -41,6 +43,7 @@ def add_description(result_data:dict[str, Any], soup:BeautifulSoup):
     except AssertionError:
         result_data['description'] = None
         return False
+
 def add_info_list(result_data:dict[str, Any], soup:BeautifulSoup):
     result_data.setdefault('type', None) # Тип
     result_data.setdefault('release_year', None) # Год релиза
@@ -95,6 +98,7 @@ def add_info_list(result_data:dict[str, Any], soup:BeautifulSoup):
         return True
     except AssertionError:
         return False
+
 def add_href(result_data:dict[str, Any], soup:BeautifulSoup):
     result_data.setdefault('href', None)
     try:
@@ -102,6 +106,68 @@ def add_href(result_data:dict[str, Any], soup:BeautifulSoup):
         meta = soup.find('meta', {'property':'og:site_name'})
         assert isinstance(meta, Tag)
         result_data['href'] = meta.get('content', None)
+        return True
+    except AssertionError:
+        return False
+
+def get_manga_json(soup:BeautifulSoup):
+    scripts = soup.find_all('script')
+    input_text = ''
+    for script in scripts:
+        if 'window.__DATA__' in script.text:
+            input_text = script.text
+            break
+    pattern = r"window.__DATA__ = \{(.+)\};.*?window._SITE_COLOR_"
+    match = re.search(pattern, input_text, re.DOTALL)
+    assert match is not None
+    if match:
+        json_data = json.loads('{'+match.group(1).strip()+'}')
+    else:
+        json_data = None
+    assert json_data is not None
+    if isinstance(json_data, dict):
+        return json_data
+    else:
+        raise
+
+def add_json_data(result_data:dict[str, Any], manga_json:dict[Any, Any]):
+    result_data.setdefault('rus_name', None)
+    result_data.setdefault('eng_name', None)
+    result_data.setdefault('slug', None)
+    result_data.setdefault('status', None)
+    try:
+        manga = manga_json.get('manga', None)
+        assert isinstance(manga, dict)
+        result_data['rus_name'] = manga.get('rusName', None)
+        result_data['eng_name'] = manga.get('engName', None)
+        result_data['slug'] = manga.get('slug', None)
+        result_data['status'] = manga.get('status', None)
+        return True
+    except AssertionError:
+        return False
+    
+def add_translators(result_data:dict[str, Any], soup:BeautifulSoup):
+    result_data.setdefault('translators', [])
+    try:
+        team_list = soup.find('div', {'class':'team-list'})
+        assert isinstance(team_list, Tag)
+        teams = team_list.find_all('a')
+        for team in teams:
+            team_data = {}
+            team_data.setdefault('href', None)
+            team_data.setdefault('img', None)
+            team_data.setdefault('name', None)
+            team_data['href'] = team.get('href', None)
+            div = team.find('div')
+            if isinstance(div, Tag):
+                style = div.get('style', None)
+                if isinstance(style, str):
+                    url = re.search(r"\(.*?\)", style)
+                    if isinstance(url, re.Match):
+                        team_data['img'] = url[0][1:-2]
+            team_data['name'] = team.text.replace('\n', '')
+            result_data['translators'].append(team_data)
+
         return True
     except AssertionError:
         return False
@@ -115,8 +181,15 @@ def manga_html_parser(html_text:str):
     assert add_description(result_data, soup)
     assert add_info_list(result_data, soup)
     assert add_href(result_data, soup)
+    assert add_translators(result_data, soup)
+    manga_json = get_manga_json(soup)
+    assert add_json_data(result_data, manga_json)
+    
+    
+    
     print(json.dumps(result_data, indent=4, ensure_ascii=False))
-
+    print('---'*10)
+    #print(json.dumps(get_manga_json(soup), indent=4, ensure_ascii=False))
     
     
 manga_html_parser(data)

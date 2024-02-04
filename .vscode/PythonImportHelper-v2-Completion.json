@@ -537,11 +537,38 @@
         "documentation": {}
     },
     {
+        "label": "get_manga_json",
+        "kind": 2,
+        "importPath": "monster.manga.management.commands._test",
+        "description": "monster.manga.management.commands._test",
+        "peekOfCode": "def get_manga_json(soup:BeautifulSoup):\n    scripts = soup.find_all('script')\n    input_text = ''\n    for script in scripts:\n        if 'window.__DATA__' in script.text:\n            input_text = script.text\n            break\n    pattern = r\"window.__DATA__ = \\{(.+)\\};.*?window._SITE_COLOR_\"\n    match = re.search(pattern, input_text, re.DOTALL)\n    assert match is not None",
+        "detail": "monster.manga.management.commands._test",
+        "documentation": {}
+    },
+    {
+        "label": "add_json_data",
+        "kind": 2,
+        "importPath": "monster.manga.management.commands._test",
+        "description": "monster.manga.management.commands._test",
+        "peekOfCode": "def add_json_data(result_data:dict[str, Any], manga_json:dict[Any, Any]):\n    result_data.setdefault('rus_name', None)\n    result_data.setdefault('eng_name', None)\n    result_data.setdefault('slug', None)\n    result_data.setdefault('status', None)\n    try:\n        manga = manga_json.get('manga', None)\n        assert isinstance(manga, dict)\n        result_data['rus_name'] = manga.get('rusName', None)\n        result_data['eng_name'] = manga.get('engName', None)",
+        "detail": "monster.manga.management.commands._test",
+        "documentation": {}
+    },
+    {
+        "label": "add_translators",
+        "kind": 2,
+        "importPath": "monster.manga.management.commands._test",
+        "description": "monster.manga.management.commands._test",
+        "peekOfCode": "def add_translators(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('translators', [])\n    try:\n        team_list = soup.find('div', {'class':'team-list'})\n        assert isinstance(team_list, Tag)\n        teams = team_list.find_all('a')\n        for team in teams:\n            team_data = {}\n            team_data.setdefault('href', None)\n            team_data.setdefault('img', None)",
+        "detail": "monster.manga.management.commands._test",
+        "documentation": {}
+    },
+    {
         "label": "manga_html_parser",
         "kind": 2,
         "importPath": "monster.manga.management.commands._test",
         "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def manga_html_parser(html_text:str):\n    soup = BeautifulSoup(html_text, 'html.parser')\n    result_data = {}\n    assert add_img(result_data, soup)\n    assert add_tags(result_data, soup)\n    assert add_description(result_data, soup)\n    assert add_info_list(result_data, soup)\n    assert add_href(result_data, soup)\n    print(json.dumps(result_data, indent=4, ensure_ascii=False))\nmanga_html_parser(data)",
+        "peekOfCode": "def manga_html_parser(html_text:str):\n    soup = BeautifulSoup(html_text, 'html.parser')\n    result_data = {}\n    assert add_img(result_data, soup)\n    assert add_tags(result_data, soup)\n    assert add_description(result_data, soup)\n    assert add_info_list(result_data, soup)\n    assert add_href(result_data, soup)\n    assert add_translators(result_data, soup)\n    manga_json = get_manga_json(soup)",
         "detail": "monster.manga.management.commands._test",
         "documentation": {}
     },
