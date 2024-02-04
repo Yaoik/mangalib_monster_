@@ -23,6 +23,7 @@ _api = [
 
 _url = 'https://mangalib.me/naruto?section=chapters'
 URL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'
+URL = 'https://mangalib.me/naruto?section=info&ui=425502'
 
 
 class Parser:
@@ -62,7 +63,6 @@ class Parser:
         tasks = []
         async for result in self.async_generator(max_concurrent, coroutines):
             if not result is None:
-                print('Запрос сделан')
                 task = asyncio.create_task(self.get_json_from_page(result))
                 tasks.append(task)
         
@@ -91,17 +91,40 @@ class Parser:
             raise Exception('json_data вернулся пустым!')
         return json_data
     
+    async def manga_parse(self, manga_url:str):
+        page = await self.parse_link(manga_url)
+        if page is None:
+            raise Exception(f'page вернулся пустым! {manga_url=}')
+        content = await page.content()
+        with open('test.txt', 'w+', encoding='utf-8') as f:
+            f.write(content)
+        input_text = content
+        pattern = r"window.__DATA__ = \{(.+)\};.*?window._SITE_COLOR_"
+        match = re.search(pattern, input_text, re.DOTALL)
+        if match:
+            json_data = json.loads('{'+match.group(1).strip()+'}')
+        else:
+            json_data = None
+        if json_data is not None:
+            pass
+            print(json.dumps(json_data, indent=4, ensure_ascii=False))
+        else:
+            raise Exception('json_data вернулся пустым!')
+        return json_data
+
 
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
     
     async def main(self):
         urls = [f'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page={i+1}&chapterPage=1&user_id=425502' for i in range(3)]
-
+        
+        URL = 'https://mangalib.me/dice-roll?section=chapters&ui=425502'
+        URL = 'https://mangalib.me/adabana?section=chapters&ui=425502'
         parser = Parser()
         await parser.initialize_browser()
         
-        await parser.parse_links_list(urls)
+        await parser.manga_parse(URL)
     
     
     def handle(self, *args, **options):
