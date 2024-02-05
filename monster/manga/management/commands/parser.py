@@ -1,9 +1,11 @@
+from pyppeteer.page import Page
+from pyppeteer.browser import Browser
 import asyncio
 from typing import Coroutine
 from pyppeteer import launch
 from pyppeteer_stealth import stealth
-from pyppeteer.page import Page
 from pyppeteer.errors import NetworkError
+from ..commands._manga_parser import MangaParser
 import json
 import re
 from ..commands import _options as request_options
@@ -11,7 +13,7 @@ from django.core.management.base import BaseCommand, CommandError
 import logging
 import time
 
-logging.basicConfig(level=logging.INFO, filename=f"logs\\pars_py_log_{time.time()}.log", filemode="w+", format="%(asctime)s %(levelname)s %(message)s")
+logging.basicConfig(level=logging.INFO, filename=f"logs\\pars_py_log_{time.time()}.log", filemode="w+", format="%(asctime)s %(levelname)s %(message)s", encoding='UTF-8')
 
 _api = [
     'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',
@@ -30,20 +32,29 @@ URL = 'https://mangalib.me/naruto?section=info&ui=425502'
 class Parser:
     def __init__(self) -> None:
         self.browser = None
+        self.manga_parser = MangaParser()
     
     async def initialize_browser(self):
         self.browser = await launch(headless=True)
 
     async def close_browser(self):
+        assert isinstance(self.browser, Browser)
         await self.browser.close()
         
     async def parse_link(self, url):
+        assert isinstance(self.browser, Browser)
+        start = time.time()
         page:Page = await self.browser.newPage()
+        logging.info(f'Время запроса page: {time.time()-start}')
+        start = time.time()
         await stealth(page)
+        logging.info(f'Время stealth: {time.time()-start}')
         try:
+            start = time.time()
             await page.goto(url)
+            logging.info(f'Время page.goto: {time.time()-start}')
         except NetworkError as e:
-            print(f'При обработке {url}\tпроизошла ошибка: {e}')
+            logging.warning(f'При обработке {url}\tпроизошла ошибка: {e}')
             return None
         return page
     
@@ -68,9 +79,8 @@ class Parser:
                 tasks.append(task)
         
         results = await asyncio.gather(*tasks)
-        print(results)
-
-        await self.close_browser()
+        return results
+        #await self.close_browser()
     
     @staticmethod
     def extract_text_between_braces(input_text:str):
@@ -93,25 +103,13 @@ class Parser:
         return json_data
     
     async def manga_parse(self, manga_url:str):
+        start = time.time()
         page = await self.parse_link(manga_url)
-        if page is None:
-            raise Exception(f'page вернулся пустым! {manga_url=}')
+        logging.info(f'Время запроса в сумме: {time.time()-start}')
+        if page is None:raise Exception(f'page вернулся пустым! {manga_url=}')
         content = await page.content()
-        with open('test.txt', 'w+', encoding='utf-8') as f:
-            f.write(content)
-        input_text = content
-        pattern = r"window.__DATA__ = \{(.+)\};.*?window._SITE_COLOR_"
-        match = re.search(pattern, input_text, re.DOTALL)
-        if match:
-            json_data = json.loads('{'+match.group(1).strip()+'}')
-        else:
-            json_data = None
-        if json_data is not None:
-            pass
-            print(json.dumps(json_data, indent=4, ensure_ascii=False))
-        else:
-            raise Exception('json_data вернулся пустым!')
-        return json_data
+        res = self.manga_parser.manga_html_parser(content)
+        return res
 
 
 class Command(BaseCommand):
@@ -126,9 +124,9 @@ class Command(BaseCommand):
         parser = Parser()
         await parser.initialize_browser()
         
-        await parser.manga_parse(URL)
-    
-    
+        res = await parser.manga_parse(URL)
+        print(res)
+        
     def handle(self, *args, **options):
         asyncio.get_event_loop().run_until_complete(self.main())
     

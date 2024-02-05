@@ -1,5 +1,21 @@
 [
     {
+        "label": "Page",
+        "importPath": "pyppeteer.page",
+        "description": "pyppeteer.page",
+        "isExtraImport": true,
+        "detail": "pyppeteer.page",
+        "documentation": {}
+    },
+    {
+        "label": "Browser",
+        "importPath": "pyppeteer.browser",
+        "description": "pyppeteer.browser",
+        "isExtraImport": true,
+        "detail": "pyppeteer.browser",
+        "documentation": {}
+    },
+    {
         "label": "asyncio",
         "kind": 6,
         "isExtraImport": true,
@@ -38,14 +54,6 @@
         "description": "pyppeteer_stealth",
         "isExtraImport": true,
         "detail": "pyppeteer_stealth",
-        "documentation": {}
-    },
-    {
-        "label": "Page",
-        "importPath": "pyppeteer.page",
-        "description": "pyppeteer.page",
-        "isExtraImport": true,
-        "detail": "pyppeteer.page",
         "documentation": {}
     },
     {
@@ -424,7 +432,7 @@
         "kind": 6,
         "importPath": "monster.manga.management.commands.parser",
         "description": "monster.manga.management.commands.parser",
-        "peekOfCode": "class Parser:\n    def __init__(self) -> None:\n        self.browser = None\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        await self.browser.close()\n    async def parse_link(self, url):\n        page:Page = await self.browser.newPage()\n        await stealth(page)",
+        "peekOfCode": "class Parser:\n    def __init__(self) -> None:\n        self.browser = None\n        self.manga_parser = MangaParser()\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        assert isinstance(self.browser, Browser)\n        await self.browser.close()\n    async def parse_link(self, url):",
         "detail": "monster.manga.management.commands.parser",
         "documentation": {}
     },
@@ -433,7 +441,7 @@
         "kind": 6,
         "importPath": "monster.manga.management.commands.parser",
         "description": "monster.manga.management.commands.parser",
-        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    async def main(self):\n        urls = [f'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page={i+1}&chapterPage=1&user_id=425502' for i in range(3)]\n        URL = 'https://mangalib.me/dice-roll?section=chapters&ui=425502'\n        URL = 'https://mangalib.me/adabana?section=chapters&ui=425502'\n        URL = 'https://mangalib.me/chainsaw-man?section=info&ui=425502'\n        parser = Parser()\n        await parser.initialize_browser()\n        await parser.manga_parse(URL)",
+        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    async def main(self):\n        urls = [f'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page={i+1}&chapterPage=1&user_id=425502' for i in range(3)]\n        URL = 'https://mangalib.me/dice-roll?section=chapters&ui=425502'\n        URL = 'https://mangalib.me/adabana?section=chapters&ui=425502'\n        URL = 'https://mangalib.me/chainsaw-man?section=info&ui=425502'\n        parser = Parser()\n        await parser.initialize_browser()\n        res = await parser.manga_parse(URL)",
         "detail": "monster.manga.management.commands.parser",
         "documentation": {}
     },
@@ -451,7 +459,7 @@
         "kind": 5,
         "importPath": "monster.manga.management.commands.parser",
         "description": "monster.manga.management.commands.parser",
-        "peekOfCode": "_url = 'https://mangalib.me/naruto?section=chapters'\nURL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'\nURL = 'https://mangalib.me/naruto?section=info&ui=425502'\nclass Parser:\n    def __init__(self) -> None:\n        self.browser = None\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        await self.browser.close()",
+        "peekOfCode": "_url = 'https://mangalib.me/naruto?section=chapters'\nURL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'\nURL = 'https://mangalib.me/naruto?section=info&ui=425502'\nclass Parser:\n    def __init__(self) -> None:\n        self.browser = None\n        self.manga_parser = MangaParser()\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):",
         "detail": "monster.manga.management.commands.parser",
         "documentation": {}
     },
@@ -460,7 +468,7 @@
         "kind": 5,
         "importPath": "monster.manga.management.commands.parser",
         "description": "monster.manga.management.commands.parser",
-        "peekOfCode": "URL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'\nURL = 'https://mangalib.me/naruto?section=info&ui=425502'\nclass Parser:\n    def __init__(self) -> None:\n        self.browser = None\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        await self.browser.close()\n    async def parse_link(self, url):",
+        "peekOfCode": "URL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'\nURL = 'https://mangalib.me/naruto?section=info&ui=425502'\nclass Parser:\n    def __init__(self) -> None:\n        self.browser = None\n        self.manga_parser = MangaParser()\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        assert isinstance(self.browser, Browser)",
         "detail": "monster.manga.management.commands.parser",
         "documentation": {}
     },
@@ -469,8 +477,17 @@
         "kind": 5,
         "importPath": "monster.manga.management.commands.parser",
         "description": "monster.manga.management.commands.parser",
-        "peekOfCode": "URL = 'https://mangalib.me/naruto?section=info&ui=425502'\nclass Parser:\n    def __init__(self) -> None:\n        self.browser = None\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        await self.browser.close()\n    async def parse_link(self, url):\n        page:Page = await self.browser.newPage()",
+        "peekOfCode": "URL = 'https://mangalib.me/naruto?section=info&ui=425502'\nclass Parser:\n    def __init__(self) -> None:\n        self.browser = None\n        self.manga_parser = MangaParser()\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        assert isinstance(self.browser, Browser)\n        await self.browser.close()",
         "detail": "monster.manga.management.commands.parser",
+        "documentation": {}
+    },
+    {
+        "label": "MangaParser",
+        "kind": 6,
+        "importPath": "monster.manga.management.commands._manga_parser",
+        "description": "monster.manga.management.commands._manga_parser",
+        "peekOfCode": "class MangaParser:\n    def __init__(self) -> None:\n        pass\n    def _style_to_href(self, style:str):\n        assert isinstance(style, str)\n        href = re.search(r\"\\(.*?\\)\", style)\n        if isinstance(href, re.Match):\n            return href[0][1:href[0].index(')')].replace('?', '')\n        return False\n    def _add_img(self, result_data:dict[str, Any], soup:BeautifulSoup):",
+        "detail": "monster.manga.management.commands._manga_parser",
         "documentation": {}
     },
     {
@@ -501,129 +518,30 @@
         "documentation": {}
     },
     {
-        "label": "style_to_href",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def style_to_href(style:str):\n    assert isinstance(style, str)\n    href = re.search(r\"\\(.*?\\)\", style)\n    if isinstance(href, re.Match):\n        return href[0][1:href[0].index(')')].replace('?', '')\n    return False\ndef add_img(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('img', None)\n    try:\n        div = soup.find('div', {'class': 'media-sidebar__cover paper'})",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "add_img",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_img(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('img', None)\n    try:\n        div = soup.find('div', {'class': 'media-sidebar__cover paper'})\n        assert isinstance(div, Tag)\n        img = div.find('img')\n        assert isinstance(img, Tag)\n        result_data['img'] = img.get('src', None)\n        return True\n    except AssertionError:",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "add_tags",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_tags(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('tags', [])\n    try:\n        div = soup.find('div', {'class': 'media-tags'})\n        assert isinstance(div, Tag)\n        tags = div.find_all('a', {'class':'media-tag-item'})\n        for tag in tags:\n            result_data.setdefault('tags', []).append(tag.text)\n        return True\n    except AssertionError:",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "add_description",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_description(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('description', None)\n    try:\n        description = soup.find('div', {'class': 'media-description__text'})\n        assert isinstance(description, Tag)\n        result_data['description'] = description.text.replace('\\n', '').strip()\n        return True\n    except AssertionError:\n        result_data['description'] = None\n        return False",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "add_info_list",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_info_list(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('type', None) # Тип\n    result_data.setdefault('release_year', None) # Год релиза\n    result_data.setdefault('title_status', None) # Статус тайтла\n    result_data.setdefault('transfer_status', None) # Статус перевода\n    result_data.setdefault('author', None) # Автор\n    result_data.setdefault('artist', None) # Художник\n    result_data.setdefault('publishing_house', None) # Издательство\n    result_data.setdefault('age_rating', None) # Возрастной рейтинг\n    result_data.setdefault('chapters_uploaded', None) # Загружено глав",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "add_href",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_href(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('href', None)\n    try:\n        #<meta property=\"og:site_name\" content=\"https://mangalib.me/adabana\">\n        meta = soup.find('meta', {'property':'og:site_name'})\n        assert isinstance(meta, Tag)\n        result_data['href'] = meta.get('content', None)\n        return True\n    except AssertionError:\n        return False",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "get_manga_json",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def get_manga_json(soup:BeautifulSoup):\n    scripts = soup.find_all('script')\n    input_text = ''\n    for script in scripts:\n        if 'window.__DATA__' in script.text:\n            input_text = script.text\n            break\n    pattern = r\"window.__DATA__ = \\{(.+)\\};.*?window._SITE_COLOR_\"\n    match = re.search(pattern, input_text, re.DOTALL)\n    assert match is not None",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "add_json_data",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_json_data(result_data:dict[str, Any], manga_json:dict[Any, Any]):\n    result_data.setdefault('rus_name', None)\n    result_data.setdefault('eng_name', None)\n    result_data.setdefault('slug', None)\n    result_data.setdefault('status', None)\n    try:\n        manga = manga_json.get('manga', None)\n        assert isinstance(manga, dict)\n        result_data['rus_name'] = manga.get('rusName', None)\n        result_data['eng_name'] = manga.get('engName', None)",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "add_teams",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_teams(result_data:dict[str, Any], soup:BeautifulSoup, manga_json:dict[Any, Any]):\n    result_data.setdefault('teams', [])\n    try:\n        team_list = soup.find('div', {'class':'team-list'})\n        assert isinstance(team_list, Tag)\n        teams = team_list.find_all('a')\n        for team in teams:\n            team_data = {}\n            team_data.setdefault('href', None)\n            team_data.setdefault('img', None)",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "add_chapters",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_chapters(result_data:dict[str, Any], manga_json:dict[Any, Any]):\n    result_data.setdefault('chapters', [])\n    try:\n        for chapter in manga_json.get('chapters', {}).get('list', []):\n            result_data['chapters'].append(chapter)\n        return True\n    except AssertionError:\n        return False\ndef add_in_lists(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('in_lists', {})",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "add_in_lists",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_in_lists(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('in_lists', {})\n    result_data.setdefault('user_ratings', {})\n    result_data['user_ratings'].setdefault('value', None)\n    result_data['user_ratings'].setdefault('total', None)\n    result_data['user_ratings'].setdefault('scores', {})\n    try:\n        div = soup.find('div', {'class':'media-section__col'})\n        assert isinstance(div, Tag)\n        div = div.find('div', {'class':'media-section__head'})",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "add_related",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_related(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('related', [])\n    result_data.setdefault('similar', [])\n    try:\n        div = soup.find('div', {'data-slider':'related'})\n        if isinstance(div, Tag):\n            divs = div.find_all('div', {'class':'media-slider__item'})\n            for div in divs:\n                assert isinstance(div, Tag)\n                a: Tag | NavigableString | None = div.find('a')",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
-        "label": "manga_html_parser",
-        "kind": 2,
-        "importPath": "monster.manga.management.commands._test",
-        "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def manga_html_parser(html_text:str):\n    soup = BeautifulSoup(html_text, 'html.parser')\n    result_data = {}\n    assert add_img(result_data, soup)\n    assert add_tags(result_data, soup)\n    assert add_description(result_data, soup)\n    assert add_info_list(result_data, soup)\n    assert add_href(result_data, soup)\n    manga_json = get_manga_json(soup)\n    assert add_teams(result_data, soup, manga_json)",
-        "detail": "monster.manga.management.commands._test",
-        "documentation": {}
-    },
-    {
         "label": "MangaConfig",
         "kind": 6,
         "importPath": "monster.manga.apps",
         "description": "monster.manga.apps",
         "peekOfCode": "class MangaConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'manga'",
         "detail": "monster.manga.apps",
+        "documentation": {}
+    },
+    {
+        "label": "Tag",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class Tag(models.Model):    \n    name = models.CharField(max_length=255, unique=True, primary_key=True)\n    href = models.CharField(max_length=255, unique=True)\n    class Meta:\n        verbose_name_plural = 'Тег'\n        verbose_name = 'Тег'\n    def __str__(self) -> str:\n        return f'{self.name}'\nclass Manga(models.Model):\n    img = models.CharField(max_length=255, unique=True)",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Manga",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class Manga(models.Model):\n    img = models.CharField(max_length=255, unique=True)\n    tags = models.ManyToManyField(Tag)\n    class Meta:\n        verbose_name_plural = 'Манга'\n        verbose_name = 'Манга'",
+        "detail": "monster.manga.models",
         "documentation": {}
     },
     {
@@ -865,7 +783,7 @@
         "kind": 6,
         "importPath": "monster.users.models",
         "description": "monster.users.models",
-        "peekOfCode": "class User(AbstractUser):\n    email = models.EmailField(_(\"email address\"), blank=False, null=False, unique=True)\n    username = None\n    REQUIRED_FIELDS = []\n    USERNAME_FIELD = 'email'\n    objects = UserManager()\n    class Meta:\n        verbose_name_plural = 'Пользователь'\n        verbose_name = 'Пользователь'\n    def __str__(self):",
+        "peekOfCode": "class User(AbstractUser):\n    email = models.EmailField(_(\"email address\"), blank=False, null=False, unique=True)\n    username = None\n    REQUIRED_FIELDS = []\n    USERNAME_FIELD = 'email'\n    objects = UserManager() \n    class Meta:\n        verbose_name_plural = 'Пользователь'\n        verbose_name = 'Пользователь'\n    def __str__(self):",
         "detail": "monster.users.models",
         "documentation": {}
     },

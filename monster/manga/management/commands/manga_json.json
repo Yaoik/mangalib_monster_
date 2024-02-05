@@ -1,23 +1,74 @@
 {
     "img": "https://cover.imglib.info/uploads/cover/chainsaw-man/cover/mUIlgi4AJypL_250x350.jpg",
     "tags": [
-        "боевик",
-        "комедия",
-        "романтика",
-        "сверхъестественное",
-        "сёнэн",
-        "трагедия",
-        "ужасы",
-        "фэнтези",
-        "Зомби",
-        "Антигерой",
-        "Монстры",
-        "ГГ мужчина",
-        "Дружба",
-        "Жестокий мир",
-        "Насилие / жестокость",
-        "Огнестрельное оружие",
-        "Скрытие личности"
+        {
+            "name": "боевик",
+            "href": "https://mangalib.me/manga-list?genres%5Binclude%5D%5B%5D=34"
+        },
+        {
+            "name": "комедия",
+            "href": "https://mangalib.me/manga-list?genres%5Binclude%5D%5B%5D=47"
+        },
+        {
+            "name": "романтика",
+            "href": "https://mangalib.me/manga-list?genres%5Binclude%5D%5B%5D=56"
+        },
+        {
+            "name": "сверхъестественное",
+            "href": "https://mangalib.me/manga-list?genres%5Binclude%5D%5B%5D=58"
+        },
+        {
+            "name": "сёнэн",
+            "href": "https://mangalib.me/manga-list?genres%5Binclude%5D%5B%5D=61"
+        },
+        {
+            "name": "трагедия",
+            "href": "https://mangalib.me/manga-list?genres%5Binclude%5D%5B%5D=65"
+        },
+        {
+            "name": "ужасы",
+            "href": "https://mangalib.me/manga-list?genres%5Binclude%5D%5B%5D=67"
+        },
+        {
+            "name": "фэнтези",
+            "href": "https://mangalib.me/manga-list?genres%5Binclude%5D%5B%5D=69"
+        },
+        {
+            "name": "Зомби",
+            "href": "https://mangalib.me/manga-list?tags%5Binclude%5D%5B%5D=149"
+        },
+        {
+            "name": "Антигерой",
+            "href": "https://mangalib.me/manga-list?tags%5Binclude%5D%5B%5D=175"
+        },
+        {
+            "name": "Монстры",
+            "href": "https://mangalib.me/manga-list?tags%5Binclude%5D%5B%5D=189"
+        },
+        {
+            "name": "ГГ мужчина",
+            "href": "https://mangalib.me/manga-list?tags%5Binclude%5D%5B%5D=244"
+        },
+        {
+            "name": "Дружба",
+            "href": "https://mangalib.me/manga-list?tags%5Binclude%5D%5B%5D=247"
+        },
+        {
+            "name": "Жестокий мир",
+            "href": "https://mangalib.me/manga-list?tags%5Binclude%5D%5B%5D=249"
+        },
+        {
+            "name": "Насилие / жестокость",
+            "href": "https://mangalib.me/manga-list?tags%5Binclude%5D%5B%5D=262"
+        },
+        {
+            "name": "Огнестрельное оружие",
+            "href": "https://mangalib.me/manga-list?tags%5Binclude%5D%5B%5D=264"
+        },
+        {
+            "name": "Скрытие личности",
+            "href": "https://mangalib.me/manga-list?tags%5Binclude%5D%5B%5D=273"
+        }
     ],
     "description": "«Я всегда мечтал жить обычной жизнью: спать в тёплой постели, есть тосты с джемом по утрам, ходить на свидания со своей девушкой и улыбаться каждый день. Но всё изменилось со смертью отца — теперь, Потита, пора убивать!» — с такими словами Дэндзи вместе со своим псом-бензопилой Потитой отправляется на очередной контракт, ведь они — охотники на демонов. Каждый день они убивают ради денег, которые Дэндзи должен отдать одному якудза, иначе долг покойного отца придётся отдать собственной жизнью. Но что ждёт Дэндзи, когда он вернёт весь долг: заживёт обычной жизнью или продолжит спасать мир от демонов? А может, у судьбы свои планы на участь героя?",
     "type": "Манга",
