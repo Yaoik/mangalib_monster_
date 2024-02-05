@@ -174,11 +174,75 @@
         "documentation": {}
     },
     {
-        "label": "admin",
-        "importPath": "django.contrib",
-        "description": "django.contrib",
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
         "isExtraImport": true,
-        "detail": "django.contrib",
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
         "documentation": {}
     },
     {
@@ -195,6 +259,46 @@
         "description": "django.contrib",
         "isExtraImport": true,
         "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "Tag",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Manga",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Team",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Chapter",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
         "documentation": {}
     },
     {
@@ -211,62 +315,6 @@
         "description": "django.apps",
         "isExtraImport": true,
         "detail": "django.apps",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
         "documentation": {}
     },
     {
@@ -518,6 +566,15 @@
         "documentation": {}
     },
     {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0001_initial",
+        "description": "monster.manga.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Chapter',\n            fields=[\n                ('chapter_id', models.PositiveIntegerField(primary_key=True, serialize=False, unique=True)),\n                ('chapter_slug', models.CharField(max_length=255, unique=True)),",
+        "detail": "monster.manga.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
         "label": "MangaConfig",
         "kind": 6,
         "importPath": "monster.manga.apps",
@@ -531,7 +588,25 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Tag(models.Model):    \n    name = models.CharField(max_length=255, unique=True, primary_key=True)\n    href = models.CharField(max_length=255, unique=True)\n    class Meta:\n        verbose_name_plural = 'Тег'\n        verbose_name = 'Тег'\n    def __str__(self) -> str:\n        return f'{self.name}'\nclass Manga(models.Model):\n    img = models.CharField(max_length=255, unique=True)",
+        "peekOfCode": "class Tag(models.Model):    \n    name = models.CharField(max_length=255, unique=True, primary_key=True)\n    href = models.CharField(max_length=255, unique=True)\n    class Meta:\n        verbose_name_plural = 'Тег'\n        verbose_name = 'Тег'\n    def __str__(self) -> str:\n        return f'{self.name}'\nclass Team(models.Model):\n    id = models.PositiveSmallIntegerField(primary_key=True, null=False, unique=True)",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Team",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class Team(models.Model):\n    id = models.PositiveSmallIntegerField(primary_key=True, null=False, unique=True)\n    branch_id = models.PositiveSmallIntegerField()\n    href = models.CharField(max_length=255, unique=True)\n    img = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255, unique=True)\n    alt_name = models.CharField(max_length=255, unique=True)\n    cover = models.CharField(max_length=32)\n    slug = models.CharField(max_length=255, unique=True)\n    sale = models.PositiveSmallIntegerField()",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Chapter",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class Chapter(models.Model):\n    chapter_id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    chapter_slug = models.CharField(null=False, unique=True, max_length=255)\n    chapter_name = models.CharField(max_length=255)\n    chapter_number = models.CharField(max_length=12)\n    chapter_volume = models.PositiveSmallIntegerField()\n    chapter_moderated = models.PositiveSmallIntegerField()\n    chapter_user_id = models.PositiveIntegerField()\n    chapter_expired_at = models.CharField(max_length=20)\n    chapter_created_at = models.CharField(max_length=20)",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -540,7 +615,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Manga(models.Model):\n    img = models.CharField(max_length=255, unique=True)\n    tags = models.ManyToManyField(Tag)\n    class Meta:\n        verbose_name_plural = 'Манга'\n        verbose_name = 'Манга'",
+        "peekOfCode": "class Manga(models.Model):\n    img = models.CharField(max_length=255, unique=True, null=False)\n    href = models.CharField(max_length=255, unique=True, null=False)\n    tags = models.ManyToManyField(Tag)\n    description = models.TextField(unique=True, null=False)\n    type = models.CharField(max_length=32, null=False)\n    release_year = models.PositiveSmallIntegerField(null=False)\n    title_status = models.CharField(max_length=32, null=False)\n    transfer_status = models.CharField(max_length=32, null=False)\n    author = models.CharField(max_length=255, null=False)",
         "detail": "monster.manga.models",
         "documentation": {}
     },

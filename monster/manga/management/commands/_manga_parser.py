@@ -80,7 +80,7 @@ class MangaParser:
                     case 'Тип':
                         result_data['type'] = value.text
                     case 'Год релиза':
-                        result_data['release_year'] = value.text
+                        result_data['release_year'] = int(value.text)
                     case 'Статус тайтла':
                         result_data['title_status'] = value.text
                     case 'Статус перевода':
