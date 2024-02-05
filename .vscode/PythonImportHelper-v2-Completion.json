@@ -33,6 +33,14 @@
         "documentation": {}
     },
     {
+        "label": "Coroutine",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Any",
         "importPath": "typing",
         "description": "typing",
@@ -99,6 +107,22 @@
         "documentation": {}
     },
     {
+        "label": "BaseCommand",
+        "importPath": "django.core.management.base",
+        "description": "django.core.management.base",
+        "isExtraImport": true,
+        "detail": "django.core.management.base",
+        "documentation": {}
+    },
+    {
+        "label": "CommandError",
+        "importPath": "django.core.management.base",
+        "description": "django.core.management.base",
+        "isExtraImport": true,
+        "detail": "django.core.management.base",
+        "documentation": {}
+    },
+    {
         "label": "logging",
         "kind": 6,
         "isExtraImport": true,
@@ -114,6 +138,24 @@
         "importPath": "time",
         "description": "time",
         "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "aiohttp",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "aiohttp",
+        "description": "aiohttp",
+        "detail": "aiohttp",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
         "documentation": {}
     },
     {
@@ -174,27 +216,12 @@
         "documentation": {}
     },
     {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
+        "label": "django.db.models.deletion",
+        "kind": 6,
         "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
+        "importPath": "django.db.models.deletion",
+        "description": "django.db.models.deletion",
+        "detail": "django.db.models.deletion",
         "documentation": {}
     },
     {
@@ -214,7 +241,7 @@
         "documentation": {}
     },
     {
-        "label": "migrations",
+        "label": "models",
         "importPath": "django.db",
         "description": "django.db",
         "isExtraImport": true,
@@ -223,6 +250,14 @@
     },
     {
         "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
         "importPath": "django.db",
         "description": "django.db",
         "isExtraImport": true,
@@ -270,7 +305,7 @@
         "documentation": {}
     },
     {
-        "label": "Tag",
+        "label": "AgeRestriction",
         "importPath": "manga.models",
         "description": "manga.models",
         "isExtraImport": true,
@@ -278,7 +313,15 @@
         "documentation": {}
     },
     {
-        "label": "Manga",
+        "label": "MangaType",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Moderated",
         "importPath": "manga.models",
         "description": "manga.models",
         "isExtraImport": true,
@@ -294,7 +337,55 @@
         "documentation": {}
     },
     {
-        "label": "Chapter",
+        "label": "Genre",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Tag",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Publisher",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "People",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "MangaStatus",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "ScanlateStatus",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Manga",
         "importPath": "manga.models",
         "description": "manga.models",
         "isExtraImport": true,
@@ -375,40 +466,6 @@
         "documentation": {}
     },
     {
-        "label": "django.contrib.auth.models",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "django.contrib.auth.models",
-        "description": "django.contrib.auth.models",
-        "detail": "django.contrib.auth.models",
-        "documentation": {}
-    },
-    {
-        "label": "AbstractUser",
-        "importPath": "django.contrib.auth.models",
-        "description": "django.contrib.auth.models",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth.models",
-        "documentation": {}
-    },
-    {
-        "label": "AbstractUser",
-        "importPath": "django.contrib.auth.models",
-        "description": "django.contrib.auth.models",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth.models",
-        "documentation": {}
-    },
-    {
-        "label": "django.contrib.auth.validators",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "django.contrib.auth.validators",
-        "description": "django.contrib.auth.validators",
-        "detail": "django.contrib.auth.validators",
-        "documentation": {}
-    },
-    {
         "label": "django.utils.timezone",
         "kind": 6,
         "isExtraImport": true,
@@ -440,6 +497,22 @@
         "description": "users.models",
         "isExtraImport": true,
         "detail": "users.models",
+        "documentation": {}
+    },
+    {
+        "label": "AbstractUser",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "AbstractUser",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
         "documentation": {}
     },
     {
@@ -498,7 +571,7 @@
         "kind": 5,
         "importPath": "monster.manga.management.commands.parser",
         "description": "monster.manga.management.commands.parser",
-        "peekOfCode": "_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',\n    'https://mangalib.me/api/comments/branch?comment_id={id}',\n    'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',\n    'https://mangalib.me/user?comm_id=173519921&section=comments',\n    'https://mangalib.me/similar/7965?type=1',\n]\n_url = 'https://mangalib.me/naruto?section=chapters'\nURL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'",
+        "peekOfCode": "_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',\n    'https://mangalib.me/api/comments/branch?comment_id={id}',\n    'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',\n    'https://mangalib.me/user?comm_id=173519921&section=comments',\n    'https://mangalib.me/similar/7965?type=1',\n    \"https://api.lib.social/api/manga/shingeki-no-kyojin?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format\",\n    'https://api.lib.social/api/manga/247--shingeki-no-kyojin/relations',\n    'https://api.lib.social/api/manga/247--shingeki-no-kyojin/similar',",
         "detail": "monster.manga.management.commands.parser",
         "documentation": {}
     },
@@ -527,6 +600,60 @@
         "description": "monster.manga.management.commands.parser",
         "peekOfCode": "URL = 'https://mangalib.me/naruto?section=info&ui=425502'\nclass Parser:\n    def __init__(self) -> None:\n        self.browser = None\n        self.manga_parser = MangaParser()\n    async def initialize_browser(self):\n        self.browser = await launch(headless=True)\n    async def close_browser(self):\n        assert isinstance(self.browser, Browser)\n        await self.browser.close()",
         "detail": "monster.manga.management.commands.parser",
+        "documentation": {}
+    },
+    {
+        "label": "Parser",
+        "kind": 6,
+        "importPath": "monster.manga.management.commands.parser_api",
+        "description": "monster.manga.management.commands.parser_api",
+        "peekOfCode": "class Parser:\n    def __init__(self) -> None:\n        pass\n    async def fetch_data(self, url):\n        async with aiohttp.ClientSession() as session:\n            async with session.get(url) as response:\n                return await response.text()\n    async def async_generator(self, max_concurrent:int, coroutines:list[Coroutine]):\n        semaphore = asyncio.Semaphore(max_concurrent)\n        async def execute_with_semaphore(coroutine):",
+        "detail": "monster.manga.management.commands.parser_api",
+        "documentation": {}
+    },
+    {
+        "label": "Command",
+        "kind": 6,
+        "importPath": "monster.manga.management.commands.parser_api",
+        "description": "monster.manga.management.commands.parser_api",
+        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    async def main(self):\n        parser = Parser()\n    def handle(self, *args, **options):\n        asyncio.get_event_loop().run_until_complete(self.main())",
+        "detail": "monster.manga.management.commands.parser_api",
+        "documentation": {}
+    },
+    {
+        "label": "_api",
+        "kind": 5,
+        "importPath": "monster.manga.management.commands.parser_api",
+        "description": "monster.manga.management.commands.parser_api",
+        "peekOfCode": "_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',\n    'https://mangalib.me/api/comments/branch?comment_id={id}',\n    'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',\n    'https://mangalib.me/user?comm_id=173519921&section=comments',\n    'https://mangalib.me/similar/7965?type=1',\n    \"https://api.lib.social/api/manga/shingeki-no-kyojin?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format\",\n    'https://api.lib.social/api/manga/247--shingeki-no-kyojin/relations',\n    'https://api.lib.social/api/manga/247--shingeki-no-kyojin/similar',",
+        "detail": "monster.manga.management.commands.parser_api",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "kind": 5,
+        "importPath": "monster.manga.management.commands._api_manga_parser",
+        "description": "monster.manga.management.commands._api_manga_parser",
+        "peekOfCode": "headers = {\n    'authority': 'api.lib.social',\n    'accept': '*/*',\n    'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',\n    'cache-control': 'no-cache',\n    'content-type': 'application/json',\n    'dnt': '1',\n    'origin': 'https://test-front.mangalib.me',\n    'pragma': 'no-cache',\n    'referer': 'https://test-front.mangalib.me/',",
+        "detail": "monster.manga.management.commands._api_manga_parser",
+        "documentation": {}
+    },
+    {
+        "label": "response",
+        "kind": 5,
+        "importPath": "monster.manga.management.commands._api_manga_parser",
+        "description": "monster.manga.management.commands._api_manga_parser",
+        "peekOfCode": "response = requests.get(\n    'https://api.lib.social/api/manga/shingeki-no-kyojin?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format',\n    headers=headers,\n)\njsonn = json.dumps(response.json(), indent=4, ensure_ascii=False)\nprint(jsonn)\nwith open('C:\\\\Users\\\\Shamrock\\\\Desktop\\\\mangalib_monster обход блокировки ботов\\\\monster\\\\manga\\\\management\\\\commands\\\\manga_json_api.json', 'w+', encoding='UTF-8') as f:\n    f.write(json.dumps(response.json(), indent=4, ensure_ascii=False))",
+        "detail": "monster.manga.management.commands._api_manga_parser",
+        "documentation": {}
+    },
+    {
+        "label": "jsonn",
+        "kind": 5,
+        "importPath": "monster.manga.management.commands._api_manga_parser",
+        "description": "monster.manga.management.commands._api_manga_parser",
+        "peekOfCode": "jsonn = json.dumps(response.json(), indent=4, ensure_ascii=False)\nprint(jsonn)\nwith open('C:\\\\Users\\\\Shamrock\\\\Desktop\\\\mangalib_monster обход блокировки ботов\\\\monster\\\\manga\\\\management\\\\commands\\\\manga_json_api.json', 'w+', encoding='UTF-8') as f:\n    f.write(json.dumps(response.json(), indent=4, ensure_ascii=False))",
+        "detail": "monster.manga.management.commands._api_manga_parser",
         "documentation": {}
     },
     {
@@ -570,7 +697,7 @@
         "kind": 6,
         "importPath": "monster.manga.migrations.0001_initial",
         "description": "monster.manga.migrations.0001_initial",
-        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Chapter',\n            fields=[\n                ('chapter_id', models.PositiveIntegerField(primary_key=True, serialize=False, unique=True)),\n                ('chapter_slug', models.CharField(max_length=255, unique=True)),",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='AgeRestriction',\n            fields=[\n                ('id', models.SmallIntegerField(primary_key=True, serialize=False, unique=True)),\n                ('label', models.CharField(max_length=8, unique=True)),",
         "detail": "monster.manga.migrations.0001_initial",
         "documentation": {}
     },
@@ -584,11 +711,29 @@
         "documentation": {}
     },
     {
-        "label": "Tag",
+        "label": "AgeRestriction",
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Tag(models.Model):    \n    name = models.CharField(max_length=255, unique=True, primary_key=True)\n    href = models.CharField(max_length=255, unique=True)\n    class Meta:\n        verbose_name_plural = 'Тег'\n        verbose_name = 'Тег'\n    def __str__(self) -> str:\n        return f'{self.name}'\nclass Team(models.Model):\n    id = models.PositiveSmallIntegerField(primary_key=True, null=False, unique=True)",
+        "peekOfCode": "class AgeRestriction(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    label = models.CharField(max_length=8, unique=True)\n    class Meta:\n        verbose_name_plural = 'Возрастное ограничение'\n        verbose_name = 'Возрастное ограничение'\n    def __str__(self):\n        return f'{self.label}'\nclass MangaType(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "MangaType",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class MangaType(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    label = models.CharField(max_length=32, unique=True)\n    class Meta:\n        verbose_name_plural = 'Тип произведения'\n        verbose_name = 'Тип произведения'\n    def __str__(self):\n        return f'{self.label}'\nclass Moderated(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Moderated",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class Moderated(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    label = models.CharField(max_length=32, unique=True)\n    class Meta:\n        verbose_name_plural = 'Статус модерации'\n        verbose_name = 'Статус модерации'\n    def __str__(self):\n        return f'{self.label}'\nclass Team(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -597,16 +742,61 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Team(models.Model):\n    id = models.PositiveSmallIntegerField(primary_key=True, null=False, unique=True)\n    branch_id = models.PositiveSmallIntegerField()\n    href = models.CharField(max_length=255, unique=True)\n    img = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255, unique=True)\n    alt_name = models.CharField(max_length=255, unique=True)\n    cover = models.CharField(max_length=32)\n    slug = models.CharField(max_length=255, unique=True)\n    sale = models.PositiveSmallIntegerField()",
+        "peekOfCode": "class Team(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    slug = models.CharField(max_length=255, unique=True)\n    slug_url = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255, unique=True)\n    cover = models.JSONField()\n    details = models.JSONField()\n    class Meta:\n        verbose_name_plural = 'Переводчики'\n        verbose_name = 'Переводчики'",
         "detail": "monster.manga.models",
         "documentation": {}
     },
     {
-        "label": "Chapter",
+        "label": "Genre",
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Chapter(models.Model):\n    chapter_id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    chapter_slug = models.CharField(null=False, unique=True, max_length=255)\n    chapter_name = models.CharField(max_length=255)\n    chapter_number = models.CharField(max_length=12)\n    chapter_volume = models.PositiveSmallIntegerField()\n    chapter_moderated = models.PositiveSmallIntegerField()\n    chapter_user_id = models.PositiveIntegerField()\n    chapter_expired_at = models.CharField(max_length=20)\n    chapter_created_at = models.CharField(max_length=20)",
+        "peekOfCode": "class Genre(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    name = models.CharField(max_length=64, unique=True)\n    class Meta:\n        verbose_name_plural = 'Жанр'\n        verbose_name = 'Жанр'\n    def __str__(self):\n        return f'{self.name}'\nclass Tag(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Tag",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class Tag(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    name = models.CharField(max_length=64, unique=True)\n    class Meta:\n        verbose_name_plural = 'Тег'\n        verbose_name = 'Тег'\n    def __str__(self):\n        return f'{self.name}'\nclass Publisher(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Publisher",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class Publisher(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    slug = models.CharField(max_length=255, unique=True)\n    slug_url = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255, unique=True)\n    rus_name = models.CharField(max_length=255, unique=True, null=True)\n    cover = models.JSONField(null=True)\n    subscription = models.JSONField(null=True)\n    class Meta:\n        verbose_name_plural = 'Издатель'",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "People",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class People(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    slug = models.CharField(max_length=255, unique=True)\n    slug_url = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255, unique=True)\n    rus_name = models.CharField(max_length=255, unique=True, null=True)\n    alt_name = models.CharField(max_length=255, unique=True, null=True)\n    cover = models.JSONField(null=True)\n    subscription = models.JSONField(null=True)\n    user_id = models.SmallIntegerField()",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "MangaStatus",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class MangaStatus(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    label = models.CharField(max_length=32, unique=True)\n    class Meta:\n        verbose_name_plural = 'Статус выпуска манги'\n        verbose_name = 'Статус выпуска манги'\n    def __str__(self):\n        return f'{self.label}'\nclass ScanlateStatus(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "ScanlateStatus",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class ScanlateStatus(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    label = models.CharField(max_length=32, unique=True)\n    class Meta:\n        verbose_name_plural = 'Статус выпуска перевода'\n        verbose_name = 'Статус выпуска перевода'\n    def __str__(self):\n        return f'{self.label}'\nclass Manga(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -615,7 +805,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Manga(models.Model):\n    img = models.CharField(max_length=255, unique=True, null=False)\n    href = models.CharField(max_length=255, unique=True, null=False)\n    tags = models.ManyToManyField(Tag)\n    description = models.TextField(unique=True, null=False)\n    type = models.CharField(max_length=32, null=False)\n    release_year = models.PositiveSmallIntegerField(null=False)\n    title_status = models.CharField(max_length=32, null=False)\n    transfer_status = models.CharField(max_length=32, null=False)\n    author = models.CharField(max_length=255, null=False)",
+        "peekOfCode": "class Manga(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    name = models.CharField(max_length=255)\n    rus_name = models.CharField(max_length=255)\n    eng_name = models.CharField(max_length=255)\n    otherNames = models.JSONField()\n    slug = models.CharField(max_length=255)\n    slug_url = models.CharField(max_length=255)\n    cover = models.JSONField()\n    background = models.JSONField()",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -815,24 +1005,6 @@
         "description": "monster.users.migrations.0001_initial",
         "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        ('auth', '0012_alter_user_first_name_max_length'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='User',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
         "detail": "monster.users.migrations.0001_initial",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "monster.users.migrations.0002_alter_user_options_remove_user_username",
-        "description": "monster.users.migrations.0002_alter_user_options_remove_user_username",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('users', '0001_initial'),\n    ]\n    operations = [\n        migrations.AlterModelOptions(\n            name='user',\n            options={'verbose_name': 'Пользователь', 'verbose_name_plural': 'Пользователь'},\n        ),\n        migrations.RemoveField(",
-        "detail": "monster.users.migrations.0002_alter_user_options_remove_user_username",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "monster.users.migrations.0003_alter_user_managers",
-        "description": "monster.users.migrations.0003_alter_user_managers",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('users', '0002_alter_user_options_remove_user_username'),\n    ]\n    operations = [\n        migrations.AlterModelManagers(\n            name='user',\n            managers=[\n                ('objects', users.managers.UserManager()),\n            ],",
-        "detail": "monster.users.migrations.0003_alter_user_managers",
         "documentation": {}
     },
     {

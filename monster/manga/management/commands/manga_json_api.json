@@ -1,0 +1,306 @@
+{ 
+    "data": {
+        "id": 247,
+        "name": "Shingeki no Kyojin",
+        "rus_name": "Атака Титанов",
+        "eng_name": "Attack on Titan",
+        "otherNames": [
+            "AOT",
+            "Атака Титанов",
+            "Атака на титанов",
+            "Атакующий титан",
+            "進撃の巨人"
+        ],
+        "slug": "shingeki-no-kyojin",
+        "slug_url": "247--shingeki-no-kyojin",
+        "cover": {
+            "filename": "k0HAZuvw2SJw",
+            "thumbnail": "https://cover.imglib.info/uploads/cover/shingeki-no-kyojin/cover/k0HAZuvw2SJw_thumb.jpg",
+            "default": "https://cover.imglib.info/uploads/cover/shingeki-no-kyojin/cover/k0HAZuvw2SJw_250x350.jpg"
+        },
+        "background": {
+            "filename": "BJSLhQMFTdNw",
+            "url": "https://cover.imglib.info/uploads/cover/shingeki-no-kyojin/background/BJSLhQMFTdNw"
+        },
+        "ageRestriction": {
+            "id": 2,
+            "label": "12+"
+        },
+        "site": 1,
+        "type": {
+            "id": 1,
+            "label": "Манга"
+        },
+        "summary": "Мир людей пал под сокрушающей мощью Титанов. Принеся в жертву свою свободу, человечество укрылось в обнесенных высокими стенами городах, в надежде обезопасить выживших. Но в один страшный день появился колоссальный Титан, превосходящий размерами даже городские стены. И хрупкая надежда рассыпалась в прах. Вновь началась отчаянная битва за выживание.",
+        "close_view": 2,
+        "releaseDate": "2009",
+        "views": {
+            "total": 12219036,
+            "short": "12.2 M",
+            "formated": "12 219 036"
+        },
+        "rating": {
+            "average": "9.6",
+            "votes": 59919,
+            "votesFormated": "59.9 K"
+        },
+        "is_licensed": true,
+        "moderated": {
+            "id": 1,
+            "label": "Принято модерацией"
+        },
+        "teams": [
+            {
+                "id": 16,
+                "slug": "rikudou-sennin-clan",
+                "slug_url": "16--rikudou-sennin-clan",
+                "name": "Rikudou-Sennin Clan",
+                "cover": {
+                    "filename": "cover",
+                    "thumbnail": "/uploads/team/rikudou-sennin-clan/cover/cover_thumb.jpg",
+                    "default": "/uploads/team/rikudou-sennin-clan/cover/cover_250x350.jpg"
+                },
+                "details": {
+                    "branch_id": 1,
+                    "is_active": 1,
+                    "subscriptions_count": null
+                }
+            },
+            {
+                "id": 5064,
+                "slug": "dead-inside-team",
+                "slug_url": "5064--dead-inside-team",
+                "name": "Dead Inside Team",
+                "cover": {
+                    "filename": "FAJZb50M0kyM",
+                    "thumbnail": "/uploads/team/dead-inside-team/cover/FAJZb50M0kyM_thumb.jpg",
+                    "default": "/uploads/team/dead-inside-team/cover/FAJZb50M0kyM_250x350.jpg"
+                },
+                "details": {
+                    "branch_id": 2,
+                    "is_active": 1,
+                    "subscriptions_count": null
+                }
+            }
+        ],
+        "genres": [
+            {
+                "id": 34,
+                "name": "боевик"
+            },
+            {
+                "id": 43,
+                "name": "драма"
+            },
+            {
+                "id": 53,
+                "name": "постапокалиптика"
+            },
+            {
+                "id": 54,
+                "name": "приключения"
+            },
+            {
+                "id": 55,
+                "name": "психология"
+            },
+            {
+                "id": 61,
+                "name": "сёнэн"
+            },
+            {
+                "id": 65,
+                "name": "трагедия"
+            },
+            {
+                "id": 67,
+                "name": "ужасы"
+            },
+            {
+                "id": 69,
+                "name": "фэнтези"
+            }
+        ],
+        "tags": [
+            {
+                "id": 189,
+                "name": "Монстры"
+            },
+            {
+                "id": 193,
+                "name": "Выживание"
+            },
+            {
+                "id": 233,
+                "name": "Брат и сестра"
+            },
+            {
+                "id": 237,
+                "name": "Война"
+            },
+            {
+                "id": 244,
+                "name": "ГГ мужчина"
+            },
+            {
+                "id": 247,
+                "name": "Дружба"
+            },
+            {
+                "id": 249,
+                "name": "Жестокий мир"
+            },
+            {
+                "id": 259,
+                "name": "Месть"
+            },
+            {
+                "id": 260,
+                "name": "Навыки / способности"
+            },
+            {
+                "id": 262,
+                "name": "Насилие / жестокость"
+            },
+            {
+                "id": 267,
+                "name": "Политика"
+            },
+            {
+                "id": 272,
+                "name": "Стимпанк"
+            },
+            {
+                "id": 274,
+                "name": "Спасение мира"
+            },
+            {
+                "id": 278,
+                "name": "Холодное оружие"
+            }
+        ],
+        "publisher": [
+            {
+                "id": 271,
+                "slug": "azbuka",
+                "slug_url": "271--azbuka",
+                "name": "Азбука",
+                "rus_name": null,
+                "cover": {
+                    "filename": null,
+                    "thumbnail": "/images/placeholders/user_avatar.png",
+                    "default": "/images/placeholders/user_avatar.png"
+                },
+                "subscription": {
+                    "is_subscribed": false,
+                    "source_type": "publisher",
+                    "source_id": 271,
+                    "relation": null
+                }
+            },
+            {
+                "id": 6533,
+                "slug": "kodansha",
+                "slug_url": "6533--kodansha",
+                "name": "Kodansha",
+                "rus_name": null,
+                "cover": {
+                    "filename": null,
+                    "thumbnail": "/images/placeholders/user_avatar.png",
+                    "default": "/images/placeholders/user_avatar.png"
+                },
+                "subscription": {
+                    "is_subscribed": false,
+                    "source_type": "publisher",
+                    "source_id": 6533,
+                    "relation": null
+                }
+            }
+        ],
+        "authors": [
+            {
+                "id": 88964,
+                "slug": "hajime-isayama",
+                "slug_url": "88964--hajime-isayama",
+                "name": "Hajime Isayama",
+                "rus_name": null,
+                "alt_name": null,
+                "cover": {
+                    "filename": "510f2841-79c4-4e7b-bbf5-115d8b954dae",
+                    "thumbnail": "/uploads/people/88964/cover/510f2841-79c4-4e7b-bbf5-115d8b954dae_thumb.jpg",
+                    "default": "/uploads/people/88964/cover/510f2841-79c4-4e7b-bbf5-115d8b954dae.jpg"
+                },
+                "subscription": {
+                    "is_subscribed": false,
+                    "source_type": "people",
+                    "source_id": 88964,
+                    "relation": null
+                },
+                "confirmed": null,
+                "user_id": 1,
+                "titles_count_details": null
+            }
+        ],
+        "metadata": {
+            "close_comments": 3,
+            "count": {
+                "branches": 2,
+                "characters": {
+                    "Main": 0,
+                    "Supporting": 0
+                },
+                "reviews": {
+                    "neutral": 0,
+                    "positive": 0,
+                    "negative": 0,
+                    "all": 0
+                },
+                "relations": 17,
+                "people": 0,
+                "covers": 0
+            }
+        },
+        "model": "manga",
+        "status": {
+            "id": 2,
+            "label": "Завершён"
+        },
+        "items_count": {
+            "uploaded": 140,
+            "total": 0
+        },
+        "scanlateStatus": {
+            "id": 2,
+            "label": "Завершен"
+        },
+        "artists": [
+            {
+                "id": 88964,
+                "slug": "hajime-isayama",
+                "slug_url": "88964--hajime-isayama",
+                "name": "Hajime Isayama",
+                "rus_name": null,
+                "alt_name": null,
+                "cover": {
+                    "filename": "510f2841-79c4-4e7b-bbf5-115d8b954dae",
+                    "thumbnail": "/uploads/people/88964/cover/510f2841-79c4-4e7b-bbf5-115d8b954dae_thumb.jpg",
+                    "default": "/uploads/people/88964/cover/510f2841-79c4-4e7b-bbf5-115d8b954dae.jpg"
+                },
+                "subscription": {
+                    "is_subscribed": false,
+                    "source_type": "people",
+                    "source_id": 88964,
+                    "relation": null
+                },
+                "confirmed": null,
+                "user_id": 1,
+                "titles_count_details": null
+            }
+        ],
+        "format": [],
+        "releaseDateString": "2009 г."
+    },
+    "meta": {
+        "country": "RU"
+    }
+}

@@ -22,6 +22,9 @@ _api = [
     'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',
     'https://mangalib.me/user?comm_id=173519921&section=comments',
     'https://mangalib.me/similar/7965?type=1',
+    "https://api.lib.social/api/manga/shingeki-no-kyojin?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format",
+    'https://api.lib.social/api/manga/247--shingeki-no-kyojin/relations',
+    'https://api.lib.social/api/manga/247--shingeki-no-kyojin/similar',
 ]
 
 _url = 'https://mangalib.me/naruto?section=chapters'
