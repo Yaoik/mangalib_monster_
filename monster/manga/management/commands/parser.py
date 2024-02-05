@@ -19,6 +19,7 @@ _api = [
     'https://mangalib.me/api/comments/branch?comment_id={id}',
     'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',
     'https://mangalib.me/user?comm_id=173519921&section=comments',
+    'https://mangalib.me/similar/7965?type=1',
 ]
 
 _url = 'https://mangalib.me/naruto?section=chapters'
@@ -121,6 +122,7 @@ class Command(BaseCommand):
         
         URL = 'https://mangalib.me/dice-roll?section=chapters&ui=425502'
         URL = 'https://mangalib.me/adabana?section=chapters&ui=425502'
+        URL = 'https://mangalib.me/chainsaw-man?section=info&ui=425502'
         parser = Parser()
         await parser.initialize_browser()
         

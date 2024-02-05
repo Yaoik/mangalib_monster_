@@ -109,6 +109,31 @@
         "documentation": {}
     },
     {
+        "label": "django.shortcuts",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
         "label": "BeautifulSoup",
         "importPath": "bs4",
         "description": "bs4",
@@ -250,22 +275,6 @@
         "description": "django.test",
         "isExtraImport": true,
         "detail": "django.test",
-        "documentation": {}
-    },
-    {
-        "label": "render",
-        "importPath": "django.shortcuts",
-        "description": "django.shortcuts",
-        "isExtraImport": true,
-        "detail": "django.shortcuts",
-        "documentation": {}
-    },
-    {
-        "label": "render",
-        "importPath": "django.shortcuts",
-        "description": "django.shortcuts",
-        "isExtraImport": true,
-        "detail": "django.shortcuts",
         "documentation": {}
     },
     {
@@ -424,7 +433,7 @@
         "kind": 6,
         "importPath": "monster.manga.management.commands.parser",
         "description": "monster.manga.management.commands.parser",
-        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    async def main(self):\n        urls = [f'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page={i+1}&chapterPage=1&user_id=425502' for i in range(3)]\n        URL = 'https://mangalib.me/dice-roll?section=chapters&ui=425502'\n        URL = 'https://mangalib.me/adabana?section=chapters&ui=425502'\n        parser = Parser()\n        await parser.initialize_browser()\n        await parser.manga_parse(URL)\n    def handle(self, *args, **options):",
+        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    async def main(self):\n        urls = [f'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page={i+1}&chapterPage=1&user_id=425502' for i in range(3)]\n        URL = 'https://mangalib.me/dice-roll?section=chapters&ui=425502'\n        URL = 'https://mangalib.me/adabana?section=chapters&ui=425502'\n        URL = 'https://mangalib.me/chainsaw-man?section=info&ui=425502'\n        parser = Parser()\n        await parser.initialize_browser()\n        await parser.manga_parse(URL)",
         "detail": "monster.manga.management.commands.parser",
         "documentation": {}
     },
@@ -433,7 +442,7 @@
         "kind": 5,
         "importPath": "monster.manga.management.commands.parser",
         "description": "monster.manga.management.commands.parser",
-        "peekOfCode": "_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',\n    'https://mangalib.me/api/comments/branch?comment_id={id}',\n    'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',\n    'https://mangalib.me/user?comm_id=173519921&section=comments',\n]\n_url = 'https://mangalib.me/naruto?section=chapters'\nURL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'\nURL = 'https://mangalib.me/naruto?section=info&ui=425502'",
+        "peekOfCode": "_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',\n    'https://mangalib.me/api/comments/branch?comment_id={id}',\n    'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',\n    'https://mangalib.me/user?comm_id=173519921&section=comments',\n    'https://mangalib.me/similar/7965?type=1',\n]\n_url = 'https://mangalib.me/naruto?section=chapters'\nURL = 'https://mangalib.me/api/v2/comments?type=chapter&post_id=86908&order=best&page=1&chapterPage=1&user_id=425502'",
         "detail": "monster.manga.management.commands.parser",
         "documentation": {}
     },
@@ -492,6 +501,15 @@
         "documentation": {}
     },
     {
+        "label": "style_to_href",
+        "kind": 2,
+        "importPath": "monster.manga.management.commands._test",
+        "description": "monster.manga.management.commands._test",
+        "peekOfCode": "def style_to_href(style:str):\n    assert isinstance(style, str)\n    href = re.search(r\"\\(.*?\\)\", style)\n    if isinstance(href, re.Match):\n        return href[0][1:href[0].index(')')].replace('?', '')\n    return False\ndef add_img(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('img', None)\n    try:\n        div = soup.find('div', {'class': 'media-sidebar__cover paper'})",
+        "detail": "monster.manga.management.commands._test",
+        "documentation": {}
+    },
+    {
         "label": "add_img",
         "kind": 2,
         "importPath": "monster.manga.management.commands._test",
@@ -514,7 +532,7 @@
         "kind": 2,
         "importPath": "monster.manga.management.commands._test",
         "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_description(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('description', None)\n    try:\n        description = soup.find('div', {'class': 'media-description__text'})\n        assert isinstance(description, Tag)\n        result_data['description'] = description.text\n        return True\n    except AssertionError:\n        result_data['description'] = None\n        return False",
+        "peekOfCode": "def add_description(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('description', None)\n    try:\n        description = soup.find('div', {'class': 'media-description__text'})\n        assert isinstance(description, Tag)\n        result_data['description'] = description.text.replace('\\n', '').strip()\n        return True\n    except AssertionError:\n        result_data['description'] = None\n        return False",
         "detail": "monster.manga.management.commands._test",
         "documentation": {}
     },
@@ -555,11 +573,38 @@
         "documentation": {}
     },
     {
-        "label": "add_translators",
+        "label": "add_teams",
         "kind": 2,
         "importPath": "monster.manga.management.commands._test",
         "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def add_translators(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('translators', [])\n    try:\n        team_list = soup.find('div', {'class':'team-list'})\n        assert isinstance(team_list, Tag)\n        teams = team_list.find_all('a')\n        for team in teams:\n            team_data = {}\n            team_data.setdefault('href', None)\n            team_data.setdefault('img', None)",
+        "peekOfCode": "def add_teams(result_data:dict[str, Any], soup:BeautifulSoup, manga_json:dict[Any, Any]):\n    result_data.setdefault('teams', [])\n    try:\n        team_list = soup.find('div', {'class':'team-list'})\n        assert isinstance(team_list, Tag)\n        teams = team_list.find_all('a')\n        for team in teams:\n            team_data = {}\n            team_data.setdefault('href', None)\n            team_data.setdefault('img', None)",
+        "detail": "monster.manga.management.commands._test",
+        "documentation": {}
+    },
+    {
+        "label": "add_chapters",
+        "kind": 2,
+        "importPath": "monster.manga.management.commands._test",
+        "description": "monster.manga.management.commands._test",
+        "peekOfCode": "def add_chapters(result_data:dict[str, Any], manga_json:dict[Any, Any]):\n    result_data.setdefault('chapters', [])\n    try:\n        for chapter in manga_json.get('chapters', {}).get('list', []):\n            result_data['chapters'].append(chapter)\n        return True\n    except AssertionError:\n        return False\ndef add_in_lists(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('in_lists', {})",
+        "detail": "monster.manga.management.commands._test",
+        "documentation": {}
+    },
+    {
+        "label": "add_in_lists",
+        "kind": 2,
+        "importPath": "monster.manga.management.commands._test",
+        "description": "monster.manga.management.commands._test",
+        "peekOfCode": "def add_in_lists(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('in_lists', {})\n    result_data.setdefault('user_ratings', {})\n    result_data['user_ratings'].setdefault('value', None)\n    result_data['user_ratings'].setdefault('total', None)\n    result_data['user_ratings'].setdefault('scores', {})\n    try:\n        div = soup.find('div', {'class':'media-section__col'})\n        assert isinstance(div, Tag)\n        div = div.find('div', {'class':'media-section__head'})",
+        "detail": "monster.manga.management.commands._test",
+        "documentation": {}
+    },
+    {
+        "label": "add_related",
+        "kind": 2,
+        "importPath": "monster.manga.management.commands._test",
+        "description": "monster.manga.management.commands._test",
+        "peekOfCode": "def add_related(result_data:dict[str, Any], soup:BeautifulSoup):\n    result_data.setdefault('related', [])\n    result_data.setdefault('similar', [])\n    try:\n        div = soup.find('div', {'data-slider':'related'})\n        if isinstance(div, Tag):\n            divs = div.find_all('div', {'class':'media-slider__item'})\n            for div in divs:\n                assert isinstance(div, Tag)\n                a: Tag | NavigableString | None = div.find('a')",
         "detail": "monster.manga.management.commands._test",
         "documentation": {}
     },
@@ -568,7 +613,7 @@
         "kind": 2,
         "importPath": "monster.manga.management.commands._test",
         "description": "monster.manga.management.commands._test",
-        "peekOfCode": "def manga_html_parser(html_text:str):\n    soup = BeautifulSoup(html_text, 'html.parser')\n    result_data = {}\n    assert add_img(result_data, soup)\n    assert add_tags(result_data, soup)\n    assert add_description(result_data, soup)\n    assert add_info_list(result_data, soup)\n    assert add_href(result_data, soup)\n    assert add_translators(result_data, soup)\n    manga_json = get_manga_json(soup)",
+        "peekOfCode": "def manga_html_parser(html_text:str):\n    soup = BeautifulSoup(html_text, 'html.parser')\n    result_data = {}\n    assert add_img(result_data, soup)\n    assert add_tags(result_data, soup)\n    assert add_description(result_data, soup)\n    assert add_info_list(result_data, soup)\n    assert add_href(result_data, soup)\n    manga_json = get_manga_json(soup)\n    assert add_teams(result_data, soup, manga_json)",
         "detail": "monster.manga.management.commands._test",
         "documentation": {}
     },

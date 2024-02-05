@@ -1,11 +1,18 @@
+import django.shortcuts
 from typing import Any
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 import json
 import re
 
-with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\\manga\\management\\commands\\test.txt', 'r', encoding='utf-8') as f:
+with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\\manga\\management\\commands\\test1.txt', 'r', encoding='utf-8') as f:
     data = '\n'.join(f.readlines())
 
+def style_to_href(style:str):
+    assert isinstance(style, str)
+    href = re.search(r"\(.*?\)", style)
+    if isinstance(href, re.Match):
+        return href[0][1:href[0].index(')')].replace('?', '')
+    return False
 
 def add_img(result_data:dict[str, Any], soup:BeautifulSoup):
     result_data.setdefault('img', None)
@@ -38,7 +45,7 @@ def add_description(result_data:dict[str, Any], soup:BeautifulSoup):
     try:
         description = soup.find('div', {'class': 'media-description__text'})
         assert isinstance(description, Tag)
-        result_data['description'] = description.text
+        result_data['description'] = description.text.replace('\n', '').strip()
         return True
     except AssertionError:
         result_data['description'] = None
@@ -146,8 +153,8 @@ def add_json_data(result_data:dict[str, Any], manga_json:dict[Any, Any]):
     except AssertionError:
         return False
     
-def add_translators(result_data:dict[str, Any], soup:BeautifulSoup):
-    result_data.setdefault('translators', [])
+def add_teams(result_data:dict[str, Any], soup:BeautifulSoup, manga_json:dict[Any, Any]):
+    result_data.setdefault('teams', [])
     try:
         team_list = soup.find('div', {'class':'team-list'})
         assert isinstance(team_list, Tag)
@@ -156,22 +163,160 @@ def add_translators(result_data:dict[str, Any], soup:BeautifulSoup):
             team_data = {}
             team_data.setdefault('href', None)
             team_data.setdefault('img', None)
-            team_data.setdefault('name', None)
             team_data['href'] = team.get('href', None)
             div = team.find('div')
             if isinstance(div, Tag):
                 style = div.get('style', None)
                 if isinstance(style, str):
-                    url = re.search(r"\(.*?\)", style)
-                    if isinstance(url, re.Match):
-                        team_data['img'] = url[0][1:-2]
-            team_data['name'] = team.text.replace('\n', '')
-            result_data['translators'].append(team_data)
-
+                    team_data['img'] = style_to_href(style)
+                    assert team_data['img']
+            for team_json in manga_json.get('chapters', {}).get('teams', []):
+                print(team_json)
+                if team_json.get('href', None) == team_data['href']:
+                    team_data.update(team_json)
+            result_data['teams'].append(team_data)
         return True
     except AssertionError:
         return False
     
+def add_chapters(result_data:dict[str, Any], manga_json:dict[Any, Any]):
+    result_data.setdefault('chapters', [])
+    try:
+        for chapter in manga_json.get('chapters', {}).get('list', []):
+            result_data['chapters'].append(chapter)
+        return True
+    except AssertionError:
+        return False
+    
+def add_in_lists(result_data:dict[str, Any], soup:BeautifulSoup):
+    result_data.setdefault('in_lists', {})
+    result_data.setdefault('user_ratings', {})
+    result_data['user_ratings'].setdefault('value', None)
+    result_data['user_ratings'].setdefault('total', None)
+    result_data['user_ratings'].setdefault('scores', {})
+    try:
+        div = soup.find('div', {'class':'media-section__col'})
+        assert isinstance(div, Tag)
+        div = div.find('div', {'class':'media-section__head'})
+        assert isinstance(div, Tag)
+        div = div.find('div', {'class':'media-section__title'})
+        assert isinstance(div, Tag)
+        mat = re.search(r'\d+', div.text)
+        assert isinstance(mat, re.Match)
+        text = int(mat.group())
+        result_data['in_lists']['all'] = text
+        div: Tag | NavigableString | None = soup.find('div', {'class':'media-stats'})
+        assert isinstance(div, Tag)
+        divs = div.find_all('div', {'class':'media-stats-item'})
+        for div in divs:
+            assert isinstance(div, Tag)
+            title = div.find('div', {'class':'media-stats-item__column media-stats-item__title'})
+            value = div.find('div', {'class':'media-stats-item__column media-stats-item__count'})
+            assert isinstance(title, Tag) and isinstance(value, Tag)
+            match title.text:
+                case 'Читаю':
+                    result_data['in_lists']['reading'] = int(value.text)
+                case 'В планах':
+                    result_data['in_lists']['in_plans'] = int(value.text)
+                case 'Брошено':
+                    result_data['in_lists']['abandoned'] = int(value.text)
+                case 'Прочитано':
+                    result_data['in_lists']['read'] = int(value.text)
+                case 'Любимые':
+                    result_data['in_lists']['favorites'] = int(value.text)
+                case 'Другое':
+                    result_data['in_lists']['other'] = int(value.text)
+        lists = result_data['in_lists']
+        res = lists['other']+lists['favorites']+lists['read']+lists['abandoned']+lists['in_plans']+lists['reading']
+        assert res == lists['all']
+        
+        div = soup.find('div', {'class':'media-rating__value'})
+        assert isinstance(div, Tag)
+        result_data['user_ratings']['value'] = float(div.text)
+        divs = soup.find_all('div', {'class':'media-section__col'})
+        for div in divs:
+            assert isinstance(div, Tag)
+            title = div.find('div', {'class':'media-section__title'})
+            assert isinstance(title, Tag)
+            if title.text == 'Оценки пользователей':
+                div = div
+                break
+        assert isinstance(div, Tag)
+        divs = div.find('div', {'class':'media-stats'})
+        assert isinstance(divs, Tag)
+        for div in divs.find_all('div', {'class':'media-stats-item'}):
+            assert isinstance(div, Tag)
+            span = div.find('span')
+            assert isinstance(span, Tag)
+            title = span.text
+            value = div.find('div', {'class':'media-stats-item__column media-stats-item__count'})
+            assert isinstance(value, Tag)
+            mat = re.search(r'\d+', value.text)
+            assert isinstance(mat, re.Match)
+            value = int(mat.group())
+            result_data['user_ratings'].setdefault('scores', {})[int(title)] = value
+        result_data['user_ratings']['total'] = sum(val for val in result_data['user_ratings'].get('scores', {}).values())
+        return True
+    except AssertionError:
+        return False
+
+def add_related(result_data:dict[str, Any], soup:BeautifulSoup):
+    result_data.setdefault('related', [])
+    result_data.setdefault('similar', [])
+    try:
+        div = soup.find('div', {'data-slider':'related'})
+        if isinstance(div, Tag):
+            divs = div.find_all('div', {'class':'media-slider__item'})
+            for div in divs:
+                assert isinstance(div, Tag)
+                a: Tag | NavigableString | None = div.find('a')
+                assert isinstance(a, Tag)
+                a_data = {}
+                a_data.setdefault('href', a.get('href', None))
+                a_data.setdefault('title', a.get('title', None))
+                a_div = a.find('div', {'class':'manga-list-item__cover'})
+                assert isinstance(a_div, Tag)
+                a_data.setdefault('img', style_to_href(str(a_div.get('style', ''))))
+                head = div.find('div', {'class':'manga-list-item__head'})
+                name = div.find('div', {'class':'manga-list-item__name'})
+                meta = div.find('div', {'class':'manga-list-item__meta'})
+                assert isinstance(head, Tag)
+                assert isinstance(name, Tag)
+                assert isinstance(meta, Tag)
+                a_data.setdefault('head', head.text.replace('\n', '').strip())
+                a_data.setdefault('name', name.text.replace('\n', '').strip())
+                m_type, m_status, *_ = meta.find_all('span')
+                a_data.setdefault('type', m_type.text.replace('\n', '').strip())
+                a_data.setdefault('status', m_status.text.replace('\n', '').strip())
+                result_data['related'].append(a_data)
+                
+        div = soup.find('div', {'data-slider':'similar'})
+        if isinstance(div, Tag):
+            divs = div.find_all('div', {'class':'media-slider__item media-slider__item_rate'})
+            for div in divs:
+                assert isinstance(div, Tag)
+                a = div.find('a')
+                assert isinstance(a, Tag)
+                a_data = {}
+                a_data.setdefault('href', a.get('href', None))
+                a_data.setdefault('title', a.get('title', None))
+                a_div = a.find('div', {'class':'manga-list-item__cover'})
+                assert isinstance(a_div, Tag)
+                a_data.setdefault('img', style_to_href(str(a_div.get('style', ''))))
+                head = div.find('div', {'class':'manga-list-item__head'})
+                name = div.find('div', {'class':'manga-list-item__name'})
+                rating = a.find('div', {'class':'media-similar-rating__value'})
+                assert isinstance(head, Tag)
+                assert isinstance(name, Tag)
+                assert isinstance(rating, Tag)
+                a_data.setdefault('head', head.text.replace('\n', '').strip())
+                a_data.setdefault('name', name.text.replace('\n', '').strip())
+                a_data.setdefault('rating', int(rating.text.replace('\n', '').strip()))
+                result_data['similar'].append(a_data)
+        return True
+    except AssertionError:
+        return False
+
 def manga_html_parser(html_text:str):
     soup = BeautifulSoup(html_text, 'html.parser')
     result_data = {}
@@ -181,14 +326,17 @@ def manga_html_parser(html_text:str):
     assert add_description(result_data, soup)
     assert add_info_list(result_data, soup)
     assert add_href(result_data, soup)
-    assert add_translators(result_data, soup)
     manga_json = get_manga_json(soup)
+    assert add_teams(result_data, soup, manga_json)
     assert add_json_data(result_data, manga_json)
+    assert add_chapters(result_data, manga_json)
+    assert add_in_lists(result_data, soup)
+    assert add_related(result_data, soup)
     
-    
-    
+    with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\\manga\\management\\commands\\manga_json.json', 'w+', encoding='UTF-8') as f:
+        f.write(json.dumps(result_data, indent=4, ensure_ascii=False))
     print(json.dumps(result_data, indent=4, ensure_ascii=False))
-    print('---'*10)
+    #print('---'*10)
     #print(json.dumps(get_manga_json(soup), indent=4, ensure_ascii=False))
     
     
