@@ -35,7 +35,7 @@ class Moderated(models.Model):
         return f'{self.label}'
 
 class Team(models.Model):
-    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     slug = models.CharField(max_length=255, unique=True)
     slug_url = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, unique=True)
@@ -88,15 +88,16 @@ class Publisher(models.Model):
         return f'{self.name}'
     
 class People(models.Model):
-    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     slug = models.CharField(max_length=255, unique=True)
     slug_url = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, unique=True)
     rus_name = models.CharField(max_length=255, unique=True, null=True)
     alt_name = models.CharField(max_length=255, unique=True, null=True)
     cover = models.JSONField(null=True)
+    confirmed = models.CharField(max_length=255, null=True)
     subscription = models.JSONField(null=True)
-    user_id = models.SmallIntegerField()
+    user_id = models.PositiveIntegerField()
     titles_count_details = models.CharField(max_length=255, null=True)
     
     class Meta:
@@ -129,21 +130,21 @@ class ScanlateStatus(models.Model):
         return f'{self.label}'
     
 class Manga(models.Model):
-    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     name = models.CharField(max_length=255)
     rus_name = models.CharField(max_length=255)
     eng_name = models.CharField(max_length=255)
-    otherNames = models.JSONField()
+    other_names = models.JSONField()
     slug = models.CharField(max_length=255)
     slug_url = models.CharField(max_length=255)
     cover = models.JSONField()
     background = models.JSONField()
     age_restriction = models.ForeignKey(AgeRestriction, on_delete=models.SET_NULL, null=True)
-    site = models.SmallIntegerField()
+    site = models.PositiveSmallIntegerField()
     type = models.ForeignKey(MangaType, on_delete=models.SET_NULL, null=True)
-    summary = models.TextField()
-    close_view = models.SmallIntegerField()
-    releaseDate = models.SmallIntegerField()
+    summary = models.TextField(null=True)
+    close_view = models.PositiveSmallIntegerField()
+    release_date = models.PositiveSmallIntegerField()
     views = models.JSONField()
     rating = models.JSONField()
     is_licensed = models.BooleanField()
@@ -151,12 +152,12 @@ class Manga(models.Model):
     teams = models.ManyToManyField(Team)
     genres = models.ManyToManyField(Genre)
     tags = models.ManyToManyField(Tag)
-    publisher = models.ManyToManyField(Publisher)
+    publishers = models.ManyToManyField(Publisher)
     metadata = models.JSONField()
     model = models.CharField(max_length=255)
-    status = models.ManyToManyField(MangaStatus)
+    status = models.ForeignKey(MangaStatus, on_delete=models.SET_NULL, null=True)
     items_count = models.JSONField()
-    scanlate_status = models.ManyToManyField(ScanlateStatus)
+    scanlate_status = models.ForeignKey(ScanlateStatus, on_delete=models.SET_NULL, null=True)
     format = models.JSONField()
     release_date_string = models.CharField(max_length=16)
     artists = models.ManyToManyField(People, related_name='artist_manga_set')
@@ -168,6 +169,10 @@ class Manga(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+    
+    @property
+    def href(self):
+        return f'https://test-front.mangalib.me/ru/manga/{self.slug}'
 
 class MangaUser(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
