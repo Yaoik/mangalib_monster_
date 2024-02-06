@@ -19,6 +19,7 @@ _api = [
     'https://api.lib.social/api/manga/247--shingeki-no-kyojin/relations',
     'https://api.lib.social/api/manga/247--shingeki-no-kyojin/similar',
     'https://api.lib.social/api/manga/247--shingeki-no-kyojin/stats?bookmarks=true&rating=true',
+    'https://api.lib.social/api/manga/7965--chainsaw-man/chapters',
 ]
 
 

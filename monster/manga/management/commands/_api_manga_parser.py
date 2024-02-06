@@ -1,5 +1,8 @@
 import requests
 import json
+import requests
+import requests
+
 headers = {
     'authority': 'api.lib.social',
     'accept': '*/*',
@@ -20,11 +23,17 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
 }
 
-response = requests.get(
-    'https://api.lib.social/api/manga/shingeki-no-kyojin?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format',
-    headers=headers,
-)
+params = {
+    'page': '1',
+    'post_id': '969339',
+    'post_page': '1',
+    'post_type': 'chapter',
+    'sort_by': 'votes_up',
+    'sort_type': 'desc',
+}
+
+response = requests.get('https://api.lib.social/api/comments', params=params, headers=headers)
 jsonn = json.dumps(response.json(), indent=4, ensure_ascii=False)
 print(jsonn)
-with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\\manga\\management\\commands\\manga_json_api.json', 'w+', encoding='UTF-8') as f:
+with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\\manga\\management\\commands\\comments_json_api.json', 'w+', encoding='UTF-8') as f:
     f.write(json.dumps(response.json(), indent=4, ensure_ascii=False))

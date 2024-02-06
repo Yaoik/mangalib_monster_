@@ -159,7 +159,6 @@ class Manga(models.Model):
     scanlate_status = models.ManyToManyField(ScanlateStatus)
     format = models.JSONField()
     release_date_string = models.CharField(max_length=16)
-
     artists = models.ManyToManyField(People, related_name='artist_manga_set')
     authors = models.ManyToManyField(People, related_name='author_manga_set')
     
@@ -169,3 +168,210 @@ class Manga(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+class MangaUser(models.Model):
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
+    username = models.CharField(max_length=255, null=False, unique=True)
+    avatar = models.JSONField(null=True, default=None)
+    class Meta:
+        verbose_name_plural = 'Пользователь'
+        verbose_name = 'Пользователь'
+
+    def __str__(self):
+        return f'{self.username}'
+    
+class Branch(models.Model):
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
+    branch_id = models.PositiveIntegerField(null=False)
+    created_at = models.DateTimeField(null=False)
+    teams = models.ManyToManyField(Team)
+    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE)
+    
+    class Meta:
+        verbose_name_plural = 'Ветка'
+        verbose_name = 'Ветка'
+
+    def __str__(self):
+        return f'Ветка №{self.id}'
+    
+class Page(models.Model):
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
+    image = models.CharField(max_length=255, null=True)
+    slug = models.PositiveSmallIntegerField(null=False)
+    external = models.PositiveSmallIntegerField(null=False)
+    chunks = models.PositiveSmallIntegerField(null=False)
+    chapter_id = models.PositiveIntegerField(null=False, unique=True)
+    created_at = models.DateTimeField(null=False)
+    updated_at = models.DateTimeField(null=False)
+    height = models.PositiveSmallIntegerField(null=False)
+    width = models.PositiveSmallIntegerField(null=False)
+    url = models.CharField(max_length=255, null=True)
+    
+    class Meta:
+        verbose_name_plural = 'Страница'
+        verbose_name = 'Страница'
+
+    def __str__(self):
+        return f'{self.url}'
+
+class Chapter(models.Model):
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
+    manga_id = models.ForeignKey(Manga, on_delete=models.CASCADE)
+    teams = models.ManyToManyField(Team)
+    created_at = models.DateTimeField(null=True)
+    moderated = models.ForeignKey(Moderated, on_delete=models.SET_NULL, null=True)
+    type = models.CharField(max_length=32, null=True)
+    index = models.PositiveSmallIntegerField(null=False)
+    item_number = models.PositiveSmallIntegerField(null=False)
+    volume = models.CharField(max_length=32, null=False)
+    number = models.CharField(max_length=32, null=False)
+    number_secondary = models.CharField(max_length=32, null=False)
+    name = models.CharField(max_length=255, null=False)
+    slug = models.CharField(max_length=255, null=True)
+    branches_count = models.PositiveSmallIntegerField(null=False)
+    
+    class Meta:
+        verbose_name_plural = 'Глава'
+        verbose_name = 'Глава'
+
+    def __str__(self):
+        return f'{self.name}'
+
+class Comment(models.Model):
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
+    comment = models.TextField(null=False)
+    created_at = models.DateTimeField(null=False)
+    comment_level = models.PositiveSmallIntegerField(null=False)
+    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')
+    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')
+    post_page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE)
+    votes_up = models.PositiveIntegerField(null=False)
+    votes_down = models.PositiveIntegerField(null=False)
+    relation_type = models.CharField(max_length=255)
+    relation_id = models.PositiveIntegerField(null=False)
+    
+    class Meta:
+        verbose_name_plural = 'Глава'
+        verbose_name = 'Глава'
+
+    def __str__(self):
+        return f'Комментарий {str(self.user)}'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
