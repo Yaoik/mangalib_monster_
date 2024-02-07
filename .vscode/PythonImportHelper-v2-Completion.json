@@ -175,6 +175,22 @@
         "documentation": {}
     },
     {
+        "label": "Chapter",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "MangaUser",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
         "label": "Manga",
         "importPath": "manga.models",
         "description": "manga.models",
@@ -256,6 +272,14 @@
     },
     {
         "label": "People",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Branch",
         "importPath": "manga.models",
         "description": "manga.models",
         "isExtraImport": true,
@@ -457,6 +481,118 @@
     },
     {
         "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
         "importPath": "django.db",
         "description": "django.db",
         "isExtraImport": true,
@@ -840,7 +976,7 @@
         "kind": 6,
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
-        "peekOfCode": "class Parser:\n    def __init__(self, url:str) -> None:\n        self.main_url = url\n        self.clear_url = self._clean_url(self.main_url)\n        self.slug = self._get_slug(self.clear_url)\n        self.data_url = self._data_url(self.slug)\n        self.manga_data = False\n        self.death_code = [404]\n    @staticmethod\n    def _clean_url(url:str):",
+        "peekOfCode": "class Parser:\n    def __init__(self, url:str='') -> None:\n        self.main_url = url\n        self.clear_url = self._clean_url(self.main_url)\n        self.slug = self._get_slug(self.clear_url)\n        self.data_url = self._data_url(self.slug)\n        self.manga_data = False\n        self.death_code = [404]\n    @staticmethod\n    def _clean_url(url:str):",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
@@ -849,7 +985,7 @@
         "kind": 6,
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
-        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    async def main(self):\n        url = 'https://test-front.mangalib.me/ru/manga/7965--chainsaw-man?section=info'\n        #parser = Parser(url)\n        #print(parser.clear_url)\n        #print(parser.data_url)\n        #assert await parser.parse_manga()\n        for page in range(737, 0, -1):\n            pass",
+        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    async def main(self):\n        url = 'https://test-front.mangalib.me/ru/manga/7965--chainsaw-man?section=info'\n        #parser = Parser(url)\n        #print(parser.clear_url)\n        #print(parser.data_url)\n        #assert await parser.parse_manga()\n        #for page in range(60, 755, 1):\n        #    logging.info(f'Начат парсинг {page} страницы')",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
@@ -917,11 +1053,20 @@
         "documentation": {}
     },
     {
+        "label": "BranchToDB",
+        "kind": 6,
+        "importPath": "monster.manga.management.commands._api_manga_parser",
+        "description": "monster.manga.management.commands._api_manga_parser",
+        "peekOfCode": "class BranchToDB:\n    def __init__(self, branchs_json:dict[Any, Any]) -> None:\n        self.branchs_json: dict = branchs_json\n    def show(self):\n        print(json.dumps(self.branchs_json, indent=4, ensure_ascii=False))\n    async def create_model(self):\n        teams = []\n        for team in self.branchs_json.get('teams', []):\n            team, is_create = await Team.objects.aget_or_create(id=team.get('id'), defaults=team)\n            teams.append(team)",
+        "detail": "monster.manga.management.commands._api_manga_parser",
+        "documentation": {}
+    },
+    {
         "label": "ChaptersToDb",
         "kind": 6,
         "importPath": "monster.manga.management.commands._api_manga_parser",
         "description": "monster.manga.management.commands._api_manga_parser",
-        "peekOfCode": "class ChaptersToDb:\n    def __init__(self, manga:Manga) -> None:\n        self.manga:Manga = manga\n    def __show(self):\n        print(json.dumps(None, indent=4, ensure_ascii=False))",
+        "peekOfCode": "class ChaptersToDb:\n    def __init__(self, chapters_json:dict[Any, Any], manga:Manga) -> None:\n        self.chapters_json: dict = chapters_json.get('data', [])\n        self.manga = manga\n    def show(self):\n        print(json.dumps(self.chapters_json, indent=4, ensure_ascii=False))\n        return json.dumps(self.chapters_json, indent=4, ensure_ascii=False)\n    async def create_model(self, data:dict[Any, Any]):\n        branches = []\n        for branche in data.get('branches', []):",
         "detail": "monster.manga.management.commands._api_manga_parser",
         "documentation": {}
     },
@@ -1052,6 +1197,69 @@
         "documentation": {}
     },
     {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0007_alter_people_name_alter_people_slug",
+        "description": "monster.manga.migrations.0007_alter_people_name_alter_people_slug",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0006_alter_manga_close_view_alter_manga_id_and_more'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='people',\n            name='name',\n            field=models.CharField(max_length=255),\n        ),",
+        "detail": "monster.manga.migrations.0007_alter_people_name_alter_people_slug",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0008_alter_people_alt_name_alter_people_rus_name",
+        "description": "monster.manga.migrations.0008_alter_people_alt_name_alter_people_rus_name",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0007_alter_people_name_alter_people_slug'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='people',\n            name='alt_name',\n            field=models.CharField(max_length=255, null=True),\n        ),",
+        "detail": "monster.manga.migrations.0008_alter_people_alt_name_alter_people_rus_name",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0009_alter_publisher_name_alter_publisher_rus_name_and_more",
+        "description": "monster.manga.migrations.0009_alter_publisher_name_alter_publisher_rus_name_and_more",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0008_alter_people_alt_name_alter_people_rus_name'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='publisher',\n            name='name',\n            field=models.CharField(max_length=255),\n        ),",
+        "detail": "monster.manga.migrations.0009_alter_publisher_name_alter_publisher_rus_name_and_more",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0010_alter_chapter_manga_id_alter_comment_post_page_and_more",
+        "description": "monster.manga.migrations.0010_alter_chapter_manga_id_alter_comment_post_page_and_more",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0009_alter_publisher_name_alter_publisher_rus_name_and_more'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='chapter',\n            name='manga_id',\n            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='chapters', to='manga.manga'),\n        ),",
+        "detail": "monster.manga.migrations.0010_alter_chapter_manga_id_alter_comment_post_page_and_more",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0011_alter_branch_branch_id",
+        "description": "monster.manga.migrations.0011_alter_branch_branch_id",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0010_alter_chapter_manga_id_alter_comment_post_page_and_more'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='branch',\n            name='branch_id',\n            field=models.PositiveIntegerField(null=True),\n        ),",
+        "detail": "monster.manga.migrations.0011_alter_branch_branch_id",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0012_alter_chapter_name",
+        "description": "monster.manga.migrations.0012_alter_chapter_name",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0011_alter_branch_branch_id'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='chapter',\n            name='name',\n            field=models.CharField(max_length=255, null=True),\n        ),",
+        "detail": "monster.manga.migrations.0012_alter_chapter_name",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0013_alter_mangauser_username",
+        "description": "monster.manga.migrations.0013_alter_mangauser_username",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0012_alter_chapter_name'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='mangauser',\n            name='username',\n            field=models.CharField(max_length=255),\n        ),",
+        "detail": "monster.manga.migrations.0013_alter_mangauser_username",
+        "documentation": {}
+    },
+    {
         "label": "MangaConfig",
         "kind": 6,
         "importPath": "monster.manga.apps",
@@ -1092,7 +1300,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Team(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    slug = models.CharField(max_length=255, unique=True)\n    slug_url = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255, unique=True)\n    cover = models.JSONField()\n    details = models.JSONField()\n    class Meta:\n        verbose_name_plural = 'Переводчики'\n        verbose_name = 'Переводчики'",
+        "peekOfCode": "class Team(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    slug = models.CharField(max_length=255)\n    slug_url = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255)\n    cover = models.JSONField()\n    details = models.JSONField(null=True)\n    class Meta:\n        verbose_name_plural = 'Переводчики'\n        verbose_name = 'Переводчики'",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1119,7 +1327,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Publisher(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    slug = models.CharField(max_length=255, unique=True)\n    slug_url = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255, unique=True)\n    rus_name = models.CharField(max_length=255, unique=True, null=True)\n    cover = models.JSONField(null=True)\n    subscription = models.JSONField(null=True)\n    class Meta:\n        verbose_name_plural = 'Издатель'",
+        "peekOfCode": "class Publisher(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    slug = models.CharField(max_length=255)\n    slug_url = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255)\n    rus_name = models.CharField(max_length=255, null=True)\n    cover = models.JSONField(null=True)\n    subscription = models.JSONField(null=True)\n    class Meta:\n        verbose_name_plural = 'Издатель'",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1128,7 +1336,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class People(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    slug = models.CharField(max_length=255, unique=True)\n    slug_url = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255, unique=True)\n    rus_name = models.CharField(max_length=255, unique=True, null=True)\n    alt_name = models.CharField(max_length=255, unique=True, null=True)\n    cover = models.JSONField(null=True)\n    confirmed = models.CharField(max_length=255, null=True)\n    subscription = models.JSONField(null=True)",
+        "peekOfCode": "class People(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    slug = models.CharField(max_length=255)\n    slug_url = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255)\n    rus_name = models.CharField(max_length=255, null=True)\n    alt_name = models.CharField(max_length=255, null=True)\n    cover = models.JSONField(null=True)\n    confirmed = models.CharField(max_length=255, null=True)\n    subscription = models.JSONField(null=True)",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1164,7 +1372,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class MangaUser(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    username = models.CharField(max_length=255, null=False, unique=True)\n    avatar = models.JSONField(null=True, default=None)\n    class Meta:\n        verbose_name_plural = 'Пользователь'\n        verbose_name = 'Пользователь'\n    def __str__(self):\n        return f'{self.username}'\nclass Branch(models.Model):",
+        "peekOfCode": "class MangaUser(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    username = models.CharField(max_length=255, null=False, unique=False)\n    avatar = models.JSONField(null=True, default=None)\n    class Meta:\n        verbose_name_plural = 'Пользователь'\n        verbose_name = 'Пользователь'\n    def __str__(self):\n        return f'{self.username}'\nclass Branch(models.Model):",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1173,16 +1381,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Branch(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    branch_id = models.PositiveIntegerField(null=False)\n    created_at = models.DateTimeField(null=False)\n    teams = models.ManyToManyField(Team)\n    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE)\n    class Meta:\n        verbose_name_plural = 'Ветка'\n        verbose_name = 'Ветка'\n    def __str__(self):",
-        "detail": "monster.manga.models",
-        "documentation": {}
-    },
-    {
-        "label": "Page",
-        "kind": 6,
-        "importPath": "monster.manga.models",
-        "description": "monster.manga.models",
-        "peekOfCode": "class Page(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    image = models.CharField(max_length=255, null=True)\n    slug = models.PositiveSmallIntegerField(null=False)\n    external = models.PositiveSmallIntegerField(null=False)\n    chunks = models.PositiveSmallIntegerField(null=False)\n    chapter_id = models.PositiveIntegerField(null=False, unique=True)\n    created_at = models.DateTimeField(null=False)\n    updated_at = models.DateTimeField(null=False)\n    height = models.PositiveSmallIntegerField(null=False)",
+        "peekOfCode": "class Branch(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    branch_id = models.PositiveIntegerField(null=True)\n    created_at = models.DateTimeField(null=False)\n    teams = models.ManyToManyField(Team)\n    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE)\n    class Meta:\n        verbose_name_plural = 'Ветка'\n        verbose_name = 'Ветка'\n    def __str__(self):",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1191,7 +1390,16 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Chapter(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    manga_id = models.ForeignKey(Manga, on_delete=models.CASCADE)\n    teams = models.ManyToManyField(Team)\n    created_at = models.DateTimeField(null=True)\n    moderated = models.ForeignKey(Moderated, on_delete=models.SET_NULL, null=True)\n    type = models.CharField(max_length=32, null=True)\n    index = models.PositiveSmallIntegerField(null=False)\n    item_number = models.PositiveSmallIntegerField(null=False)\n    volume = models.CharField(max_length=32, null=False)",
+        "peekOfCode": "class Chapter(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    manga_id = models.ForeignKey(Manga, on_delete=models.CASCADE, related_name='chapters')\n    teams = models.ManyToManyField(Team)\n    created_at = models.DateTimeField(null=True)\n    moderated = models.ForeignKey(Moderated, on_delete=models.SET_NULL, null=True)\n    type = models.CharField(max_length=32, null=True)\n    index = models.PositiveSmallIntegerField(null=False)\n    item_number = models.PositiveSmallIntegerField(null=False)\n    volume = models.CharField(max_length=32, null=False)",
+        "detail": "monster.manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Page",
+        "kind": 6,
+        "importPath": "monster.manga.models",
+        "description": "monster.manga.models",
+        "peekOfCode": "class Page(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='pages')\n    image = models.CharField(max_length=255, null=True)\n    slug = models.PositiveSmallIntegerField(null=False)\n    external = models.PositiveSmallIntegerField(null=False)\n    chunks = models.PositiveSmallIntegerField(null=False)\n    chapter_id = models.PositiveIntegerField(null=False, unique=True)\n    created_at = models.DateTimeField(null=False)\n    updated_at = models.DateTimeField(null=False)",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1200,7 +1408,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Comment(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    comment = models.TextField(null=False)\n    created_at = models.DateTimeField(null=False)\n    comment_level = models.PositiveSmallIntegerField(null=False)\n    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')\n    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')\n    post_page = models.ForeignKey(Page, on_delete=models.CASCADE)\n    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE)\n    votes_up = models.PositiveIntegerField(null=False)",
+        "peekOfCode": "class Comment(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    comment = models.TextField(null=False)\n    created_at = models.DateTimeField(null=False)\n    comment_level = models.PositiveSmallIntegerField(null=False)\n    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')\n    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')\n    post_page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='pages')\n    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE, related_name='users')\n    votes_up = models.PositiveIntegerField(null=False)",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1290,7 +1498,7 @@
         "kind": 5,
         "importPath": "monster.monster.settings",
         "description": "monster.monster.settings",
-        "peekOfCode": "WSGI_APPLICATION = 'monster.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/4.2/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation",
+        "peekOfCode": "WSGI_APPLICATION = 'monster.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/4.2/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.mysql',\n        'NAME': 'Mangalib_Monster',\n        'USER': 'root',\n        'PASSWORD': '',\n        'HOST': '127.0.0.1',",
         "detail": "monster.monster.settings",
         "documentation": {}
     },
@@ -1299,7 +1507,7 @@
         "kind": 5,
         "importPath": "monster.monster.settings",
         "description": "monster.monster.settings",
-        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation\n# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.mysql',\n        'NAME': 'Mangalib_Monster',\n        'USER': 'root',\n        'PASSWORD': '',\n        'HOST': '127.0.0.1',\n        'PORT': '3306',\n        'OPTIONS': {\n            'charset': 'utf8mb4',",
         "detail": "monster.monster.settings",
         "documentation": {}
     },

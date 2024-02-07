@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand, CommandError
 import logging
 import time
 from manga.models import Manga
-from ..commands._api_manga_parser import MangaToDb
+from ..commands._api_manga_parser import MangaToDb, ChaptersToDb
 import requests
 logging.basicConfig(level=logging.DEBUG, filename=f"logs\\pars_py_log_{time.time()}.log", filemode="w+", format="%(asctime)s %(levelname)s %(message)s", encoding='UTF-8')
 
@@ -36,7 +36,7 @@ _api = [
 ]
 
 class Parser:
-    def __init__(self, url:str) -> None:
+    def __init__(self, url:str='') -> None:
         self.main_url = url
         self.clear_url = self._clean_url(self.main_url)
         self.slug = self._get_slug(self.clear_url)
@@ -59,22 +59,24 @@ class Parser:
         return f'https://api.lib.social/api/manga/{slug}?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format'
     
     async def _fetch_data(self, url):
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as response:
-                if response.status in self.death_code:
-                    return None
-                if response.status == 429:
-                    logging.warning(f'{url=}\t{response.status=}')
-                    #with open('429.txt', 'w+', encoding='utf-8') as f:
-                    #    f.write(str(response.headers))
-                    #    f.write(str(response.cookies))
-                    #    f.write(await response.text())
-                    await asyncio.sleep(float(response.headers.get('Retry-After', random.random()+random.random())))
-                    return await self._fetch_data(url)
-                assert response.status < 300, f'\n{response.url}\n{response.status=}'
-                logging.debug(f'Запрос {url} сделан')
-                return await response.json(encoding='UTF-8')
-
+        while True:
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(url) as response:
+                        if response.status in self.death_code:
+                            logger.warning(f'{url=}\t{response.status=}')
+                            return None
+                        if response.status == 429:
+                            logging.warning(f'{url=}\t{response.status=}')
+                            await asyncio.sleep(float(response.headers.get('Retry-After', random.random()+random.random())))
+                            return await self._fetch_data(url)
+                        assert response.status < 300, f'\n{response.url}\n{response.status=}'
+                        logging.debug(f'Запрос {url} сделан')
+                        return await response.json(encoding='UTF-8')
+            except aiohttp.ClientConnectorError as e:
+                logging.error(e)
+    
+    
     @staticmethod
     async def _async_generator(max_concurrent:int, coroutines:list[Coroutine]):
         semaphore = asyncio.Semaphore(max_concurrent)
@@ -112,7 +114,7 @@ class Parser:
         try:
             manga, iscreate = await manga_to_db.create_model()
         except Exception as e:
-            logging.error(f'{e=}\t{manga_to_db.href=}')
+            logging.error(f'{e=}\t{manga_to_db.href=}\t{e.args=}')
             raise Exception(e)
         return manga
 
@@ -138,28 +140,55 @@ class Command(BaseCommand):
         #print(parser.clear_url)
         #print(parser.data_url)
         #assert await parser.parse_manga()
-        for page in range(737, 0, -1):
-            pass
-        for page in range(6, 737, 1):
-            logging.info(f'Начат парсинг {page} страницы')
-            coroutines = [Parser(url)._fetch_manga() for url in manga_urls_generator(page)]
-            coroutines = [c for c in coroutines if not c is None]
-            max_concurrent = 1  # Здесь вы можете установить максимальное количество одновременно выполняющихся корутин
 
-            tasks = []
-            async for result in Parser._async_generator(max_concurrent, coroutines):
-                if not result is None:
-                    assert isinstance(result, Parser)
-                    task = asyncio.create_task(result.parse_manga())
-                    tasks.append(task)
-            results = await asyncio.gather(*tasks)
-            assert all([isinstance(r, Manga) for r in results])
-            for r in results:
-                logger.info(r)
+        #for page in range(60, 755, 1):
+        #    logging.info(f'Начат парсинг {page} страницы')
+        #    try:
+        #        coroutines = [Parser(url)._fetch_manga() for url in manga_urls_generator(page)]
+        #        coroutines = [c for c in coroutines if not c is None]
+        #        max_concurrent = 1  # Здесь вы можете установить максимальное количество одновременно выполняющихся корутин
+        #
+        #        tasks = []
+        #        async for result in Parser._async_generator(max_concurrent, coroutines):
+        #            if not result is None:
+        #                assert isinstance(result, Parser)
+        #                task = asyncio.create_task(result.parse_manga())
+        #                tasks.append(task)
+        #        results = await asyncio.gather(*tasks)
+        #        assert all([isinstance(r, Manga) for r in results])
+        #        for r in results:
+        #            logger.info(r)
+        #    except Exception as e:
+        #        logging.critical(e)
+    def parse_chapters(self):
+        async def lol(manga:Manga):
+            try:
+                data = await Parser()._fetch_data(manga.chapters_href)
+                assert isinstance(data, dict)
+                chapter_parser = ChaptersToDb(data, manga)
+                results = await chapter_parser.create_models()
+                logger.info(results)
+            except AssertionError as e:
+                logging.critical(e)
+                logging.info(f'{data=}')
+                raise AssertionError(e)
+            except Exception as e:
+                logging.critical(e)
+                with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\manga\\management\\commands\\chapter_json.json', 'w+', encoding='UTF-8') as f:
+                    f.write(chapter_parser.show())
+                raise Exception(e)
+            
+        for manga in Manga.objects.iterator():
+            assert isinstance(manga, Manga)
+            if manga.get_all_chapters().count()>0:
+                continue
+            logging.info(f'Начат парсинг {manga.chapters_href} страницы')
+            asyncio.get_event_loop().run_until_complete(lol(manga))
+
             
     def handle(self, *args, **options):
         asyncio.get_event_loop().run_until_complete(self.main())
-    
+        self.parse_chapters()
     
 
 

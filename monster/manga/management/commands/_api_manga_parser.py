@@ -2,8 +2,8 @@ import json
 import logging
 from typing import Any
 from django.db import IntegrityError
-from manga.models import Manga, AgeRestriction, MangaType, Moderated, Team, Tag, Genre, Publisher, MangaStatus, ScanlateStatus, People
-
+from manga.models import Chapter, MangaUser, Manga, AgeRestriction, MangaType, Moderated, Team, Tag, Genre, Publisher, MangaStatus, ScanlateStatus, People, Branch
+import asyncio
 
 class MangaToDb:
     def __init__(self, manga_json:dict[Any, Any]) -> None:
@@ -20,123 +20,84 @@ class MangaToDb:
         manga = Manga.objects.filter(id=self.manga_json.get('id'))
         if await manga.aexists():
             return await manga.afirst(), await manga.aexists()
+        logging.debug(f'{self.manga_json.get("slug")=}')
         age_restriction, is_create = await AgeRestriction.objects.aget_or_create(**self.manga_json.get('ageRestriction', {}))
-        #print(f'{age_restriction=}')
+        logging.debug(f'{age_restriction=}')
         type, is_create = await MangaType.objects.aget_or_create(**self.manga_json.get('type', {}))
-        #print(f'{type=}')
+        logging.debug(f'{type=}')
         moderated, is_create = await Moderated.objects.aget_or_create(**self.manga_json.get('moderated', {}))
-        #print(f'{moderated=}')
+        logging.debug(f'{moderated=}')
         status, is_create = await MangaStatus.objects.aget_or_create(**self.manga_json.get('status', {}))
-        #print(f'{status=}')
+        logging.debug(f'{status=}')
         scanlate_status, is_create = await ScanlateStatus.objects.aget_or_create(**self.manga_json.get('scanlateStatus', {}))
-        #print(f'{scanlate_status=}')
+        logging.debug(f'{scanlate_status=}')
         teams = []
         for team in self.manga_json.get('teams', []):
-            team_json = team
-            try:
-                team, is_create = await Team.objects.aget_or_create(
-                                                                    id=team.get('id'), 
-                                                                    slug=team.get('slug'), 
-                                                                    slug_url=team.get('slug_url'), 
-                                                                    name=team.get('name'), 
-                                                                    cover=team.get('cover'), 
-                                                                    details=team.get('details')
-                                                                    )
-            except IntegrityError as e:
-                logging.error(f'{team_json.get("name")=}\t{team_json.get("id")=}\t{e=}')
-                team = await Team.objects.aget(id=team_json.get('id'))
-            finally:
-                teams.append(team)
-        #print(f'{teams=}')
+            data_json = team
+            obj, is_create = await Team.objects.aget_or_create(id=team.get('id'), defaults=data_json)
+            teams.append(obj)
+        logging.debug(f'{teams=}')
         genres = []
         for genre in self.manga_json.get('genres', []):
-            genre_json = genre
-            obj = None
-            try:
-                genre, is_create = await Genre.objects.aget_or_create(**genre)
-            except IntegrityError as e:
-                logging.error(f'{genre_json.get("name")=}\t{genre_json.get("id")=}\t{e=}')
-                genre = await Genre.objects.aget(id=genre_json.get('id'))
-            finally:
-                genres.append(genre)
-        #print(f'{genres=}')
+            data_json = genre
+            obj, is_create = await Genre.objects.aget_or_create(id=genre.get('id'), defaults=data_json)
+            genres.append(obj)
+        logging.debug(f'{genres=}')
         tags = []
         for tag in self.manga_json.get('tags', []):
-            json_data = tag
-            obj = None
-            try:
-                obj, is_create = await Tag.objects.aget_or_create(**tag)
-            except IntegrityError as e:
-                logging.error(f'{json_data.get("name")=}\t{json_data.get("id")=}\t{e=}')
-                obj = await Tag.objects.aget(id=json_data.get('id'))
-            finally:
-                tags.append(obj)
-        #print(f'{tags=}')
+            data_json = tag
+            obj, is_create = await Tag.objects.aget_or_create(id=tag.get('id'), defaults=data_json)
+            tags.append(obj)
+        logging.debug(f'{tags=}')
         publishers = []
         for publisher in self.manga_json.get('publisher', []):
-            json_data = publisher
-            obj = None
-            try:
-                obj, is_create = await Publisher.objects.aget_or_create(**publisher)
-            except IntegrityError as e:
-                logging.error(f'{json_data.get("name")=}\t{json_data.get("id")=}\t{e=}')
-                obj = await Publisher.objects.aget(id=json_data.get('id'))
-            finally:
-                publishers.append(obj)
-
+            data_json = publisher
+            obj, is_create = await Publisher.objects.aget_or_create(id=publisher.get('id'), defaults=data_json)
+            publishers.append(obj)
+        logging.debug(f'{publishers=}')
         artists = []
         for artist in self.manga_json.get('artists', []):
-            json_data = artist
-            obj = None
-            try:
-                obj, is_create = await People.objects.aget_or_create(**artist)
-            except IntegrityError as e:
-                logging.error(f'{json_data.get("name")=}\t{json_data.get("id")=}\t{e=}')
-                obj = await People.objects.aget(id=json_data.get('id'))
-            finally:
-                artists.append(obj)
-        #print(f'{artists=}')
+            data_json = artist
+            obj, is_create = await People.objects.aget_or_create(id=artist.get('id'), slug_url=artist.get('slug_url'), defaults=data_json)
+            artists.append(obj)            
+        logging.debug(f'{artists=}')
         authors = []
         for author in self.manga_json.get('authors', []):
-            json_data = author
-            obj = None
-            try:
-                obj, is_create = await People.objects.aget_or_create(**author)
-            except IntegrityError as e:
-                logging.error(f'{json_data.get("name")=}\t{json_data.get("id")=}\t{e=}')
-                obj = await People.objects.aget(id=json_data.get('id'))
-            finally:
-                authors.append(obj)
-        #print(f'{authors=}')
-        #print(f'{self.manga_json.get("id")=}')
-        manga, is_create = await Manga.objects.aget_or_create(
+            data_json = author
+            obj, is_create = await People.objects.aget_or_create(id=author.get('id'), slug_url=author.get('slug_url'), defaults=data_json)
+            authors.append(obj)
+        logging.debug(f'{authors=}')
+        manga, is_create = await Manga.objects.aupdate_or_create(
             id = self.manga_json.get('id'),
-            name = self.manga_json.get('name'),
-            rus_name = self.manga_json.get('rus_name'),
-            eng_name = self.manga_json.get('eng_name'),
-            other_names = self.manga_json.get('otherNames'),
-            slug = self.manga_json.get('slug'),
-            slug_url = self.manga_json.get('slug_url'),
-            cover = self.manga_json.get('cover'),
-            background = self.manga_json.get('background'),
-            site = self.manga_json.get('site'),
-            summary = self.manga_json.get('summary'),
-            close_view = self.manga_json.get('close_view'),
-            release_date = self.manga_json.get('releaseDate') if self.manga_json.get('releaseDate') != '' else 0,
-            views = self.manga_json.get('views'),
-            rating = self.manga_json.get('rating'),
-            is_licensed = self.manga_json.get('is_licensed'),
-            metadata = self.manga_json.get('metadata'),
-            model = self.manga_json.get('model'),
-            items_count = self.manga_json.get('items_count'),
-            format = self.manga_json.get('format'),
-            release_date_string = self.manga_json.get('releaseDateString'),
-            status = status,
-            scanlate_status = scanlate_status,
-            age_restriction = age_restriction,
-            type = type,
-            moderated = moderated,
+            defaults={
+            'name':self.manga_json.get('name'),
+            'rus_name': self.manga_json.get('rus_name'),
+            'eng_name': self.manga_json.get('eng_name'),
+            'other_names': self.manga_json.get('otherNames'),
+            'slug': self.manga_json.get('slug'),
+            'slug_url': self.manga_json.get('slug_url'),
+            'cover': self.manga_json.get('cover'),
+            'background': self.manga_json.get('background'),
+            'site': self.manga_json.get('site'),
+            'summary': self.manga_json.get('summary'),
+            'close_view': self.manga_json.get('close_view'),
+            'release_date': self.manga_json.get('releaseDate') if self.manga_json.get('releaseDate') != '' else 0,
+            'views': self.manga_json.get('views'),
+            'rating': self.manga_json.get('rating'),
+            'is_licensed': self.manga_json.get('is_licensed'),
+            'metadata': self.manga_json.get('metadata'),
+            'model': self.manga_json.get('model'),
+            'items_count': self.manga_json.get('items_count'),
+            'format': self.manga_json.get('format'),
+            'release_date_string': self.manga_json.get('releaseDateString'),
+            'status': status,
+            'scanlate_status': scanlate_status,
+            'age_restriction': age_restriction,
+            'type': type,
+            'moderated': moderated,
+            }
         )   
+        logging.debug(f'Первичное создание {manga}')
         await manga.artists.aadd(*artists)
         await manga.authors.aadd(*authors)
         await manga.genres.aadd(*genres)
@@ -144,17 +105,60 @@ class MangaToDb:
         await manga.tags.aadd(*tags)
         await manga.publishers.aadd(*publishers)
         await manga.asave()
-        #print(f'Готво - {manga}')
+        logging.debug(f'Готво - {manga}')
         return manga, is_create
 
-class ChaptersToDb:
-    def __init__(self, manga:Manga) -> None:
-        self.manga:Manga = manga
+class BranchToDB:
+    def __init__(self, branchs_json:dict[Any, Any]) -> None:
+        self.branchs_json: dict = branchs_json
+
+    def show(self):
+        print(json.dumps(self.branchs_json, indent=4, ensure_ascii=False))
+        
+    async def create_model(self):
+        teams = []
+        for team in self.branchs_json.get('teams', []):
+            team, is_create = await Team.objects.aget_or_create(id=team.get('id'), defaults=team)
+            teams.append(team)
+        logging.debug(f'branch {teams=}')
+        user, is_create = await MangaUser.objects.aget_or_create(id=self.branchs_json.get('user', {}).get('id'), defaults=self.branchs_json.get('user'))
+        logging.debug(f'branch {user=}')
+        data = self.branchs_json
+        branch, is_create = await Branch.objects.aget_or_create(id=data.get('id'), defaults={'branch_id':data.get('branch_id'), 'created_at':data.get('created_at'), 'user':user})
+        logging.debug(f'{branch=}')
+        return branch
     
-    def __show(self):
-        print(json.dumps(None, indent=4, ensure_ascii=False))
+class ChaptersToDb:
+    def __init__(self, chapters_json:dict[Any, Any], manga:Manga) -> None:
+        self.chapters_json: dict = chapters_json.get('data', [])
+        self.manga = manga
+    
+    def show(self):
+        print(json.dumps(self.chapters_json, indent=4, ensure_ascii=False))
+        return json.dumps(self.chapters_json, indent=4, ensure_ascii=False)
 
-
+    async def create_model(self, data:dict[Any, Any]):
+        branches = []
+        for branche in data.get('branches', []):
+            b = BranchToDB(branche)
+            branche = await b.create_model()
+            assert isinstance(branche, Branch)
+            branches.append(branche)
+        logging.debug(f'chapter {branches=}')
+        del data['branches']
+        data['manga_id'] = self.manga
+        chapter, is_create = await Chapter.objects.aget_or_create(id=data.get('id'), defaults=data)
+        logging.debug(f'{chapter=}')
+        return chapter
+    
+    async def create_models(self):
+        tasks = []
+        for chapter in self.chapters_json:
+            task = asyncio.create_task(self.create_model(chapter))
+            tasks.append(task)
+        results = await asyncio.gather(*tasks)
+        logging.debug(f'ChaptersToDb create_models {results=}')
+        return results
 
 
 

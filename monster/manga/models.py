@@ -36,11 +36,11 @@ class Moderated(models.Model):
 
 class Team(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
-    slug = models.CharField(max_length=255, unique=True)
+    slug = models.CharField(max_length=255)
     slug_url = models.CharField(max_length=255, unique=True)
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     cover = models.JSONField()
-    details = models.JSONField()
+    details = models.JSONField(null=True)
     
     class Meta:
         verbose_name_plural = 'Переводчики'
@@ -73,10 +73,10 @@ class Tag(models.Model):
     
 class Publisher(models.Model):
     id = models.SmallIntegerField(primary_key=True, null=False, unique=True)
-    slug = models.CharField(max_length=255, unique=True)
+    slug = models.CharField(max_length=255)
     slug_url = models.CharField(max_length=255, unique=True)
-    name = models.CharField(max_length=255, unique=True)
-    rus_name = models.CharField(max_length=255, unique=True, null=True)
+    name = models.CharField(max_length=255)
+    rus_name = models.CharField(max_length=255, null=True)
     cover = models.JSONField(null=True)
     subscription = models.JSONField(null=True)
     
@@ -89,11 +89,11 @@ class Publisher(models.Model):
     
 class People(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
-    slug = models.CharField(max_length=255, unique=True)
+    slug = models.CharField(max_length=255)
     slug_url = models.CharField(max_length=255, unique=True)
-    name = models.CharField(max_length=255, unique=True)
-    rus_name = models.CharField(max_length=255, unique=True, null=True)
-    alt_name = models.CharField(max_length=255, unique=True, null=True)
+    name = models.CharField(max_length=255)
+    rus_name = models.CharField(max_length=255, null=True)
+    alt_name = models.CharField(max_length=255, null=True)
     cover = models.JSONField(null=True)
     confirmed = models.CharField(max_length=255, null=True)
     subscription = models.JSONField(null=True)
@@ -173,10 +173,20 @@ class Manga(models.Model):
     @property
     def href(self):
         return f'https://test-front.mangalib.me/ru/manga/{self.slug}'
+    
+    @property
+    def chapters_href(self):
+        return f'https://api.lib.social/api/manga/{self.slug}/chapters'
+    
+    def get_all_chapters(self):
+        q:models.QuerySet[Chapter] = self.chapters.all()
+        assert isinstance(q, models.QuerySet)
+        return q
+
 
 class MangaUser(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
-    username = models.CharField(max_length=255, null=False, unique=True)
+    username = models.CharField(max_length=255, null=False, unique=False)
     avatar = models.JSONField(null=True, default=None)
     class Meta:
         verbose_name_plural = 'Пользователь'
@@ -187,7 +197,7 @@ class MangaUser(models.Model):
     
 class Branch(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
-    branch_id = models.PositiveIntegerField(null=False)
+    branch_id = models.PositiveIntegerField(null=True)
     created_at = models.DateTimeField(null=False)
     teams = models.ManyToManyField(Team)
     user = models.ForeignKey(MangaUser, on_delete=models.CASCADE)
@@ -199,8 +209,37 @@ class Branch(models.Model):
     def __str__(self):
         return f'Ветка №{self.id}'
     
+class Chapter(models.Model):
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
+    manga_id = models.ForeignKey(Manga, on_delete=models.CASCADE, related_name='chapters')
+    teams = models.ManyToManyField(Team)
+    created_at = models.DateTimeField(null=True)
+    moderated = models.ForeignKey(Moderated, on_delete=models.SET_NULL, null=True)
+    type = models.CharField(max_length=32, null=True)
+    index = models.PositiveSmallIntegerField(null=False)
+    item_number = models.PositiveSmallIntegerField(null=False)
+    volume = models.CharField(max_length=32, null=False)
+    number = models.CharField(max_length=32, null=False)
+    number_secondary = models.CharField(max_length=32, null=False)
+    name = models.CharField(max_length=255, null=True)
+    slug = models.CharField(max_length=255, null=True)
+    branches_count = models.PositiveSmallIntegerField(null=False)
+    
+    class Meta:
+        verbose_name_plural = 'Глава'
+        verbose_name = 'Глава'
+
+    def __str__(self):
+        return f'{self.name}'
+    
+    def get_all_pages(self):
+        q:models.QuerySet[Page] = self.pages.all() 
+        assert isinstance(q, models.QuerySet)
+        return q
+    
 class Page(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
+    chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='pages')
     image = models.CharField(max_length=255, null=True)
     slug = models.PositiveSmallIntegerField(null=False)
     external = models.PositiveSmallIntegerField(null=False)
@@ -219,29 +258,6 @@ class Page(models.Model):
     def __str__(self):
         return f'{self.url}'
 
-class Chapter(models.Model):
-    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
-    manga_id = models.ForeignKey(Manga, on_delete=models.CASCADE)
-    teams = models.ManyToManyField(Team)
-    created_at = models.DateTimeField(null=True)
-    moderated = models.ForeignKey(Moderated, on_delete=models.SET_NULL, null=True)
-    type = models.CharField(max_length=32, null=True)
-    index = models.PositiveSmallIntegerField(null=False)
-    item_number = models.PositiveSmallIntegerField(null=False)
-    volume = models.CharField(max_length=32, null=False)
-    number = models.CharField(max_length=32, null=False)
-    number_secondary = models.CharField(max_length=32, null=False)
-    name = models.CharField(max_length=255, null=False)
-    slug = models.CharField(max_length=255, null=True)
-    branches_count = models.PositiveSmallIntegerField(null=False)
-    
-    class Meta:
-        verbose_name_plural = 'Глава'
-        verbose_name = 'Глава'
-
-    def __str__(self):
-        return f'{self.name}'
-
 class Comment(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     comment = models.TextField(null=False)
@@ -249,8 +265,8 @@ class Comment(models.Model):
     comment_level = models.PositiveSmallIntegerField(null=False)
     parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')
     root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')
-    post_page = models.ForeignKey(Page, on_delete=models.CASCADE)
-    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE)
+    post_page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='pages')
+    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE, related_name='users')
     votes_up = models.PositiveIntegerField(null=False)
     votes_down = models.PositiveIntegerField(null=False)
     relation_type = models.CharField(max_length=255)
