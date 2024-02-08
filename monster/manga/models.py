@@ -1,5 +1,8 @@
+import logging
+import random
 from django.db import models
 import re
+from django.db.models import Q, Max
 
 class AgeRestriction(models.Model):
     id = models.SmallIntegerField(primary_key=True, null=False, unique=True)
@@ -163,6 +166,7 @@ class Manga(models.Model):
     artists = models.ManyToManyField(People, related_name='artist_manga_set')
     authors = models.ManyToManyField(People, related_name='author_manga_set')
     
+    parse_priority = models.SmallIntegerField(null=False, default=1)
     class Meta:
         verbose_name_plural = 'Манга'
         verbose_name = 'Манга'
@@ -179,10 +183,30 @@ class Manga(models.Model):
         return f'https://api.lib.social/api/manga/{self.slug}/chapters'
     
     def get_all_chapters(self):
-        q:models.QuerySet[Chapter] = self.chapters.all()
+        q:models.QuerySet[Chapter] = self.chapters.all() # type: ignore
         assert isinstance(q, models.QuerySet)
         return q
-
+    #total_mangas = Manga.objects.filter(prior).count()
+    #logging.info(f'generate_random_mangas {total_mangas=}')
+    #used_indexes = set([i for i in range(1, total_mangas + 1)])
+    #random_indexes = random.sample(all_mangas, 1)
+    
+    @staticmethod
+    def generate_random_mangas(priority=0):
+        logging.info(f'Запущен generate_random_mangas с приоритетом {priority}')
+        prior = Q(parse_priority=priority)
+        all_mangas = list(Manga.objects.filter(prior).values_list('pk', flat=True))
+        while True:
+            random_mangas = random.choices(all_mangas, k=1)
+            for manga_pk in random_mangas:
+                all_mangas.remove(manga_pk)
+                logging.info(f'{len(all_mangas)=} {manga_pk=}')
+                yield Manga.objects.get(pk=manga_pk)
+            if len(all_mangas) == 0:
+                if priority>0:
+                    return Manga.generate_random_mangas(priority=priority-1)
+                else:
+                    return Manga.generate_random_mangas(priority=Manga.objects.aggregate(Max('parse_priority')).get('parse_priority__max', 0))
 
 class MangaUser(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
@@ -233,10 +257,15 @@ class Chapter(models.Model):
         return f'{self.name}'
     
     def get_all_pages(self):
-        q:models.QuerySet[Page] = self.pages.all() 
+        q:models.QuerySet[Page] = self.pages.all() # type: ignore
         assert isinstance(q, models.QuerySet)
         return q
     
+    @property       
+    def pages_urls(self):
+        return f'https://api.lib.social/api/manga/{self.manga_id.slug_url}/chapter?number={self.number}&volume={self.volume}'
+                
+                
 class Page(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='pages')

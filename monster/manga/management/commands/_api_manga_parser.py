@@ -151,7 +151,7 @@ class ChaptersToDb:
         logging.debug(f'{chapter=}')
         return chapter
     
-    async def create_models(self):
+    async def create_models(self) -> list[Chapter]:
         tasks = []
         for chapter in self.chapters_json:
             task = asyncio.create_task(self.create_model(chapter))

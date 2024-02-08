@@ -7,9 +7,12 @@ import re
 from django.core.management.base import BaseCommand, CommandError
 import logging
 import time
+
+from django.db.models import Max
 from manga.models import Manga
 from ..commands._api_manga_parser import MangaToDb, ChaptersToDb
 import requests
+
 logging.basicConfig(level=logging.DEBUG, filename=f"logs\\pars_py_log_{time.time()}.log", filemode="w+", format="%(asctime)s %(levelname)s %(message)s", encoding='UTF-8')
 
 console_handler = logging.StreamHandler()
@@ -43,6 +46,7 @@ class Parser:
         self.data_url = self._data_url(self.slug)
         self.manga_data = False
         self.death_code = [404]
+        self.manga_object = None
         
     @staticmethod
     def _clean_url(url:str):
@@ -108,6 +112,8 @@ class Parser:
         return self
         
     async def parse_manga(self):
+        if not isinstance(self.manga_data, dict):
+            await self._fetch_manga()
         assert isinstance(self.manga_data, dict)
         manga_to_db = MangaToDb(self.manga_data)
         #manga_to_db.show()
@@ -116,7 +122,45 @@ class Parser:
         except Exception as e:
             logging.error(f'{e=}\t{manga_to_db.href=}\t{e.args=}')
             raise Exception(e)
+        self.manga_object: Manga | None = manga
         return manga
+
+    async def parse_chapters(self):
+        if self.manga_object is None:
+            self.manga_object = await self.parse_manga()
+        assert self.manga_object is not None
+        data = None
+        chapter_parser = None
+        try:
+            data = await self._fetch_data(self.manga_object.chapters_href)
+            if not isinstance(data, dict):
+                return
+            if data.get('data') == []:
+                self.manga_object.parse_priority=-1
+                await self.manga_object.asave()
+                logger.info(f'Приоритет {str(self.manga_object)} понижен до {self.manga_object.parse_priority}')
+                return
+            chapter_parser = ChaptersToDb(data, self.manga_object)
+            results = await chapter_parser.create_models()
+            logger.info(results)
+            return results
+        except AssertionError as e:
+            logging.critical(e)
+            logging.info(f'{data=}')
+            raise AssertionError(e)
+        except Exception as e:
+            logging.critical(e)
+            if chapter_parser is not None:
+                with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\\manga\\management\\commands\\chapter_json.json', 'w+', encoding='UTF-8') as f:
+                    f.write(chapter_parser.show())
+            raise Exception(e)
+
+
+
+
+
+
+
 
 def manga_urls_generator(page:int):
     response = requests.get(
@@ -160,35 +204,32 @@ class Command(BaseCommand):
         #            logger.info(r)
         #    except Exception as e:
         #        logging.critical(e)
-    def parse_chapters(self):
-        async def lol(manga:Manga):
-            try:
-                data = await Parser()._fetch_data(manga.chapters_href)
-                assert isinstance(data, dict)
-                chapter_parser = ChaptersToDb(data, manga)
-                results = await chapter_parser.create_models()
-                logger.info(results)
-            except AssertionError as e:
-                logging.critical(e)
-                logging.info(f'{data=}')
-                raise AssertionError(e)
-            except Exception as e:
-                logging.critical(e)
-                with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\manga\\management\\commands\\chapter_json.json', 'w+', encoding='UTF-8') as f:
-                    f.write(chapter_parser.show())
-                raise Exception(e)
+    
+    def parse_chapters(self, manga:Manga):
+        #for manga in Manga.generate_random_mangas(priority=Manga.objects.aggregate(Max('parse_priority')).get('parse_priority__max', 0)):
             
-        for manga in Manga.objects.iterator():
             assert isinstance(manga, Manga)
-            if manga.get_all_chapters().count()>0:
-                continue
+            if manga.get_all_chapters().count()>2 and False:
+                logging.info(f'{manga.get_all_chapters().count()=}')
+                manga.parse_priority = 0
+                manga.save()
+                #continue
             logging.info(f'Начат парсинг {manga.chapters_href} страницы')
-            asyncio.get_event_loop().run_until_complete(lol(manga))
+            parser = Parser(manga.href)
+            res = asyncio.get_event_loop().run_until_complete(parser.parse_chapters())
+            assert isinstance(res, list)
+            logging.info(f'{len(res)=}')
 
-            
+    def parse_pages(self, manga:Manga):
+        chapters = manga.get_all_chapters()
+        for chapter in chapters:
+            logging.info(f'{chapter.pages_urls=}')
+    
     def handle(self, *args, **options):
         asyncio.get_event_loop().run_until_complete(self.main())
-        self.parse_chapters()
+        manga = Manga.objects.get(name='Oyasumi Punpun')
+        #self.parse_chapters(manga)
+        self.parse_pages(manga)
     
 
 

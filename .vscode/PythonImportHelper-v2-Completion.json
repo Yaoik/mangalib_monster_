@@ -167,6 +167,30 @@
         "documentation": {}
     },
     {
+        "label": "Max",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Q",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Max",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
         "label": "Manga",
         "importPath": "manga.models",
         "description": "manga.models",
@@ -481,6 +505,38 @@
     },
     {
         "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
         "importPath": "django.db",
         "description": "django.db",
         "isExtraImport": true,
@@ -976,7 +1032,7 @@
         "kind": 6,
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
-        "peekOfCode": "class Parser:\n    def __init__(self, url:str='') -> None:\n        self.main_url = url\n        self.clear_url = self._clean_url(self.main_url)\n        self.slug = self._get_slug(self.clear_url)\n        self.data_url = self._data_url(self.slug)\n        self.manga_data = False\n        self.death_code = [404]\n    @staticmethod\n    def _clean_url(url:str):",
+        "peekOfCode": "class Parser:\n    def __init__(self, url:str='') -> None:\n        self.main_url = url\n        self.clear_url = self._clean_url(self.main_url)\n        self.slug = self._get_slug(self.clear_url)\n        self.data_url = self._data_url(self.slug)\n        self.manga_data = False\n        self.death_code = [404]\n        self.manga_object = None\n    @staticmethod",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
@@ -1257,6 +1313,24 @@
         "description": "monster.manga.migrations.0013_alter_mangauser_username",
         "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0012_alter_chapter_name'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='mangauser',\n            name='username',\n            field=models.CharField(max_length=255),\n        ),",
         "detail": "monster.manga.migrations.0013_alter_mangauser_username",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0014_manga_parse_priority",
+        "description": "monster.manga.migrations.0014_manga_parse_priority",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0013_alter_mangauser_username'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='manga',\n            name='parse_priority',\n            field=models.PositiveSmallIntegerField(default=1),\n        ),",
+        "detail": "monster.manga.migrations.0014_manga_parse_priority",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0015_alter_manga_parse_priority",
+        "description": "monster.manga.migrations.0015_alter_manga_parse_priority",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0014_manga_parse_priority'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='manga',\n            name='parse_priority',\n            field=models.SmallIntegerField(default=1),\n        ),",
+        "detail": "monster.manga.migrations.0015_alter_manga_parse_priority",
         "documentation": {}
     },
     {
