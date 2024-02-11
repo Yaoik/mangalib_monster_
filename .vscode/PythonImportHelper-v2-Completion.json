@@ -33,6 +33,14 @@
         "documentation": {}
     },
     {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Coroutine",
         "importPath": "typing",
         "description": "typing",
@@ -149,6 +157,14 @@
         "documentation": {}
     },
     {
+        "label": "deepcopy",
+        "importPath": "copy",
+        "description": "copy",
+        "isExtraImport": true,
+        "detail": "copy",
+        "documentation": {}
+    },
+    {
         "label": "random",
         "kind": 6,
         "isExtraImport": true,
@@ -167,7 +183,31 @@
         "documentation": {}
     },
     {
+        "label": "TimedRotatingFileHandler",
+        "importPath": "logging.handlers",
+        "description": "logging.handlers",
+        "isExtraImport": true,
+        "detail": "logging.handlers",
+        "documentation": {}
+    },
+    {
+        "label": "sync_to_async",
+        "importPath": "asgiref.sync",
+        "description": "asgiref.sync",
+        "isExtraImport": true,
+        "detail": "asgiref.sync",
+        "documentation": {}
+    },
+    {
         "label": "Max",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "QuerySet",
         "importPath": "django.db.models",
         "description": "django.db.models",
         "isExtraImport": true,
@@ -192,6 +232,46 @@
     },
     {
         "label": "Manga",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Chapter",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Page",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Moderated",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Team",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Page",
         "importPath": "manga.models",
         "description": "manga.models",
         "isExtraImport": true,
@@ -448,6 +528,14 @@
         "documentation": {}
     },
     {
+        "label": "parse_datetime",
+        "importPath": "django.utils.dateparse",
+        "description": "django.utils.dateparse",
+        "isExtraImport": true,
+        "detail": "django.utils.dateparse",
+        "documentation": {}
+    },
+    {
         "label": "IntegrityError",
         "importPath": "django.db",
         "description": "django.db",
@@ -505,6 +593,70 @@
     },
     {
         "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
         "importPath": "django.db",
         "description": "django.db",
         "isExtraImport": true,
@@ -1032,7 +1184,7 @@
         "kind": 6,
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
-        "peekOfCode": "class Parser:\n    def __init__(self, url:str='') -> None:\n        self.main_url = url\n        self.clear_url = self._clean_url(self.main_url)\n        self.slug = self._get_slug(self.clear_url)\n        self.data_url = self._data_url(self.slug)\n        self.manga_data = False\n        self.death_code = [404]\n        self.manga_object = None\n    @staticmethod",
+        "peekOfCode": "class Parser:\n    def __init__(self, url:str='') -> None:\n        self.main_url = url\n        self.clear_url = self._clean_url(self.main_url)\n        self.slug = self._get_slug(self.clear_url)\n        self.data_url = self._data_url(self.slug)\n        self.manga_data = False\n        self.death_code = [404]\n        self.manga_object = None\n        if (x:=Manga.objects.filter(slug=self.slug)).exists():",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
@@ -1055,11 +1207,11 @@
         "documentation": {}
     },
     {
-        "label": "console_handler",
+        "label": "#console_handler",
         "kind": 5,
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
-        "peekOfCode": "console_handler = logging.StreamHandler()\nconsole_handler.setLevel(logging.INFO)  # Уровень вывода сообщений\n#formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')\nformatter = logging.Formatter('%(message)s')\nconsole_handler.setFormatter(formatter)\nlogger = logging.getLogger()\nlogger.addHandler(console_handler)\n_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',",
+        "peekOfCode": "#console_handler = logging.StreamHandler()\n#console_handler.setLevel(logging.INFO)\n#formatter = logging.Formatter('%(message)s')\n#console_handler.setFormatter(formatter)\n#\n#logger = logging.getLogger()\n#logger.addHandler(console_handler)\n# Создание объекта логгера\nlogger = logging.getLogger()\nlogger.setLevel(logging.DEBUG)",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
@@ -1068,16 +1220,16 @@
         "kind": 5,
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
-        "peekOfCode": "#formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')\nformatter = logging.Formatter('%(message)s')\nconsole_handler.setFormatter(formatter)\nlogger = logging.getLogger()\nlogger.addHandler(console_handler)\n_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',\n    'https://mangalib.me/api/comments/branch?comment_id={id}',\n    'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',",
+        "peekOfCode": "#formatter = logging.Formatter('%(message)s')\n#console_handler.setFormatter(formatter)\n#\n#logger = logging.getLogger()\n#logger.addHandler(console_handler)\n# Создание объекта логгера\nlogger = logging.getLogger()\nlogger.setLevel(logging.DEBUG)\n# Создание TimedRotatingFileHandler\nhandler = TimedRotatingFileHandler(filename='logs\\\\pars_py_log.log', when='midnight', interval=1, backupCount=10, encoding='utf-8')",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
     {
-        "label": "formatter",
+        "label": "#logger",
         "kind": 5,
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
-        "peekOfCode": "formatter = logging.Formatter('%(message)s')\nconsole_handler.setFormatter(formatter)\nlogger = logging.getLogger()\nlogger.addHandler(console_handler)\n_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',\n    'https://mangalib.me/api/comments/branch?comment_id={id}',\n    'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',\n    'https://mangalib.me/user?comm_id=173519921&section=comments',",
+        "peekOfCode": "#logger = logging.getLogger()\n#logger.addHandler(console_handler)\n# Создание объекта логгера\nlogger = logging.getLogger()\nlogger.setLevel(logging.DEBUG)\n# Создание TimedRotatingFileHandler\nhandler = TimedRotatingFileHandler(filename='logs\\\\pars_py_log.log', when='midnight', interval=1, backupCount=10, encoding='utf-8')\nhandler.setLevel(logging.DEBUG)\n# Создание форматтера\nformatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
@@ -1086,7 +1238,34 @@
         "kind": 5,
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
-        "peekOfCode": "logger = logging.getLogger()\nlogger.addHandler(console_handler)\n_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',\n    'https://mangalib.me/api/comments/branch?comment_id={id}',\n    'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',\n    'https://mangalib.me/user?comm_id=173519921&section=comments',\n    'https://mangalib.me/similar/7965?type=1',\n    \"https://api.lib.social/api/manga/shingeki-no-kyojin?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format\",",
+        "peekOfCode": "logger = logging.getLogger()\nlogger.setLevel(logging.DEBUG)\n# Создание TimedRotatingFileHandler\nhandler = TimedRotatingFileHandler(filename='logs\\\\pars_py_log.log', when='midnight', interval=1, backupCount=10, encoding='utf-8')\nhandler.setLevel(logging.DEBUG)\n# Создание форматтера\nformatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')\nhandler.setFormatter(formatter)\n# Добавление обработчика к логгеру\nlogger.addHandler(handler)",
+        "detail": "monster.manga.management.commands.parser_api",
+        "documentation": {}
+    },
+    {
+        "label": "handler",
+        "kind": 5,
+        "importPath": "monster.manga.management.commands.parser_api",
+        "description": "monster.manga.management.commands.parser_api",
+        "peekOfCode": "handler = TimedRotatingFileHandler(filename='logs\\\\pars_py_log.log', when='midnight', interval=1, backupCount=10, encoding='utf-8')\nhandler.setLevel(logging.DEBUG)\n# Создание форматтера\nformatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')\nhandler.setFormatter(formatter)\n# Добавление обработчика к логгеру\nlogger.addHandler(handler)\n# Добавление потокового обработчика для вывода в консоль\nconsole_handler = logging.StreamHandler()\nconsole_handler.setLevel(logging.INFO)",
+        "detail": "monster.manga.management.commands.parser_api",
+        "documentation": {}
+    },
+    {
+        "label": "formatter",
+        "kind": 5,
+        "importPath": "monster.manga.management.commands.parser_api",
+        "description": "monster.manga.management.commands.parser_api",
+        "peekOfCode": "formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')\nhandler.setFormatter(formatter)\n# Добавление обработчика к логгеру\nlogger.addHandler(handler)\n# Добавление потокового обработчика для вывода в консоль\nconsole_handler = logging.StreamHandler()\nconsole_handler.setLevel(logging.INFO)\nconsole_handler.setFormatter(logging.Formatter('%(message)s'))\nlogger.addHandler(console_handler)\n_api = [",
+        "detail": "monster.manga.management.commands.parser_api",
+        "documentation": {}
+    },
+    {
+        "label": "console_handler",
+        "kind": 5,
+        "importPath": "monster.manga.management.commands.parser_api",
+        "description": "monster.manga.management.commands.parser_api",
+        "peekOfCode": "console_handler = logging.StreamHandler()\nconsole_handler.setLevel(logging.INFO)\nconsole_handler.setFormatter(logging.Formatter('%(message)s'))\nlogger.addHandler(console_handler)\n_api = [\n    'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',\n    'https://mangalib.me/api/v2/test',\n    'https://mangalib.me/api/comments/branch?comment_id={id}',\n    'https://lib.social/api/forum/discussion?category=all&subscription=0&page=1&sort=newest',\n    'https://mangalib.me/user?comm_id=173519921&section=comments',",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
@@ -1123,6 +1302,15 @@
         "importPath": "monster.manga.management.commands._api_manga_parser",
         "description": "monster.manga.management.commands._api_manga_parser",
         "peekOfCode": "class ChaptersToDb:\n    def __init__(self, chapters_json:dict[Any, Any], manga:Manga) -> None:\n        self.chapters_json: dict = chapters_json.get('data', [])\n        self.manga = manga\n    def show(self):\n        print(json.dumps(self.chapters_json, indent=4, ensure_ascii=False))\n        return json.dumps(self.chapters_json, indent=4, ensure_ascii=False)\n    async def create_model(self, data:dict[Any, Any]):\n        branches = []\n        for branche in data.get('branches', []):",
+        "detail": "monster.manga.management.commands._api_manga_parser",
+        "documentation": {}
+    },
+    {
+        "label": "PagesToDB",
+        "kind": 6,
+        "importPath": "monster.manga.management.commands._api_manga_parser",
+        "description": "monster.manga.management.commands._api_manga_parser",
+        "peekOfCode": "class PagesToDB:\n    def __init__(self, pages_json:list[dict[Any, Any]], chapter:Chapter) -> None:\n        self.pages_json = pages_json\n        self.chapter = chapter\n    def show(self):\n        print(json.dumps(self.pages_json, indent=4, ensure_ascii=False))\n    async def create_models(self):\n        logging.info(f'create_models start')\n        pages_json = self.pages_json.copy()\n        for page in pages_json:",
         "detail": "monster.manga.management.commands._api_manga_parser",
         "documentation": {}
     },
@@ -1334,6 +1522,42 @@
         "documentation": {}
     },
     {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0016_chapter_likes_count",
+        "description": "monster.manga.migrations.0016_chapter_likes_count",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0015_alter_manga_parse_priority'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='chapter',\n            name='likes_count',\n            field=models.PositiveIntegerField(null=True),\n        ),",
+        "detail": "monster.manga.migrations.0016_chapter_likes_count",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0017_team_discord_team_vk",
+        "description": "monster.manga.migrations.0017_team_discord_team_vk",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0016_chapter_likes_count'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='team',\n            name='discord',\n            field=models.CharField(max_length=255, null=True),\n        ),",
+        "detail": "monster.manga.migrations.0017_team_discord_team_vk",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0018_alter_page_chapter_id",
+        "description": "monster.manga.migrations.0018_alter_page_chapter_id",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0017_team_discord_team_vk'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='page',\n            name='chapter_id',\n            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='pages', to='manga.chapter'),\n        ),",
+        "detail": "monster.manga.migrations.0018_alter_page_chapter_id",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0019_alter_page_updated_at",
+        "description": "monster.manga.migrations.0019_alter_page_updated_at",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0018_alter_page_chapter_id'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='page',\n            name='updated_at',\n            field=models.DateTimeField(null=True),\n        ),",
+        "detail": "monster.manga.migrations.0019_alter_page_updated_at",
+        "documentation": {}
+    },
+    {
         "label": "MangaConfig",
         "kind": 6,
         "importPath": "monster.manga.apps",
@@ -1365,7 +1589,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Moderated(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    label = models.CharField(max_length=32, unique=True)\n    class Meta:\n        verbose_name_plural = 'Статус модерации'\n        verbose_name = 'Статус модерации'\n    def __str__(self):\n        return f'{self.label}'\nclass Team(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)",
+        "peekOfCode": "class Moderated(models.Model):\n    id = models.SmallIntegerField(primary_key=True, null=False, unique=True)\n    label = models.CharField(max_length=32, unique=True)\n    class Meta:\n        verbose_name_plural = 'Статус модерации'\n        verbose_name = 'Статус модерации'\n    def __str__(self):\n        return f'{self.label}'\nclass Team(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True) # id",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1374,7 +1598,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Team(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    slug = models.CharField(max_length=255)\n    slug_url = models.CharField(max_length=255, unique=True)\n    name = models.CharField(max_length=255)\n    cover = models.JSONField()\n    details = models.JSONField(null=True)\n    class Meta:\n        verbose_name_plural = 'Переводчики'\n        verbose_name = 'Переводчики'",
+        "peekOfCode": "class Team(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True) # id\n    slug = models.CharField(max_length=255) # slug\n    slug_url = models.CharField(max_length=255, unique=True) # slug_url\n    name = models.CharField(max_length=255) # name\n    cover = models.JSONField() # cover\n    details = models.JSONField(null=True)\n    vk = models.CharField(max_length=255, null=True) # name\n    discord = models.CharField(max_length=255, null=True) # name\n    class Meta:",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1473,7 +1697,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Page(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='pages')\n    image = models.CharField(max_length=255, null=True)\n    slug = models.PositiveSmallIntegerField(null=False)\n    external = models.PositiveSmallIntegerField(null=False)\n    chunks = models.PositiveSmallIntegerField(null=False)\n    chapter_id = models.PositiveIntegerField(null=False, unique=True)\n    created_at = models.DateTimeField(null=False)\n    updated_at = models.DateTimeField(null=False)",
+        "peekOfCode": "class Page(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True) # id\n    chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='pages')\n    image = models.CharField(max_length=255, null=True) # image\n    slug = models.PositiveSmallIntegerField(null=False) # slug\n    external = models.PositiveSmallIntegerField(null=False) # external\n    chunks = models.PositiveSmallIntegerField(null=False) # chunks\n    #chapter_id = models.PositiveIntegerField(null=False, unique=True) # chapter_id\n    created_at = models.DateTimeField(null=False) # created_at\n    updated_at = models.DateTimeField(null=True) # updated_at",
         "detail": "monster.manga.models",
         "documentation": {}
     },

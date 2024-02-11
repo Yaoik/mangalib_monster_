@@ -2,7 +2,7 @@ import json
 import logging
 from typing import Any
 from django.db import IntegrityError
-from manga.models import Chapter, MangaUser, Manga, AgeRestriction, MangaType, Moderated, Team, Tag, Genre, Publisher, MangaStatus, ScanlateStatus, People, Branch
+from manga.models import Page, Chapter, MangaUser, Manga, AgeRestriction, MangaType, Moderated, Team, Tag, Genre, Publisher, MangaStatus, ScanlateStatus, People, Branch
 import asyncio
 
 class MangaToDb:
@@ -160,25 +160,39 @@ class ChaptersToDb:
         logging.debug(f'ChaptersToDb create_models {results=}')
         return results
 
+class PagesToDB:
+    def __init__(self, pages_json:list[dict[Any, Any]], chapter:Chapter) -> None:
+        self.pages_json = pages_json
+        self.chapter = chapter
+
+        
+    def show(self):
+        print(json.dumps(self.pages_json, indent=4, ensure_ascii=False))
+        
+    async def create_models(self):
+        logging.info(f'create_models start')
+        pages_json = self.pages_json.copy()
+        for page in pages_json:
+            page['chapter_id'] = self.chapter
+        for page in pages_json:
+            logging.debug(f'create_models {page.get("created_at")=}')
+            logging.debug(f'create_models {page.get("updated_at")=}')
+            if page.get("updated_at", '').startswith('-'):
+                page['updated_at'] = None
+        pages_data = [Page(**page) for page in self.pages_json]
+        logging.debug(f'create_models {pages_data=}')
+        pages = await Page.objects.abulk_create(pages_data, ignore_conflicts=True)
+        logging.debug(f'create_models {pages=}')
+        logging.debug(f'create_models {len(pages)=}')
+        #logging.info(f'{self.pages_json=}')
+        logging.info(f'create_models end')
+        return pages
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+m: list[list[int]] = [
+[0, 0, 0],
+[0, 1, 2],
+[0, 0, 1],
+]
+ 
 

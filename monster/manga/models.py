@@ -38,13 +38,16 @@ class Moderated(models.Model):
         return f'{self.label}'
 
 class Team(models.Model):
-    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
-    slug = models.CharField(max_length=255)
-    slug_url = models.CharField(max_length=255, unique=True)
-    name = models.CharField(max_length=255)
-    cover = models.JSONField()
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True) # id
+    slug = models.CharField(max_length=255) # slug
+    slug_url = models.CharField(max_length=255, unique=True) # slug_url
+    name = models.CharField(max_length=255) # name
+    cover = models.JSONField() # cover
     details = models.JSONField(null=True)
     
+    vk = models.CharField(max_length=255, null=True) # name
+    discord = models.CharField(max_length=255, null=True) # name
+
     class Meta:
         verbose_name_plural = 'Переводчики'
         verbose_name = 'Переводчики'
@@ -178,7 +181,7 @@ class Manga(models.Model):
     def href(self):
         return f'https://test-front.mangalib.me/ru/manga/{self.slug}'
     
-    @property
+    @property 
     def chapters_href(self):
         return f'https://api.lib.social/api/manga/{self.slug}/chapters'
     
@@ -186,6 +189,7 @@ class Manga(models.Model):
         q:models.QuerySet[Chapter] = self.chapters.all() # type: ignore
         assert isinstance(q, models.QuerySet)
         return q
+    
     #total_mangas = Manga.objects.filter(prior).count()
     #logging.info(f'generate_random_mangas {total_mangas=}')
     #used_indexes = set([i for i in range(1, total_mangas + 1)])
@@ -248,44 +252,55 @@ class Chapter(models.Model):
     name = models.CharField(max_length=255, null=True)
     slug = models.CharField(max_length=255, null=True)
     branches_count = models.PositiveSmallIntegerField(null=False)
+    likes_count = models.PositiveIntegerField(null=True)
     
     class Meta:
         verbose_name_plural = 'Глава'
         verbose_name = 'Глава'
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.id}'
     
     def get_all_pages(self):
         q:models.QuerySet[Page] = self.pages.all() # type: ignore
         assert isinstance(q, models.QuerySet)
         return q
     
+    def is_number_number(self):
+        try:
+            float(self.number)
+            return True
+        except ValueError:
+            return False
+    
     @property       
     def pages_urls(self):
         return f'https://api.lib.social/api/manga/{self.manga_id.slug_url}/chapter?number={self.number}&volume={self.volume}'
-                
+    
+    @property       
+    async def apages_urls(self):
+        return f'https://api.lib.social/api/manga/{self.manga_id.slug_url}/chapter?number={self.number}&volume={self.volume}'         
                 
 class Page(models.Model):
-    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
+    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True) # id
     chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='pages')
-    image = models.CharField(max_length=255, null=True)
-    slug = models.PositiveSmallIntegerField(null=False)
-    external = models.PositiveSmallIntegerField(null=False)
-    chunks = models.PositiveSmallIntegerField(null=False)
-    chapter_id = models.PositiveIntegerField(null=False, unique=True)
-    created_at = models.DateTimeField(null=False)
-    updated_at = models.DateTimeField(null=False)
-    height = models.PositiveSmallIntegerField(null=False)
-    width = models.PositiveSmallIntegerField(null=False)
-    url = models.CharField(max_length=255, null=True)
+    image = models.CharField(max_length=255, null=True) # image
+    slug = models.PositiveSmallIntegerField(null=False) # slug
+    external = models.PositiveSmallIntegerField(null=False) # external
+    chunks = models.PositiveSmallIntegerField(null=False) # chunks
+    #chapter_id = models.PositiveIntegerField(null=False, unique=True) # chapter_id
+    created_at = models.DateTimeField(null=False) # created_at
+    updated_at = models.DateTimeField(null=True) # updated_at
+    height = models.PositiveSmallIntegerField(null=False) # height
+    width = models.PositiveSmallIntegerField(null=False) # width
+    url = models.CharField(max_length=255, null=True) # url
     
     class Meta:
         verbose_name_plural = 'Страница'
         verbose_name = 'Страница'
 
     def __str__(self):
-        return f'{self.url}'
+        return f'{self.id}'
 
 class Comment(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)

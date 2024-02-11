@@ -1,28 +1,54 @@
 import asyncio
+from copy import deepcopy
 import random
 import aiohttp
-from typing import Coroutine
+from typing import Any, Coroutine
 import json
 import re
 from django.core.management.base import BaseCommand, CommandError
 import logging
+from logging.handlers import TimedRotatingFileHandler
 import time
-
-from django.db.models import Max
-from manga.models import Manga
-from ..commands._api_manga_parser import MangaToDb, ChaptersToDb
+from asgiref.sync import sync_to_async
+from django.db.models import Max, QuerySet
+from manga.models import Manga, Chapter, Page, Moderated, Team
+from ..commands._api_manga_parser import MangaToDb, ChaptersToDb, PagesToDB
 import requests
+from django.utils.dateparse import parse_datetime
 
-logging.basicConfig(level=logging.DEBUG, filename=f"logs\\pars_py_log_{time.time()}.log", filemode="w+", format="%(asctime)s %(levelname)s %(message)s", encoding='UTF-8')
+#logging.basicConfig(level=logging.DEBUG, filename=f"logs\\pars_py_log_{time.time()}.log", filemode="w+", format="%(asctime)s %(levelname)s %(message)s", encoding='UTF-8')
+#
+#console_handler = logging.StreamHandler()
+#console_handler.setLevel(logging.INFO)
+#formatter = logging.Formatter('%(message)s')
+#console_handler.setFormatter(formatter)
+#
+#logger = logging.getLogger()
+#logger.addHandler(console_handler)
 
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)  # Уровень вывода сообщений
-#formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-formatter = logging.Formatter('%(message)s')
-console_handler.setFormatter(formatter)
 
+# Создание объекта логгера
 logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
+# Создание TimedRotatingFileHandler
+handler = TimedRotatingFileHandler(filename='logs\\pars_py_log.log', when='midnight', interval=1, backupCount=10, encoding='utf-8')
+handler.setLevel(logging.DEBUG)
+
+# Создание форматтера
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+handler.setFormatter(formatter)
+
+# Добавление обработчика к логгеру
+logger.addHandler(handler)
+
+# Добавление потокового обработчика для вывода в консоль
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(logging.Formatter('%(message)s'))
 logger.addHandler(console_handler)
+
+
 
 _api = [
     'https://mangalib.me/api/v2/comments?type=chapter&post_id=2551247&order=best&page=1&chapterPage=26',
@@ -47,6 +73,8 @@ class Parser:
         self.manga_data = False
         self.death_code = [404]
         self.manga_object = None
+        if (x:=Manga.objects.filter(slug=self.slug)).exists():
+            self.manga_object = x.first()
         
     @staticmethod
     def _clean_url(url:str):
@@ -80,6 +108,8 @@ class Parser:
             except aiohttp.ClientConnectorError as e:
                 logging.error(e)
     
+    async def _fetch_data_with_inputs(self, url, **kwargs):
+        return await self._fetch_data(url), kwargs
     
     @staticmethod
     async def _async_generator(max_concurrent:int, coroutines:list[Coroutine]):
@@ -154,9 +184,66 @@ class Parser:
                 with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\\manga\\management\\commands\\chapter_json.json', 'w+', encoding='UTF-8') as f:
                     f.write(chapter_parser.show())
             raise Exception(e)
-
-
-
+    
+    async def parse_pages_from_chapters(self, chapters:QuerySet[Chapter]):
+        logging.info(f'parse_pages_from_chapters start')
+        chapters_async = await sync_to_async(list)(chapters)
+        logging.info(f'{[i.id for i in chapters_async]}')
+        coroutines = []
+        for chapter in chapters_async:
+            assert isinstance(chapter, Chapter)
+            coroutine = self._fetch_data_with_inputs(chapter.pages_urls, chapter=chapter)
+            coroutines.append(coroutine) # тут выполняются запросы по url
+        logging.debug(f'coroutines created')
+        max_concurrent = 2
+        tasks = []
+        async for result in self._async_generator(max_concurrent, coroutines): # генератор, выдающий результаты _fetch_data 
+            if not result[0] is None:
+                chapter = result[1].get('chapter')
+                result = result[0]
+                task = asyncio.create_task(self.parse_pages_from_chapter(result, chapter)) # сюда мне нужно передавать Chapter относящийся к этому запросу
+                tasks.append(task)
+        results = await asyncio.gather(*tasks)
+        result_dict = {}
+        for result in results:
+            if isinstance(result, dict):
+                result_dict.update(result)
+        logging.info(f'parse_pages_from_chapters end')
+        return result_dict
+    
+    async def parse_pages_from_chapter(self, chapter:dict[Any, Any], chapter_model:Chapter) -> dict[Chapter, list[Page]]:
+        logging.info(f'parse_pages_from_chapter start')
+        assert isinstance(chapter_model, Chapter)
+        logging.debug(f'parse_pages_from_chapter {chapter_model=}')
+        #logging.debug(f'parse_pages_from_chapter {chapter.get("data")}')
+        data: dict = chapter.get("data", {})
+        data['manga_id'] = await Manga.objects.aget(pk=data.get('manga_id'))
+        data['moderated'], is_create = await Moderated.objects.aget_or_create(id=data.get('moderated', {}).get('id'), defaults=data.get('moderated', {}))
+        teams = []
+        for team in data.get('teams', {}):
+            logging.debug(f'{team=}')
+            team, is_create = await Team.objects.aget_or_create(pk=team.get('id'), defaults=team)
+            teams.append(team)
+        del data['teams']
+        data_chap = deepcopy(data)
+        del data_chap['pages']
+        logging.debug(f'{data_chap=}')
+        chapter_model.created_at = data_chap.get('created_at', None)
+        chapter_model.type = data_chap.get('type', None)
+        chapter_model.slug = data_chap.get('slug', None)
+        chapter_model.moderated = data_chap.get('moderated', None)
+        chapter_model.likes_count = data_chap.get('likes_count', None)
+        await chapter_model.teams.aset(teams)
+        await chapter_model.asave()
+        logging.debug(f'parse_pages_from_chapter asave')
+        logging.debug(f'parse_pages_from_chapter {chapter_model=}')
+        #PagesToDB(data.get('pages', []), chapter=chapter_model).show()
+        pages = await PagesToDB(pages_json=data.get('pages', []), chapter=chapter_model).create_models()
+        assert isinstance(pages, list)
+        if len(pages)>0:
+            assert isinstance(pages[0], Page)
+        logging.info(f'parse_pages_from_chapter end')
+        return {chapter_model:pages}
 
 
 
@@ -174,6 +261,7 @@ def manga_urls_generator(page:int):
         except Exception as error:
             logging.error(f'{error=}')
             return False
+
 
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
@@ -221,15 +309,24 @@ class Command(BaseCommand):
             logging.info(f'{len(res)=}')
 
     def parse_pages(self, manga:Manga):
-        chapters = manga.get_all_chapters()
-        for chapter in chapters:
-            logging.info(f'{chapter.pages_urls=}')
+        chapters: QuerySet[Chapter] = manga.get_all_chapters()
+        parser = Parser()
+        logging.debug(f'{chapters=}')
+        logging.debug(f'{len(chapters)=}')
+        #for chapter in chapters:
+        #    logging.info(f'{chapter.pages_urls} {chapter.id}')
+        res = asyncio.get_event_loop().run_until_complete(parser.parse_pages_from_chapters(chapters))
+        logging.info(f'{res=}')
     
     def handle(self, *args, **options):
         asyncio.get_event_loop().run_until_complete(self.main())
         manga = Manga.objects.get(name='Oyasumi Punpun')
-        #self.parse_chapters(manga)
+        manga = Manga.objects.get(slug_url='74210--osora')
+        #manga = Manga.objects.get(slug='chainsaw-man')
         self.parse_pages(manga)
+        mangas = Manga.generate_random_mangas()
+        for manga in mangas:
+            self.parse_pages(manga)
     
 
 
