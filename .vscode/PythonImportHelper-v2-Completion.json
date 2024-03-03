@@ -65,6 +65,22 @@
         "documentation": {}
     },
     {
+        "label": "Coroutine",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "launch",
         "importPath": "pyppeteer",
         "description": "pyppeteer",
@@ -157,6 +173,15 @@
         "documentation": {}
     },
     {
+        "label": "copy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "copy",
+        "description": "copy",
+        "detail": "copy",
+        "documentation": {}
+    },
+    {
         "label": "deepcopy",
         "importPath": "copy",
         "description": "copy",
@@ -180,6 +205,14 @@
         "importPath": "aiohttp",
         "description": "aiohttp",
         "detail": "aiohttp",
+        "documentation": {}
+    },
+    {
+        "label": "TimedRotatingFileHandler",
+        "importPath": "logging.handlers",
+        "description": "logging.handlers",
+        "isExtraImport": true,
+        "detail": "logging.handlers",
         "documentation": {}
     },
     {
@@ -264,6 +297,22 @@
     },
     {
         "label": "Team",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Comment",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Comment",
         "importPath": "manga.models",
         "description": "manga.models",
         "isExtraImport": true,
@@ -384,6 +433,54 @@
     },
     {
         "label": "Branch",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Manga",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Chapter",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Page",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Moderated",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Team",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Comment",
         "importPath": "manga.models",
         "description": "manga.models",
         "isExtraImport": true,
@@ -528,6 +625,14 @@
         "documentation": {}
     },
     {
+        "label": "Response",
+        "importPath": "requests",
+        "description": "requests",
+        "isExtraImport": true,
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
         "label": "parse_datetime",
         "importPath": "django.utils.dateparse",
         "description": "django.utils.dateparse",
@@ -536,347 +641,46 @@
         "documentation": {}
     },
     {
-        "label": "IntegrityError",
-        "importPath": "django.db",
-        "description": "django.db",
+        "label": "string",
+        "kind": 6,
         "isExtraImport": true,
-        "detail": "django.db",
+        "importPath": "string",
+        "description": "string",
+        "detail": "string",
         "documentation": {}
     },
     {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
+        "label": "BaseCommand",
+        "importPath": "django.core.management",
+        "description": "django.core.management",
         "isExtraImport": true,
-        "detail": "django.db",
+        "detail": "django.core.management",
         "documentation": {}
     },
     {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
+        "label": "cfscrape",
+        "kind": 6,
         "isExtraImport": true,
-        "detail": "django.db",
+        "importPath": "cfscrape",
+        "description": "cfscrape",
+        "detail": "cfscrape",
         "documentation": {}
     },
     {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
+        "label": "urlencode",
+        "importPath": "urllib.parse",
+        "description": "urllib.parse",
         "isExtraImport": true,
-        "detail": "django.db",
+        "detail": "urllib.parse",
         "documentation": {}
     },
     {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
+        "label": "concurrent.futures",
+        "kind": 6,
         "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
+        "importPath": "concurrent.futures",
+        "description": "concurrent.futures",
+        "detail": "concurrent.futures",
         "documentation": {}
     },
     {
@@ -943,6 +747,486 @@
         "importPath": "django.db.models.deletion",
         "description": "django.db.models.deletion",
         "detail": "django.db.models.deletion",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
         "documentation": {}
     },
     {
@@ -1184,7 +1468,7 @@
         "kind": 6,
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
-        "peekOfCode": "class Parser:\n    def __init__(self, url:str='') -> None:\n        self.main_url = url\n        self.clear_url = self._clean_url(self.main_url)\n        self.slug = self._get_slug(self.clear_url)\n        self.data_url = self._data_url(self.slug)\n        self.manga_data = False\n        self.death_code = [404]\n        self.manga_object = None\n        if (x:=Manga.objects.filter(slug=self.slug)).exists():",
+        "peekOfCode": "class Parser:\n    def __init__(self, url:str='') -> None:\n        self.main_url = url\n        self.clear_url = self._clean_url(self.main_url)\n        self.slug = self._get_slug(self.clear_url)\n        self.data_url = self._data_url(self.slug)\n        self.manga_data = False\n        self.death_code = [404, 422]\n        self.manga_object = None\n        headers = {",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
@@ -1193,7 +1477,7 @@
         "kind": 6,
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
-        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    async def main(self):\n        url = 'https://test-front.mangalib.me/ru/manga/7965--chainsaw-man?section=info'\n        #parser = Parser(url)\n        #print(parser.clear_url)\n        #print(parser.data_url)\n        #assert await parser.parse_manga()\n        #for page in range(60, 755, 1):\n        #    logging.info(f'Начат парсинг {page} страницы')",
+        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    async def main(self):\n        url = 'https://test-front.mangalib.me/ru/manga/7965--chainsaw-man?section=info'\n        return await Parser('https://test-front.mangalib.me/ru/manga/160510--dou-ganbattemo-ecchi-ni-nacchau-osananajimi?ui=425502').parse_manga()\n        #parser = Parser(url)\n        #print(parser.clear_url)\n        #print(parser.data_url)\n        #assert await parser.parse_manga()\n        #for page in range(60, 755, 1):",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
@@ -1279,6 +1563,15 @@
         "documentation": {}
     },
     {
+        "label": "Command",
+        "kind": 6,
+        "importPath": "monster.manga.management.commands.test",
+        "description": "monster.manga.management.commands.test",
+        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    def handle(self, *args, **options):\n        with open('C:\\\\Users\\\\Shamrock\\\\Desktop\\\\mangalib_monster обход блокировки ботов\\\\monster\\\\manga\\\\management\\\\commands\\\\res1.json', 'w+', encoding='utf-8') as f:\n            f.write(json.dumps(result, indent=4, ensure_ascii=False))",
+        "detail": "monster.manga.management.commands.test",
+        "documentation": {}
+    },
+    {
         "label": "MangaToDb",
         "kind": 6,
         "importPath": "monster.manga.management.commands._api_manga_parser",
@@ -1310,8 +1603,35 @@
         "kind": 6,
         "importPath": "monster.manga.management.commands._api_manga_parser",
         "description": "monster.manga.management.commands._api_manga_parser",
-        "peekOfCode": "class PagesToDB:\n    def __init__(self, pages_json:list[dict[Any, Any]], chapter:Chapter) -> None:\n        self.pages_json = pages_json\n        self.chapter = chapter\n    def show(self):\n        print(json.dumps(self.pages_json, indent=4, ensure_ascii=False))\n    async def create_models(self):\n        logging.info(f'create_models start')\n        pages_json = self.pages_json.copy()\n        for page in pages_json:",
+        "peekOfCode": "class PagesToDB:\n    def __init__(self, pages_json:list[dict[Any, Any]], chapter:Chapter) -> None:\n        self.pages_json = pages_json\n        self.chapter = chapter\n    def show(self):\n        print(json.dumps(self.pages_json, indent=4, ensure_ascii=False))\n    async def create_models(self):\n        logging.debug(f'create_models start')\n        pages_json = self.pages_json.copy()\n        for page in pages_json:",
         "detail": "monster.manga.management.commands._api_manga_parser",
+        "documentation": {}
+    },
+    {
+        "label": "CommentToDB",
+        "kind": 6,
+        "importPath": "monster.manga.management.commands._api_manga_parser",
+        "description": "monster.manga.management.commands._api_manga_parser",
+        "peekOfCode": "class CommentToDB:\n    def __init__(self, pages_json:dict[str, Any], page:Page) -> None:\n        assert isinstance(page, Page)\n        assert isinstance(pages_json, dict)\n        self.pages_json = pages_json\n        self.page = page\n        self.last_count = None\n    def show(self):\n        r = json.dumps(self.pages_json, indent=4, ensure_ascii=False)\n        print(r)",
+        "detail": "monster.manga.management.commands._api_manga_parser",
+        "documentation": {}
+    },
+    {
+        "label": "OldCommentToDB",
+        "kind": 6,
+        "importPath": "monster.manga.management.commands._api_manga_parser",
+        "description": "monster.manga.management.commands._api_manga_parser",
+        "peekOfCode": "class OldCommentToDB:\n    async def _json_to_model(self, comment:dict, page:Page):    \n        data = {}\n        data['id'] = comment.get('id')\n        if comment.get('root_id'):\n            data['root_id'] = await Comment.objects.aget(id=comment.get('root_id')) \n        else:\n            data['root_id'] = None\n        if comment.get('parent_comment'):\n            data['parent_comment'] = await Comment.objects.aget(id=comment.get('parent_comment')) ",
+        "detail": "monster.manga.management.commands._api_manga_parser",
+        "documentation": {}
+    },
+    {
+        "label": "CommentsParser",
+        "kind": 6,
+        "importPath": "monster.manga.management.commands._comments_parser",
+        "description": "monster.manga.management.commands._comments_parser",
+        "peekOfCode": "class CommentsParser:\n    def __init__(self) -> None:\n        self.scraper = cfscrape.create_scraper()\n        self.death_code = [404, 422]\n        self.loop = asyncio.get_event_loop()\n    async def create_loop(self):\n        self.loop = asyncio.get_running_loop()\n    def _fetch_data(self, url, headers=None):\n        while True:\n            try:",
+        "detail": "monster.manga.management.commands._comments_parser",
         "documentation": {}
     },
     {
@@ -1558,6 +1878,96 @@
         "documentation": {}
     },
     {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0020_page_ratio",
+        "description": "monster.manga.migrations.0020_page_ratio",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0019_alter_page_updated_at'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='page',\n            name='ratio',\n            field=models.FloatField(default=0.0),\n        ),",
+        "detail": "monster.manga.migrations.0020_page_ratio",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0021_comment_deleted_comment_updated_at",
+        "description": "monster.manga.migrations.0021_comment_deleted_comment_updated_at",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0020_page_ratio'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='comment',\n            name='deleted',\n            field=models.PositiveSmallIntegerField(null=True),\n        ),",
+        "detail": "monster.manga.migrations.0021_comment_deleted_comment_updated_at",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0022_alter_comment_deleted_alter_comment_updated_at",
+        "description": "monster.manga.migrations.0022_alter_comment_deleted_alter_comment_updated_at",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0021_comment_deleted_comment_updated_at'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='comment',\n            name='deleted',\n            field=models.PositiveSmallIntegerField(default=None, null=True),\n        ),",
+        "detail": "monster.manga.migrations.0022_alter_comment_deleted_alter_comment_updated_at",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0023_remove_comment_updated_at",
+        "description": "monster.manga.migrations.0023_remove_comment_updated_at",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0022_alter_comment_deleted_alter_comment_updated_at'),\n    ]\n    operations = [\n        migrations.RemoveField(\n            model_name='comment',\n            name='updated_at',\n        ),\n    ]",
+        "detail": "monster.manga.migrations.0023_remove_comment_updated_at",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0024_comment_updated_at",
+        "description": "monster.manga.migrations.0024_comment_updated_at",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0023_remove_comment_updated_at'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='comment',\n            name='updated_at',\n            field=models.DateTimeField(default=None, null=True),\n        ),",
+        "detail": "monster.manga.migrations.0024_comment_updated_at",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0025_remove_comment_updated_at",
+        "description": "monster.manga.migrations.0025_remove_comment_updated_at",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0024_comment_updated_at'),\n    ]\n    operations = [\n        migrations.RemoveField(\n            model_name='comment',\n            name='updated_at',\n        ),\n    ]",
+        "detail": "monster.manga.migrations.0025_remove_comment_updated_at",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0026_comment_updated_at",
+        "description": "monster.manga.migrations.0026_comment_updated_at",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0025_remove_comment_updated_at'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='comment',\n            name='updated_at',\n            field=models.DateTimeField(default=None, null=True),\n        ),",
+        "detail": "monster.manga.migrations.0026_comment_updated_at",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0027_alter_comment_relation_id",
+        "description": "monster.manga.migrations.0027_alter_comment_relation_id",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0026_comment_updated_at'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='comment',\n            name='relation_id',\n            field=models.PositiveIntegerField(null=True),\n        ),",
+        "detail": "monster.manga.migrations.0027_alter_comment_relation_id",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0028_team_model",
+        "description": "monster.manga.migrations.0028_team_model",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0027_alter_comment_relation_id'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='team',\n            name='model',\n            field=models.CharField(max_length=10, null=True),\n        ),",
+        "detail": "monster.manga.migrations.0028_team_model",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "monster.manga.migrations.0029_alter_comment_post_page_alter_comment_user",
+        "description": "monster.manga.migrations.0029_alter_comment_post_page_alter_comment_user",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('manga', '0028_team_model'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='comment',\n            name='post_page',\n            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='manga.page'),\n        ),",
+        "detail": "monster.manga.migrations.0029_alter_comment_post_page_alter_comment_user",
+        "documentation": {}
+    },
+    {
         "label": "MangaConfig",
         "kind": 6,
         "importPath": "monster.manga.apps",
@@ -1598,7 +2008,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Team(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True) # id\n    slug = models.CharField(max_length=255) # slug\n    slug_url = models.CharField(max_length=255, unique=True) # slug_url\n    name = models.CharField(max_length=255) # name\n    cover = models.JSONField() # cover\n    details = models.JSONField(null=True)\n    vk = models.CharField(max_length=255, null=True) # name\n    discord = models.CharField(max_length=255, null=True) # name\n    class Meta:",
+        "peekOfCode": "class Team(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True) # id\n    slug = models.CharField(max_length=255) # slug\n    slug_url = models.CharField(max_length=255, unique=True) # slug_url\n    name = models.CharField(max_length=255) # name\n    cover = models.JSONField() # cover\n    details = models.JSONField(null=True)\n    model = models.CharField(max_length=10, null=True)\n    vk = models.CharField(max_length=255, null=True) # name\n    discord = models.CharField(max_length=255, null=True) # name",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1697,7 +2107,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Page(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True) # id\n    chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='pages')\n    image = models.CharField(max_length=255, null=True) # image\n    slug = models.PositiveSmallIntegerField(null=False) # slug\n    external = models.PositiveSmallIntegerField(null=False) # external\n    chunks = models.PositiveSmallIntegerField(null=False) # chunks\n    #chapter_id = models.PositiveIntegerField(null=False, unique=True) # chapter_id\n    created_at = models.DateTimeField(null=False) # created_at\n    updated_at = models.DateTimeField(null=True) # updated_at",
+        "peekOfCode": "class Page(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True) # id\n    chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='pages')\n    image = models.CharField(max_length=255, null=True) # image\n    slug = models.PositiveSmallIntegerField(null=False) # slug\n    external = models.PositiveSmallIntegerField(null=False) # external\n    chunks = models.PositiveSmallIntegerField(null=False) # chunks\n    ratio = models.FloatField(null=False, default=float(0.0))\n    created_at = models.DateTimeField(null=False) # created_at\n    updated_at = models.DateTimeField(null=True) # updated_at",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -1706,7 +2116,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Comment(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    comment = models.TextField(null=False)\n    created_at = models.DateTimeField(null=False)\n    comment_level = models.PositiveSmallIntegerField(null=False)\n    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')\n    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')\n    post_page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='pages')\n    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE, related_name='users')\n    votes_up = models.PositiveIntegerField(null=False)",
+        "peekOfCode": "class Comment(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')\n    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')\n    comment_level = models.PositiveSmallIntegerField(null=False)\n    comment = models.TextField(null=False)\n    created_at = models.DateTimeField(null=False)\n    updated_at = models.DateTimeField(null=True, default=None)\n    post_page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='comments')\n    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE, related_name='comments')",
         "detail": "monster.manga.models",
         "documentation": {}
     },

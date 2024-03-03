@@ -2,3 +2,5 @@
 */options.py
 **/logs
 **/__pycache__
+*\.json
+monster/manga/management/commands/chapter_json.json

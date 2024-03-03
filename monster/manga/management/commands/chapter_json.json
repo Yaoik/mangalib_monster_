@@ -1,0 +1,142 @@
+[
+    {
+        "id": 2835848,
+        "index": 1,
+        "item_number": 1,
+        "volume": "1",
+        "number": "1",
+        "number_secondary": "1",
+        "name": "Кобаяши и Тору",
+        "branches_count": 1,
+        "branches": [
+            {
+                "id": 2835848,
+                "branch_id": null,
+                "created_at": "2024-02-22T07:20:32.000000Z",
+                "teams": [
+                    {
+                        "id": 53364,
+                        "slug": "lolka-morgo",
+                        "slug_url": "53364--lolka-morgo",
+                        "model": "team",
+                        "name": "lolka_morgo",
+                        "cover": {
+                            "filename": "ltErGUHnL8ds",
+                            "thumbnail": "/uploads/team/lolka-morgo/cover/ltErGUHnL8ds_thumb.jpg",
+                            "default": "/uploads/team/lolka-morgo/cover/ltErGUHnL8ds_250x350.jpg"
+                        }
+                    }
+                ],
+                "user": {
+                    "username": "Lolka1233",
+                    "id": 4825625
+                }
+            }
+        ]
+    },
+    {
+        "id": 2838314,
+        "index": 2,
+        "item_number": 2,
+        "volume": "1",
+        "number": "2",
+        "number_secondary": "1",
+        "name": "Кобаяши и Жаренное мясо",
+        "branches_count": 1,
+        "branches": [
+            {
+                "id": 2838314,
+                "branch_id": null,
+                "created_at": "2024-02-23T23:33:02.000000Z",
+                "teams": [
+                    {
+                        "id": 53364,
+                        "slug": "lolka-morgo",
+                        "slug_url": "53364--lolka-morgo",
+                        "model": "team",
+                        "name": "lolka_morgo",
+                        "cover": {
+                            "filename": "ltErGUHnL8ds",
+                            "thumbnail": "/uploads/team/lolka-morgo/cover/ltErGUHnL8ds_thumb.jpg",
+                            "default": "/uploads/team/lolka-morgo/cover/ltErGUHnL8ds_250x350.jpg"
+                        }
+                    }
+                ],
+                "user": {
+                    "username": "Lolka1233",
+                    "id": 4825625
+                }
+            }
+        ]
+    },
+    {
+        "id": 2838316,
+        "index": 3,
+        "item_number": 3,
+        "volume": "1",
+        "number": "3",
+        "number_secondary": "1",
+        "name": "Кобаяши и Странные дела",
+        "branches_count": 1,
+        "branches": [
+            {
+                "id": 2838316,
+                "branch_id": null,
+                "created_at": "2024-02-23T23:33:46.000000Z",
+                "teams": [
+                    {
+                        "id": 53364,
+                        "slug": "lolka-morgo",
+                        "slug_url": "53364--lolka-morgo",
+                        "model": "team",
+                        "name": "lolka_morgo",
+                        "cover": {
+                            "filename": "ltErGUHnL8ds",
+                            "thumbnail": "/uploads/team/lolka-morgo/cover/ltErGUHnL8ds_thumb.jpg",
+                            "default": "/uploads/team/lolka-morgo/cover/ltErGUHnL8ds_250x350.jpg"
+                        }
+                    }
+                ],
+                "user": {
+                    "username": "Lolka1233",
+                    "id": 4825625
+                }
+            }
+        ]
+    },
+    {
+        "id": 2843484,
+        "index": 4,
+        "item_number": 4,
+        "volume": "1",
+        "number": "4",
+        "number_secondary": "1",
+        "name": "Тору и Стоматология",
+        "branches_count": 1,
+        "branches": [
+            {
+                "id": 2843484,
+                "branch_id": null,
+                "created_at": "2024-02-27T20:00:00.000000Z",
+                "teams": [
+                    {
+                        "id": 53364,
+                        "slug": "lolka-morgo",
+                        "slug_url": "53364--lolka-morgo",
+                        "model": "team",
+                        "name": "lolka_morgo",
+                        "cover": {
+                            "filename": "ltErGUHnL8ds",
+                            "thumbnail": "/uploads/team/lolka-morgo/cover/ltErGUHnL8ds_thumb.jpg",
+                            "default": "/uploads/team/lolka-morgo/cover/ltErGUHnL8ds_250x350.jpg"
+                        }
+                    }
+                ],
+                "user": {
+                    "username": "Lolka1233",
+                    "id": 4825625
+                }
+            }
+        ]
+    }
+]

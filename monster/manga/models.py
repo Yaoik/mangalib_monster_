@@ -44,7 +44,7 @@ class Team(models.Model):
     name = models.CharField(max_length=255) # name
     cover = models.JSONField() # cover
     details = models.JSONField(null=True)
-    
+    model = models.CharField(max_length=10, null=True)
     vk = models.CharField(max_length=255, null=True) # name
     discord = models.CharField(max_length=255, null=True) # name
 
@@ -190,11 +190,13 @@ class Manga(models.Model):
         assert isinstance(q, models.QuerySet)
         return q
     
+    def get_all_pages(self):
+        return Page.objects.filter(chapter_id__manga_id=self)
     #total_mangas = Manga.objects.filter(prior).count()
     #logging.info(f'generate_random_mangas {total_mangas=}')
     #used_indexes = set([i for i in range(1, total_mangas + 1)])
     #random_indexes = random.sample(all_mangas, 1)
-    
+     
     @staticmethod
     def generate_random_mangas(priority=0):
         logging.info(f'Запущен generate_random_mangas с приоритетом {priority}')
@@ -259,7 +261,11 @@ class Chapter(models.Model):
         verbose_name = 'Глава'
 
     def __str__(self):
-        return f'{self.id}'
+        return f'Глава {self.id}'
+    
+    @property
+    def href(self):
+        return f'https://test-front.mangalib.me/ru/{self.manga_id.slug_url}/read/v{self.volume}/c{self.number}'
     
     def get_all_pages(self):
         q:models.QuerySet[Page] = self.pages.all() # type: ignore
@@ -280,7 +286,7 @@ class Chapter(models.Model):
     @property       
     async def apages_urls(self):
         return f'https://api.lib.social/api/manga/{self.manga_id.slug_url}/chapter?number={self.number}&volume={self.volume}'         
-                
+          
 class Page(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True) # id
     chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='pages')
@@ -288,12 +294,15 @@ class Page(models.Model):
     slug = models.PositiveSmallIntegerField(null=False) # slug
     external = models.PositiveSmallIntegerField(null=False) # external
     chunks = models.PositiveSmallIntegerField(null=False) # chunks
-    #chapter_id = models.PositiveIntegerField(null=False, unique=True) # chapter_id
+    ratio = models.FloatField(null=False, default=float(0.0))
     created_at = models.DateTimeField(null=False) # created_at
     updated_at = models.DateTimeField(null=True) # updated_at
     height = models.PositiveSmallIntegerField(null=False) # height
     width = models.PositiveSmallIntegerField(null=False) # width
     url = models.CharField(max_length=255, null=True) # url
+    
+    #chapter_id = models.PositiveIntegerField(null=False, unique=True) # chapter_id
+    ids = None
     
     class Meta:
         verbose_name_plural = 'Страница'
@@ -302,26 +311,53 @@ class Page(models.Model):
     def __str__(self):
         return f'{self.id}'
 
+    @classmethod
+    def random(cls):
+        if cls.ids is None:
+            cls.ids = tuple(cls.objects.all().values_list('pk', flat=True))
+        page = cls.objects.filter(id=random.choice(cls.ids)).first()
+        assert page is not None
+        return page
+    
+    def get_comments_href(self, page):
+        return f'https://api.lib.social/api/comments?page={page}&post_id={self.chapter_id.id}&post_page={self.slug}&post_type=chapter&sort_by=votes_up&sort_type=desc'
+
+    def get_old_comments_href(self, page):
+        return f'https://mangalib.me/api/v2/comments?page={page}&post_id={self.chapter_id.id}&chapterPage={self.slug}&type=chapter&order=best'
+        return f'https://api.lib.social/api/comments?page={page}&post_id={self.chapter_id.id}&post_page={self.slug}&post_type=chapter&sort_by=votes_up&sort_type=desc'
+        # https://api.lib.social/api/comments?page=1&post_id=142477&post_type=chapter&post_page=5&sort_by=votes_up&sort_type=desc
+        # https://mangalib.me/api/v2/comments?page=1&post_id=142477&type=chapter&order=best&chapterPage=5
+        
+    @property
+    def img_href(self):
+        return f'https://img33.imgslib.link{self.url}'
+    
+    @property
+    def href(self):
+        return f'{self.chapter_id.href}?p={self.slug}'
+       
 class Comment(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
+    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')
+    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')
+    comment_level = models.PositiveSmallIntegerField(null=False)
     comment = models.TextField(null=False)
     created_at = models.DateTimeField(null=False)
-    comment_level = models.PositiveSmallIntegerField(null=False)
-    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')
-    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')
-    post_page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='pages')
-    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE, related_name='users')
+    updated_at = models.DateTimeField(null=True, default=None)
+    post_page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE, related_name='comments')
     votes_up = models.PositiveIntegerField(null=False)
     votes_down = models.PositiveIntegerField(null=False)
     relation_type = models.CharField(max_length=255)
-    relation_id = models.PositiveIntegerField(null=False)
+    relation_id = models.PositiveIntegerField(null=True)
+    deleted = models.PositiveSmallIntegerField(null=True, default=None)
     
     class Meta:
         verbose_name_plural = 'Глава'
         verbose_name = 'Глава'
 
     def __str__(self):
-        return f'Комментарий {str(self.user)}'
+        return f'Комментарий {str(self.user)} {self.id}'
 
 
 

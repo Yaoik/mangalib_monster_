@@ -1,8 +1,9 @@
+import copy
 import json
 import logging
+import time
 from typing import Any
-from django.db import IntegrityError
-from manga.models import Page, Chapter, MangaUser, Manga, AgeRestriction, MangaType, Moderated, Team, Tag, Genre, Publisher, MangaStatus, ScanlateStatus, People, Branch
+from manga.models import Comment, Page, Chapter, MangaUser, Manga, AgeRestriction, MangaType, Moderated, Team, Tag, Genre, Publisher, MangaStatus, ScanlateStatus, People, Branch
 import asyncio
 
 class MangaToDb:
@@ -165,12 +166,11 @@ class PagesToDB:
         self.pages_json = pages_json
         self.chapter = chapter
 
-        
     def show(self):
         print(json.dumps(self.pages_json, indent=4, ensure_ascii=False))
         
     async def create_models(self):
-        logging.info(f'create_models start')
+        logging.debug(f'create_models start')
         pages_json = self.pages_json.copy()
         for page in pages_json:
             page['chapter_id'] = self.chapter
@@ -179,20 +179,150 @@ class PagesToDB:
             logging.debug(f'create_models {page.get("updated_at")=}')
             if page.get("updated_at", '').startswith('-'):
                 page['updated_at'] = None
+            try:
+                float(page['ratio'])
+            except ValueError:
+                page['ratio'] = 0.0
+                
         pages_data = [Page(**page) for page in self.pages_json]
         logging.debug(f'create_models {pages_data=}')
         pages = await Page.objects.abulk_create(pages_data, ignore_conflicts=True)
         logging.debug(f'create_models {pages=}')
         logging.debug(f'create_models {len(pages)=}')
-        #logging.info(f'{self.pages_json=}')
-        logging.info(f'create_models end')
+        logging.debug(f'create_models end')
         return pages
 
+class CommentToDB:
+    def __init__(self, pages_json:dict[str, Any], page:Page) -> None:
+        assert isinstance(page, Page)
+        assert isinstance(pages_json, dict)
+        self.pages_json = pages_json
+        self.page = page
+        self.last_count = None
 
-m: list[list[int]] = [
-[0, 0, 0],
-[0, 1, 2],
-[0, 0, 1],
-]
- 
+    def show(self):
+        r = json.dumps(self.pages_json, indent=4, ensure_ascii=False)
+        print(r)
+        with open('C:\\Users\\Shamrock\\Desktop\\mangalib_monster обход блокировки ботов\\monster\\manga\\management\\commands\\res.json', 'w+', encoding='utf-8') as f:
+            f.write(r)
+    
+    async def json_to_model(self, root:dict):    
+        data = copy.deepcopy(root)
+        del data['votes']
+        user, is_create = await MangaUser.objects.aget_or_create(id=root.get('user', {}).get('id'), defaults=root.get('user', {}))
+        data['user'] = user
+            
+        data['votes_up'] = root.get('votes', {}).get('up', 0)
+        data['votes_down'] = root.get('votes', {}).get('down', 0)
+            
+        data['post_page'] = self.page
+        
+        return Comment(**data)
+    
+    async def recursion_create(self, comments_exists: dict[int, Comment], comments:list):
+        comments_obj = []
+        i = 0
+        while i<len(comments):
+            com = comments[i]
+            if comments_exists.get(com.get('parent_comment', 0), False):
+                data = copy.deepcopy(com)
+                data['parent_comment'] = comments_exists.get(data.get('parent_comment'))
+                data['root_id'] = comments_exists.get(data.get('root_id'))
+                c = await self.json_to_model(data)
+                comments_obj.append(c)
+                del comments[i]
+            else:
+                i+=1
+                
+        comments_obj = await Comment.objects.abulk_create(comments_obj, ignore_conflicts=True)
+        new: dict[int, Comment] = {i.id:i for i in comments_obj}
+        comments_exists.update(new)
+        if len(comments)>0 and not len(comments) == self.last_count:
+            self.last_count = len(comments)
+            return await self.recursion_create(comments_exists, comments)
+        val = tuple(comments_exists.values())
+        return val
+    
+    async def create_models(self):
+        roots_list = []
+        for root in self.pages_json.get('root', []):
+            root = await self.json_to_model(root)
+            roots_list.append(root)
+        try:
+            del self.pages_json['root']
+        except KeyError as e:
+            logging.error(f'ERROR {self.pages_json=}')
+            raise KeyError(e)
+        
+        roots = await Comment.objects.abulk_create(roots_list, ignore_conflicts=True)
+        comments_exists = {i.id:i for i in roots}
+        extend = await self.recursion_create(comments_exists, self.pages_json.get('replies', {}))
+        return tuple(extend)
 
+
+
+class OldCommentToDB:
+        
+    async def _json_to_model(self, comment:dict, page:Page):    
+        data = {}
+        data['id'] = comment.get('id')
+        if comment.get('root_id'):
+            data['root_id'] = await Comment.objects.aget(id=comment.get('root_id')) 
+        else:
+            data['root_id'] = None
+        if comment.get('parent_comment'):
+            data['parent_comment'] = await Comment.objects.aget(id=comment.get('parent_comment')) 
+        else:
+            data['parent_comment'] = None
+        data['comment_level'] = comment.get('comment_level')
+        data['post_page'] = page
+        data['votes_up'] = comment.get('votes_up')
+        data['votes_down'] = comment.get('votes_down')
+        data['deleted'] = comment.get('deleted')
+        data['comment'] = comment.get('comment')
+        data['created_at'] = comment.get('created_at', '').replace(' ', 'T') + '.000000Z'
+        data['updated_at'] = comment.get('updated_at', '').replace(' ', 'T') + '.000000Z'
+        user = comment.get('user') 
+        assert isinstance(user, dict)
+        data['user'], is_created = await MangaUser.objects.aget_or_create(id=user.get('id'), defaults=user)
+        return Comment(**data)
+    
+    async def create_models(self, data:dict[Page, dict[Any, list[dict]]]):
+        comments_list = []
+        for page, comments_data in data.items():
+            for comment in comments_data.get('comments', []):
+                comment = await self._json_to_model(comment, page)
+                comments_list.append(comment)
+            del comments_data['comments']
+        #start = time.time()
+        comments = await Comment.objects.abulk_create(comments_list, ignore_conflicts=True)
+        #logging.info(f'comments time = {time.time()-start}s')
+        
+        comments_exists = {i.id:i for i in comments}
+        #logging.info(f'create_models {len(comments)=}')
+        for page, comments_data in data.items():
+            replies = comments_data.get('replies', [])
+            while len(replies)>0:
+                l = len(replies)
+                #logging.info(f'{replies=}')
+                create = []
+                i = 0
+                while len(replies)>i:
+                    replie = replies[i]
+                    if comments_exists.get(replie.get('parent_comment', 0), False):
+                        #logging.info(f'{replie=}')
+                        create.append(await self._json_to_model(replie, page))
+                        replies.pop(i)
+                    else:
+                        i+=1
+                #start = time.time()
+                new_comments = await Comment.objects.abulk_create(create, ignore_conflicts=True)
+                #logging.info(f'new_comments time = {time.time()-start}s')
+                for com in new_comments:
+                    comments_exists[com.id] = com
+                comments.extend(new_comments)
+                if len(replies) == l:
+                    break
+        if len(comments)>0:
+            logging.info(f'+{len(comments)} comments')
+        return set(comments)

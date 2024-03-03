@@ -11,10 +11,13 @@ from logging.handlers import TimedRotatingFileHandler
 import time
 from asgiref.sync import sync_to_async
 from django.db.models import Max, QuerySet
-from manga.models import Manga, Chapter, Page, Moderated, Team
-from ..commands._api_manga_parser import MangaToDb, ChaptersToDb, PagesToDB
+from manga.models import Manga, Chapter, Page, Moderated, Team, Comment
+from ..commands._api_manga_parser import MangaToDb, ChaptersToDb, PagesToDB, CommentToDB, OldCommentToDB
 import requests
 from django.utils.dateparse import parse_datetime
+import string
+from ..commands._comments_parser import CommentsParser
+
 
 #logging.basicConfig(level=logging.DEBUG, filename=f"logs\\pars_py_log_{time.time()}.log", filemode="w+", format="%(asctime)s %(levelname)s %(message)s", encoding='UTF-8')
 #
@@ -71,10 +74,29 @@ class Parser:
         self.slug = self._get_slug(self.clear_url)
         self.data_url = self._data_url(self.slug)
         self.manga_data = False
-        self.death_code = [404]
+        self.death_code = [404, 422]
         self.manga_object = None
-        if (x:=Manga.objects.filter(slug=self.slug)).exists():
-            self.manga_object = x.first()
+        headers = {
+            'authority': 'api.lib.social',
+            'accept': '*/*',
+            'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+            'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDU5N2YzYmViYTdiYzU1NzZjMjUxZGQwMTBkM2ExYjU1NDIxOWVhZmU5N2VkNDIxOWI1MzZkZDg1ZWRjMWY4NTU5MDIyZTJkNDc1M2YxODciLCJpYXQiOjE3MDcyMzM5MzguMjI1MzMyLCJuYmYiOjE3MDcyMzM5MzguMjI1MzMzLCJleHAiOjE3MDk3Mzk1MzguMjE5OTE1LCJzdWIiOiI0MjU1MDIiLCJzY29wZXMiOltdfQ.Q0HCTNpoX791Y-FhvQTbrjzQ634LgrUxP6pp46da4-vbAnkdPllNZrIALOwJoevG6Haj5OkBNU415ZFmvFA9RuNqFxi7EpNFU7zNcHOqEmMVShkxpbikIRJaLv3RpAtJibLQWKsMclw0mc5FohGb6xpb7tCsIFRWP8JBfPkVUZX5Q9mS2T6Aawf0vpWNuV6go9bsihbTz8A1UXxwQ6KsROavrKLpq91f48tBNjlW71hwpLPVITVJlbhSubTioODt1BIIRYHH_T2Zk3_OMiS_4wQIgWlaCSKccWZerrJ5g-XmMMWxgspfpUm8y__x62n-T3LTxl1bSTFI8UXPXg-oGHt6rHSU1-d9nSSN8AOagHYsWvVvsiRyb-YkMXs6ItKjHyHrjohpxpMBllY58sAPp0zIavNaEIC3E4_PmZ8oyLTmTK0IJK3ofvsQV0grN04qPowDcrNE_t-RpEm3qoE3Yfl3_ZFE6ZJP94ck9ZEL-eIkbq7WeVS-qZlzjrZskXOgbgNdkH3Lhk-XMgAZwFKywMNnVZ5Gos9v4FArVcOW-vSgq3tkV4Qccx-nlYYMGg_mPbF2C9QMFiwWNn6i-k3yE2MCikm-9lqZHxQ3AWadWAKEffkH0VJiNYCQSmaDai6e8sz1m-I3ZQ5zESNQgJTzaoKFTthR_-oYfxC4Qqvdyjs',
+            'content-type': 'application/json',
+            'dnt': '1',
+            'origin': 'https://test-front.mangalib.me',
+            'referer': 'https://test-front.mangalib.me/',
+            'sec-ch-ua': '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'cross-site',
+            'site-id': '1',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+        }
+        self.headers = headers
+        #if (x:=Manga.objects.filter(slug=self.slug)).exists():
+        #    self.manga_object = x.first()
         
     @staticmethod
     def _clean_url(url:str):
@@ -90,20 +112,27 @@ class Parser:
     def _data_url(slug:str):
         return f'https://api.lib.social/api/manga/{slug}?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format'
     
-    async def _fetch_data(self, url):
+    async def _fetch_data(self, url, headers=None):
         while True:
             try:
-                async with aiohttp.ClientSession() as session:
+                #headers_t = {'authorization':headers['authorization']}
+                #logging.info(headers_t)
+                async with aiohttp.ClientSession(headers=headers) as session:
                     async with session.get(url) as response:
                         if response.status in self.death_code:
                             logger.warning(f'{url=}\t{response.status=}')
                             return None
                         if response.status == 429:
-                            logging.warning(f'{url=}\t{response.status=}')
-                            await asyncio.sleep(float(response.headers.get('Retry-After', random.random()+random.random())))
+                            time_sleep = float(response.headers.get("Retry-After", random.random()+random.random()))/2
+                            logging.warning(f'{url=}\t{response.status=}\t{time_sleep}s\t{headers is None=}')
+                            await asyncio.sleep(time_sleep)
                             return await self._fetch_data(url)
-                        assert response.status < 300, f'\n{response.url}\n{response.status=}'
-                        logging.debug(f'Запрос {url} сделан')
+                        if response.status >= 500:
+                            logging.warning(f'{url=}\t{response.status=}\t{32}s')
+                            await asyncio.sleep(32)
+                            return await self._fetch_data(url)
+                        assert response.status < 300 or response.status >= 500, f'\n{response.url}\n{response.status=}'
+                        logging.debug(f'response {url} ok')
                         return await response.json(encoding='UTF-8')
             except aiohttp.ClientConnectorError as e:
                 logging.error(e)
@@ -121,19 +150,6 @@ class Parser:
 
         for coroutine in asyncio.as_completed([execute_with_semaphore(coroutine) for coroutine in coroutines]):
             yield await coroutine
-
-    async def func3(self, url_list):
-        coroutines = [self._fetch_data(url) for url in url_list]
-        coroutines = [c for c in coroutines if not c is None]
-        max_concurrent = 32  # Здесь вы можете установить максимальное количество одновременно выполняющихся корутин
-
-        tasks = []
-        async for result in self._async_generator(max_concurrent, coroutines):
-            if not result is None:
-                task = asyncio.create_task(self.func2(result))
-                tasks.append(task)
-        results = await asyncio.gather(*tasks)
-        return results
 
     async def _fetch_manga(self):
         self.manga_data = await self._fetch_data(self.data_url)
@@ -155,7 +171,9 @@ class Parser:
         self.manga_object: Manga | None = manga
         return manga
 
-    async def parse_chapters(self):
+    async def parse_chapters(self, manga:Manga|None=None):
+        if manga is not None:
+            self.manga_object = manga
         if self.manga_object is None:
             self.manga_object = await self.parse_manga()
         assert self.manga_object is not None
@@ -185,14 +203,17 @@ class Parser:
                     f.write(chapter_parser.show())
             raise Exception(e)
     
-    async def parse_pages_from_chapters(self, chapters:QuerySet[Chapter]):
-        logging.info(f'parse_pages_from_chapters start')
-        chapters_async = await sync_to_async(list)(chapters)
-        logging.info(f'{[i.id for i in chapters_async]}')
+    async def parse_pages_from_chapters(self, chapters:QuerySet[Chapter]|list[Chapter]) -> dict[Chapter, list[Page]]:
+        logging.debug(f'parse_pages_from_chapters start')
+        if isinstance(chapters, QuerySet):
+            chapters_async = await sync_to_async(list)(chapters)
+        else:
+            chapters_async = chapters
+        logging.debug(f'{[i.id for i in chapters_async]=}')
         coroutines = []
         for chapter in chapters_async:
             assert isinstance(chapter, Chapter)
-            coroutine = self._fetch_data_with_inputs(chapter.pages_urls, chapter=chapter)
+            coroutine = self._fetch_data_with_inputs(await sync_to_async(lambda: chapter.pages_urls)(), chapter=chapter)
             coroutines.append(coroutine) # тут выполняются запросы по url
         logging.debug(f'coroutines created')
         max_concurrent = 2
@@ -208,11 +229,11 @@ class Parser:
         for result in results:
             if isinstance(result, dict):
                 result_dict.update(result)
-        logging.info(f'parse_pages_from_chapters end')
+        logging.debug(f'parse_pages_from_chapters end')
         return result_dict
     
     async def parse_pages_from_chapter(self, chapter:dict[Any, Any], chapter_model:Chapter) -> dict[Chapter, list[Page]]:
-        logging.info(f'parse_pages_from_chapter start')
+        logging.debug(f'parse_pages_from_chapter start')
         assert isinstance(chapter_model, Chapter)
         logging.debug(f'parse_pages_from_chapter {chapter_model=}')
         #logging.debug(f'parse_pages_from_chapter {chapter.get("data")}')
@@ -242,11 +263,105 @@ class Parser:
         assert isinstance(pages, list)
         if len(pages)>0:
             assert isinstance(pages[0], Page)
-        logging.info(f'parse_pages_from_chapter end')
+        logging.debug(f'parse_pages_from_chapter end')
         return {chapter_model:pages}
 
+    async def all_pages_from_all_chapters(self, chapters:QuerySet[Chapter]):
+        chapters_async = await sync_to_async(list)(chapters)
+        coroutines = []
+        for chapter in chapters_async:
+            assert isinstance(chapter, Chapter)
+            coroutine = self.parse_comments_from_pages(chapter.get_all_pages())
+            coroutines.append(coroutine)
+        max_concurrent = 16
+        tasks = []
+        async for result in self._async_generator(max_concurrent, coroutines): 
+            #task = asyncio.create_task() 
+            #logging.info(f'{result=}')
+            tasks.append(result)
+        return tasks
+        #results = await asyncio.gather(*tasks)
+        
+    async def parse_comments_from_pages(self, pages:QuerySet[Page]):
+        pages_async = await sync_to_async(list)(pages)
+        coroutines = []
+        for page in pages_async:
+            assert isinstance(page, Page)
+            href = await sync_to_async(lambda: page.href)()
+            logging.info(f'{href=}')
+            coroutine = self.parse_comments_from_page(page, result_data={})
+            coroutines.append(coroutine)
+            
+        max_concurrent = 2
+        tasks = []
+        async for result in self._async_generator(max_concurrent, coroutines): 
+            pages_json, page = result[0], result[1]
+            assert isinstance(pages_json, dict)
+            assert isinstance(page, Page)
+            pages_json = pages_json.get('data', {})
+            assert isinstance(pages_json, dict)
+            if pages_json.get('replies', None) is None or pages_json.get('root', None) is None:
+                logging.critical(f'ERROR {pages_json=}')
+                logging.critical(f'ERROR {page.href}')
+                raise Exception('ASHFDIGVNBUHITW')
+            task = asyncio.create_task(CommentToDB(pages_json=pages_json, page=page).create_models()) 
+            tasks.append(task)
+        results = await asyncio.gather(*tasks)
+        res = []
+        for r in results:
+            res.extend(r)
+        return set(res)
+        
+    async def parse_comments_from_page(self, page:Page, i:int=1, *, result_data:dict):
+        response = await self._fetch_data(page.get_comments_href(i), headers=random.choice([self.headers, None]))
+        assert isinstance(response, dict)
+        assert isinstance(result_data, dict)
+        result_data_data:dict = result_data.setdefault('data', {})
+        result_data_replies:list = result_data_data.setdefault('replies', [])
+        result_data_root:list = result_data_data.setdefault('root', [])
+        
+        response_data = response.setdefault('data', {})
+        response_replies = response_data.setdefault('replies', [])
+        response_root = response_data.setdefault('root', [])
+        
+        result_data_replies.extend(response_replies)
+        result_data_root.extend(response_root)
+        
+        if not response.get('meta', {}).get('has_next_page', False):
+            return result_data, page
+        else:
+            return await self.parse_comments_from_page(page, i+1, result_data=result_data)
 
-
+    async def parse_all_comments_from_manga(self, manga:Manga):
+        logging.info(f'parse_all_comments_from_manga {manga=}')
+        chapters = await self.parse_chapters(manga)
+        assert chapters is not None, 'Нет глав'
+        pages = await self.parse_pages_from_chapters(chapters)
+        all_pages = []
+        for chapter, pages in pages.items():
+            for page in pages:
+                assert isinstance(page, Page)
+                all_pages.append(page)
+        comment_parser = CommentsParser()
+        comments_json = await comment_parser.parse_many_pages(all_pages)
+        
+        comment_db = OldCommentToDB()
+        tasks = []
+        for page, comments in comments_json.items():
+            tasks.append(comment_db.create_models({page:comments}))
+            
+        result = []
+        for i in await asyncio.gather(*tasks):
+            result.extend(i)
+        #comments_d = {}
+        #for page, comments in comments_json.items():
+        #    comments_d[page] = {'comments':[], 'replies':[]}
+        #    for comment in comments.get('comments', []):
+        #        comments_d[page]['comments'].append(comment)
+        #    for replie in comments.get('replies', []):
+        #        comments_d[page]['replies'].append(replie)
+        #logging.info(f'{comments_json=}')
+        return result
 
 
 def manga_urls_generator(page:int):
@@ -262,12 +377,12 @@ def manga_urls_generator(page:int):
             logging.error(f'{error=}')
             return False
 
-
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
     
     async def main(self):
         url = 'https://test-front.mangalib.me/ru/manga/7965--chainsaw-man?section=info'
+        return await Parser('https://test-front.mangalib.me/ru/manga/160510--dou-ganbattemo-ecchi-ni-nacchau-osananajimi?ui=425502').parse_manga()
         #parser = Parser(url)
         #print(parser.clear_url)
         #print(parser.data_url)
@@ -318,16 +433,77 @@ class Command(BaseCommand):
         res = asyncio.get_event_loop().run_until_complete(parser.parse_pages_from_chapters(chapters))
         logging.info(f'{res=}')
     
-    def handle(self, *args, **options):
-        asyncio.get_event_loop().run_until_complete(self.main())
-        manga = Manga.objects.get(name='Oyasumi Punpun')
-        manga = Manga.objects.get(slug_url='74210--osora')
-        #manga = Manga.objects.get(slug='chainsaw-man')
-        self.parse_pages(manga)
-        mangas = Manga.generate_random_mangas()
-        for manga in mangas:
-            self.parse_pages(manga)
+    def parse_comments(self, chapter:Chapter):
+        #commets = Comment.objects.all().delete()
+        parser = Parser()
+        res = asyncio.get_event_loop().run_until_complete(parser.parse_comments_from_pages(chapter.get_all_pages()))
+        logging.info(res)
+        logging.info(len(res))
     
+    def full_manga_parse(self, manga:Manga):
+        parser = Parser()
+        #chapters = manga.get_all_chapters()
+        logging.info(f'{manga.href=} {manga.id}')
+        #time.sleep(3)
+        #res = asyncio.get_event_loop().run_until_complete(parser.all_pages_from_all_chapters(chapters))
+        #time.sleep(3)
+        res = asyncio.get_event_loop().run_until_complete(parser.parse_all_comments_from_manga(manga))
+        return res
+        #logging.info(res)
+        #logging.info(len(res))
+    
+    def handle(self, *args, **options):
+        #manga = asyncio.get_event_loop().run_until_complete(self.main())
+        #assert isinstance(manga, Manga)
+        #manga = Manga.objects.get(slug_url='7965--chainsaw-man')
+        #manga = Manga.objects.get(slug_url='160510--dou-ganbattemo-ecchi-ni-nacchau-osananajimi')
+        #manga = Manga.objects.get(slug='chainsaw-man')
+        #self.parse_pages(manga)
+        #manga = Manga.objects.get(slug_url='7487--waltz')
+        #manga = Manga.objects.get(name='This Gorilla Will Die In 1 Day')
+        #logging.info(f'{manga=}')
+        #logging.info(f'{manga.id=}')
+        #.full_manga_parse(manga)
+        #manga = Manga.objects.get(name='Oyasumi Punpun')
+        #l = self.full_manga_parse(manga)
+        #logging.info(f'{l=}')
+        #logging.info(f'{len(l)=}')
+        from django.db.models import Count, Q, F, Value, Func
+        from django.db.models.functions import Concat
+        #start = time.time()
+        result = (
+            Page.objects
+              .values('ratio')
+              .annotate(total_pages=Count('id'))
+              #.filter(Q(total_comments=0) & Q(total_pages__gt=0))
+            )
+        #print(result)
+        #end = time.time()
+        #print(end-start)
+        href = Concat(Value('https://test-front.mangalib.me/ru/'), 'slug_url')
+                  #.filter(Q(release_date__gt=2000) & Q(release_date__lt=2010))
+                  #.order_by('-total_comments')
+        start = time.time()
+        result = (
+                Manga.objects
+                  .values('id')
+                  .annotate(total_comments=Count('chapters__pages__comments__id'), total_pages=Count('chapters__pages__id'))
+                  .filter(Q(total_comments=0) & Q(total_pages__gt=0))
+                )
+        #print(result)   
+        end = time.time()
+        print(end-start)
+        for i in result:
+            manga = Manga.objects.get(id=i['id'])
+            logger.info(f'{manga=}\t{manga.href}\t{i}')
+            try:
+                self.full_manga_parse(manga)
+            except AssertionError as e:
+                if e.args[0] == 'Нет глав':
+                    continue
+                else:
+                    print(e, e.args)
+                    raise e
 
 
 
