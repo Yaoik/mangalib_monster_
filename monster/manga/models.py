@@ -225,6 +225,13 @@ class MangaUser(models.Model):
     def __str__(self):
         return f'{self.username}'
     
+    def comments_href_new(self, page_num:int) -> str:
+        return f'https://test-front.mangalib.me/ru/user/{self.id}/comments?page={page_num}&sort_by=id&sort_type=desc'
+    
+    def comments_href_old(self, page_num:int) -> str:
+        return f'https://test-front.mangalib.me/ru/user/{self.id}/comments?page={page_num}'
+    
+    
 class Branch(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     branch_id = models.PositiveIntegerField(null=True)
@@ -256,12 +263,21 @@ class Chapter(models.Model):
     branches_count = models.PositiveSmallIntegerField(null=False)
     likes_count = models.PositiveIntegerField(null=True)
     
+    ids = None
     class Meta:
         verbose_name_plural = 'Глава'
         verbose_name = 'Глава'
 
     def __str__(self):
         return f'Глава {self.id}'
+    
+    @classmethod
+    def random(cls):
+        if cls.ids is None:
+            cls.ids = tuple(cls.objects.all().values_list('pk', flat=True))
+        page = cls.objects.filter(id=random.choice(cls.ids)).first()
+        assert page is not None
+        return page
     
     @property
     def href(self):
@@ -338,8 +354,8 @@ class Page(models.Model):
        
 class Comment(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
-    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')
-    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')
+    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')
+    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')
     comment_level = models.PositiveSmallIntegerField(null=False)
     comment = models.TextField(null=False)
     created_at = models.DateTimeField(null=False)
@@ -358,6 +374,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Комментарий {str(self.user)} {self.id}'
+
 
 
 

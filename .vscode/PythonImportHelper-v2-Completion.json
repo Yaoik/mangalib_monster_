@@ -232,7 +232,40 @@
         "documentation": {}
     },
     {
-        "label": "Max",
+        "label": "django.db.models",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Count",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Q",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "F",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "FloatField",
         "importPath": "django.db.models",
         "description": "django.db.models",
         "isExtraImport": true,
@@ -241,6 +274,22 @@
     },
     {
         "label": "QuerySet",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Value",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Func",
         "importPath": "django.db.models",
         "description": "django.db.models",
         "isExtraImport": true,
@@ -305,6 +354,14 @@
     },
     {
         "label": "Comment",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "MangaUser",
         "importPath": "manga.models",
         "description": "manga.models",
         "isExtraImport": true,
@@ -650,6 +707,30 @@
         "documentation": {}
     },
     {
+        "label": "Concat",
+        "importPath": "django.db.models.functions",
+        "description": "django.db.models.functions",
+        "isExtraImport": true,
+        "detail": "django.db.models.functions",
+        "documentation": {}
+    },
+    {
+        "label": "Cast",
+        "importPath": "django.db.models.functions",
+        "description": "django.db.models.functions",
+        "isExtraImport": true,
+        "detail": "django.db.models.functions",
+        "documentation": {}
+    },
+    {
+        "label": "ic",
+        "importPath": "icecream",
+        "description": "icecream",
+        "isExtraImport": true,
+        "detail": "icecream",
+        "documentation": {}
+    },
+    {
         "label": "BaseCommand",
         "importPath": "django.core.management",
         "description": "django.core.management",
@@ -689,6 +770,14 @@
         "isExtraImport": true,
         "importPath": "django.shortcuts",
         "description": "django.shortcuts",
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
         "detail": "django.shortcuts",
         "documentation": {}
     },
@@ -1198,6 +1287,14 @@
         "documentation": {}
     },
     {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
         "label": "migrations",
         "importPath": "django.db",
         "description": "django.db",
@@ -1254,6 +1351,14 @@
         "documentation": {}
     },
     {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
         "label": "AppConfig",
         "importPath": "django.apps",
         "description": "django.apps",
@@ -1267,6 +1372,22 @@
         "description": "django.apps",
         "isExtraImport": true,
         "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
         "documentation": {}
     },
     {
@@ -1487,6 +1608,15 @@
         "importPath": "monster.manga.management.commands.parser_api",
         "description": "monster.manga.management.commands.parser_api",
         "peekOfCode": "def manga_urls_generator(page:int):\n    response = requests.get(\n        f'https://api.lib.social/api/manga?fields[]=rate&fields[]=rate_avg&fields[]=userBookmark&site_id[]=1&page={page}',\n    )\n    if response.status_code<300:\n        try:\n            for manga in response.json().get('data'):\n                assert isinstance(manga, dict)\n                yield f\"https://test-front.mangalib.me/ru/manga/{manga.get('slug')}\"\n        except Exception as error:",
+        "detail": "monster.manga.management.commands.parser_api",
+        "documentation": {}
+    },
+    {
+        "label": "get_manga",
+        "kind": 2,
+        "importPath": "monster.manga.management.commands.parser_api",
+        "description": "monster.manga.management.commands.parser_api",
+        "peekOfCode": "def get_manga():\n    result = (\n        Manga.objects\n            .values('id')\n            .annotate(total_comments=Count('chapters__pages__comments', distinct=True))\n            .annotate(total_pages=Count('chapters__pages', distinct=True))\n            .annotate(avg_comments_per_page=Cast(F('total_comments') / F('total_pages'), FloatField()))\n            .annotate(total_chapters=Count('chapters', distinct=True))\n            .annotate(avg_comments_per_chapter=Cast(F('total_comments') / F('total_chapters'), FloatField()))\n            .iterator(chunk_size=10)",
         "detail": "monster.manga.management.commands.parser_api",
         "documentation": {}
     },
@@ -2080,7 +2210,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class MangaUser(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    username = models.CharField(max_length=255, null=False, unique=False)\n    avatar = models.JSONField(null=True, default=None)\n    class Meta:\n        verbose_name_plural = 'Пользователь'\n        verbose_name = 'Пользователь'\n    def __str__(self):\n        return f'{self.username}'\nclass Branch(models.Model):",
+        "peekOfCode": "class MangaUser(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    username = models.CharField(max_length=255, null=False, unique=False)\n    avatar = models.JSONField(null=True, default=None)\n    class Meta:\n        verbose_name_plural = 'Пользователь'\n        verbose_name = 'Пользователь'\n    def __str__(self):\n        return f'{self.username}'\n    def comments_href_new(self, page_num:int) -> str:",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -2116,7 +2246,7 @@
         "kind": 6,
         "importPath": "monster.manga.models",
         "description": "monster.manga.models",
-        "peekOfCode": "class Comment(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')\n    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')\n    comment_level = models.PositiveSmallIntegerField(null=False)\n    comment = models.TextField(null=False)\n    created_at = models.DateTimeField(null=False)\n    updated_at = models.DateTimeField(null=True, default=None)\n    post_page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='comments')\n    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE, related_name='comments')",
+        "peekOfCode": "class Comment(models.Model):\n    id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)\n    root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')\n    parent_comment = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='root_comment_foreigth_key')\n    comment_level = models.PositiveSmallIntegerField(null=False)\n    comment = models.TextField(null=False)\n    created_at = models.DateTimeField(null=False)\n    updated_at = models.DateTimeField(null=True, default=None)\n    post_page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='comments')\n    user = models.ForeignKey(MangaUser, on_delete=models.CASCADE, related_name='comments')",
         "detail": "monster.manga.models",
         "documentation": {}
     },
@@ -2152,7 +2282,7 @@
         "kind": 5,
         "importPath": "monster.monster.settings",
         "description": "monster.monster.settings",
-        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles', ",
         "detail": "monster.monster.settings",
         "documentation": {}
     },
@@ -2161,7 +2291,7 @@
         "kind": 5,
         "importPath": "monster.monster.settings",
         "description": "monster.monster.settings",
-        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'users',",
+        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles', \n    'users',",
         "detail": "monster.monster.settings",
         "documentation": {}
     },
@@ -2170,7 +2300,7 @@
         "kind": 5,
         "importPath": "monster.monster.settings",
         "description": "monster.monster.settings",
-        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'users',\n    'manga',\n    'rest_framework',",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles', \n    'users',\n    'manga',\n    'rest_framework', ",
         "detail": "monster.monster.settings",
         "documentation": {}
     },
@@ -2307,6 +2437,15 @@
         "description": "monster.monster.wsgi",
         "peekOfCode": "application = get_wsgi_application()",
         "detail": "monster.monster.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "NeuralNetworksConfig",
+        "kind": 6,
+        "importPath": "monster.neural_networks.apps",
+        "description": "monster.neural_networks.apps",
+        "peekOfCode": "class NeuralNetworksConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'neural_networks'",
+        "detail": "monster.neural_networks.apps",
         "documentation": {}
     },
     {

@@ -10,14 +10,16 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 import time
 from asgiref.sync import sync_to_async
-from django.db.models import Max, QuerySet
-from manga.models import Manga, Chapter, Page, Moderated, Team, Comment
+import django.db.models
+from manga.models import Manga, Chapter, Page, Moderated, Team, Comment, MangaUser
 from ..commands._api_manga_parser import MangaToDb, ChaptersToDb, PagesToDB, CommentToDB, OldCommentToDB
 import requests
 from django.utils.dateparse import parse_datetime
 import string
 from ..commands._comments_parser import CommentsParser
-
+from django.db.models import Count, Q, F, FloatField, QuerySet, Value, Func
+from django.db.models.functions import Concat, Cast
+from icecream import ic
 
 #logging.basicConfig(level=logging.DEBUG, filename=f"logs\\pars_py_log_{time.time()}.log", filemode="w+", format="%(asctime)s %(levelname)s %(message)s", encoding='UTF-8')
 #
@@ -332,9 +334,10 @@ class Parser:
         else:
             return await self.parse_comments_from_page(page, i+1, result_data=result_data)
 
-    async def parse_all_comments_from_manga(self, manga:Manga):
-        logging.info(f'parse_all_comments_from_manga {manga=}')
-        chapters = await self.parse_chapters(manga)
+    async def parse_all_comments_from_manga(self, manga:Manga|None, chapters:list[Chapter]|None=None):
+        if manga is not None:
+            logging.info(f'parse_all_comments_from_manga {manga=}')
+            chapters = await self.parse_chapters(manga)
         assert chapters is not None, 'Нет глав'
         pages = await self.parse_pages_from_chapters(chapters)
         all_pages = []
@@ -377,9 +380,27 @@ def manga_urls_generator(page:int):
             logging.error(f'{error=}')
             return False
 
+def get_manga():
+    result = (
+        Manga.objects
+            .values('id')
+            .annotate(total_comments=Count('chapters__pages__comments', distinct=True))
+            .annotate(total_pages=Count('chapters__pages', distinct=True))
+            .annotate(avg_comments_per_page=Cast(F('total_comments') / F('total_pages'), FloatField()))
+            .annotate(total_chapters=Count('chapters', distinct=True))
+            .annotate(avg_comments_per_chapter=Cast(F('total_comments') / F('total_chapters'), FloatField()))
+            .iterator(chunk_size=10)
+            #.annotate(total_chapters=Count('chapters', distinct=True))
+            #.filter()
+            #.order_by('-avg_comments_per_page')
+        )
+    #ic(result[1])
+            #.filter(Q(total_comments=0) & Q(total_pages__gt=0))
+            #.annotate(t=F('total_comments')/F('total_pages')) 
+    return result
+
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
-    
     async def main(self):
         url = 'https://test-front.mangalib.me/ru/manga/7965--chainsaw-man?section=info'
         return await Parser('https://test-front.mangalib.me/ru/manga/160510--dou-ganbattemo-ecchi-ni-nacchau-osananajimi?ui=425502').parse_manga()
@@ -442,60 +463,97 @@ class Command(BaseCommand):
     
     def full_manga_parse(self, manga:Manga):
         parser = Parser()
-        #chapters = manga.get_all_chapters()
         logging.info(f'{manga.href=} {manga.id}')
-        #time.sleep(3)
-        #res = asyncio.get_event_loop().run_until_complete(parser.all_pages_from_all_chapters(chapters))
-        #time.sleep(3)
         res = asyncio.get_event_loop().run_until_complete(parser.parse_all_comments_from_manga(manga))
         return res
-        #logging.info(res)
-        #logging.info(len(res))
+    
+    def full_manga_parse_by_chapters(self, chapters:list[Chapter]):
+        parser = Parser()
+        ic(chapters)
+        res = asyncio.get_event_loop().run_until_complete(parser.parse_all_comments_from_manga(manga=None, chapters=chapters))
+        return res
     
     def handle(self, *args, **options):
-        #manga = asyncio.get_event_loop().run_until_complete(self.main())
-        #assert isinstance(manga, Manga)
-        #manga = Manga.objects.get(slug_url='7965--chainsaw-man')
-        #manga = Manga.objects.get(slug_url='160510--dou-ganbattemo-ecchi-ni-nacchau-osananajimi')
-        #manga = Manga.objects.get(slug='chainsaw-man')
-        #self.parse_pages(manga)
-        #manga = Manga.objects.get(slug_url='7487--waltz')
-        #manga = Manga.objects.get(name='This Gorilla Will Die In 1 Day')
-        #logging.info(f'{manga=}')
-        #logging.info(f'{manga.id=}')
-        #.full_manga_parse(manga)
-        #manga = Manga.objects.get(name='Oyasumi Punpun')
-        #l = self.full_manga_parse(manga)
-        #logging.info(f'{l=}')
-        #logging.info(f'{len(l)=}')
-        from django.db.models import Count, Q, F, Value, Func
-        from django.db.models.functions import Concat
-        #start = time.time()
-        result = (
-            Page.objects
-              .values('ratio')
-              .annotate(total_pages=Count('id'))
-              #.filter(Q(total_comments=0) & Q(total_pages__gt=0))
-            )
-        #print(result)
-        #end = time.time()
-        #print(end-start)
-        href = Concat(Value('https://test-front.mangalib.me/ru/'), 'slug_url')
-                  #.filter(Q(release_date__gt=2000) & Q(release_date__lt=2010))
-                  #.order_by('-total_comments')
-        start = time.time()
-        result = (
+        
+        #result = get_manga()
+        
+        #manga = Manga.objects.get(id=4)
+        #total_comments = Comment.objects.filter(post_page__chapter_id__manga_id=manga)
+        #total_pages = Page.objects.filter(chapter_id__manga_id=manga)
+        #total_chapters = Chapter.objects.filter(manga_id=manga)
+        #ic(manga.id)
+        #ic(total_comments.count())
+        #ic(total_pages.count())
+        #ic(total_chapters.count())
+        #ic()
+        #breakpoint()
+        result = Manga.objects.iterator()
+        #result = [Manga.objects.get(id=62869)]
+        user = MangaUser.objects.get(id=376)
+        comments: QuerySet[Comment] = user.comments.all() # type: ignore
+        assert isinstance(comments, QuerySet)
+        assert isinstance(comments[0], Comment)
+        
+        for com in comments.annotate(rating=Cast(Cast(F('votes_up'), FloatField())-Cast(F('votes_down'), FloatField()), FloatField())).order_by('-rating'):
+            assert isinstance(com, Comment)
+            print(com.post_page.chapter_id.manga_id, ' | ', com.votes_up-com.votes_down)
+        
+        
+        breakpoint()
+        while True:
+            try:
+                self.full_manga_parse_by_chapters([Chapter.random()])
+            except AssertionError as e:
+                if e.args[0] == 'Нет глав':
+                    continue
+                else:
+                    print(e, e.args)
+                    raise e
+        #https://mangalib.me/api/comments/branch?comment_id={id}
+        for manga in result:
+            ic()
+            #manga = Manga.objects.get(id=i['id'])
+            logger.info(f'{manga=}\t{manga.href}')
+            
+            less_then = 2
+            
+            #start = time.perf_counter()
+            data = (
                 Manga.objects
-                  .values('id')
-                  .annotate(total_comments=Count('chapters__pages__comments__id'), total_pages=Count('chapters__pages__id'))
-                  .filter(Q(total_comments=0) & Q(total_pages__gt=0))
-                )
-        #print(result)   
-        end = time.time()
-        print(end-start)
-        for i in result:
-            manga = Manga.objects.get(id=i['id'])
-            logger.info(f'{manga=}\t{manga.href}\t{i}')
+                    .filter(id=manga.id)
+                    .values('id')
+                    .annotate(total_comments=Count('chapters__pages__comments', distinct=True))
+                    .annotate(total_pages=Count('chapters__pages', distinct=True))
+                    .annotate(avg_comments_per_page=Cast(F('total_comments') / F('total_pages'), FloatField()))
+                    .annotate(total_chapters=Count('chapters', distinct=True))
+                    .annotate(avg_comments_per_chapter=Cast(F('total_comments') / F('total_chapters'), FloatField()))
+                ).first()
+            #end = time.perf_counter()
+            ic(data)
+            assert isinstance(data, dict)
+            #print(end-start)
+            if data.get('total_chapters', 0) == 0 or data.get('total_pages', 0) == 0:
+                continue
+            
+            pages = (
+                Page.objects
+                    .filter(chapter_id__manga_id=manga)
+                    .annotate(total_comments=Count('comments'))
+                    .filter(total_comments__lte=Cast(data.get('avg_comments_per_page', 0)/less_then, FloatField()))
+                    )
+            
+            chapters = (
+                Chapter.objects
+                    .filter(manga_id=manga)
+                    .annotate(total_comments=Count('pages__comments'))
+                    .filter(total_comments__lte=Cast(data.get('avg_comments_per_chapter', 0)/less_then, FloatField()))
+                    .filter(total_comments__gt=0)
+                    )
+            
+            if chapters.count()>0:
+                self.full_manga_parse_by_chapters(list(chapters))
+            
+            continue
             try:
                 self.full_manga_parse(manga)
             except AssertionError as e:
