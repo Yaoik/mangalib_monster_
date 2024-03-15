@@ -3,6 +3,8 @@ import random
 from django.db import models
 import re
 from django.db.models import Q, Max
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 class AgeRestriction(models.Model):
     id = models.SmallIntegerField(primary_key=True, null=False, unique=True)
@@ -354,7 +356,8 @@ class Page(models.Model):
        
        
 class Emotion(models.Model):
-    name = models.CharField(max_length=9, primary_key=True, unique=True)
+    name = models.CharField(max_length=12, primary_key=True, unique=True)
+    
     class Meta:
         verbose_name_plural = 'Эмоция'
         verbose_name = 'Эмоция'
@@ -363,9 +366,9 @@ class Emotion(models.Model):
         return f'Эмоция {self.name}'
     
 class CommentEmotion(models.Model):
-    comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
-    emotion = models.ForeignKey('Emotion', on_delete=models.CASCADE)
-    power = models.FloatField()
+    emotion = models.ForeignKey(Emotion, on_delete=models.CASCADE)
+    power = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)], unique=False)
+    comment = models.OneToOneField('Comment', on_delete=models.CASCADE, related_name='comment_emotion', primary_key=True)
     
     class Meta:
         verbose_name_plural = 'Эмоция комментария'
@@ -373,7 +376,7 @@ class CommentEmotion(models.Model):
         
     def __str__(self) -> str:
         return f'{str(self.emotion)} с силой {self.power}'
-    
+     
 class Comment(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')
@@ -391,14 +394,13 @@ class Comment(models.Model):
     deleted = models.PositiveSmallIntegerField(null=True, default=None)
     
     toxic = models.FloatField(null=True, default=None)
-    emotion = models.ManyToManyField(Emotion, through="CommentEmotion")
-    
+
     ids = None
     
     class Meta:
         verbose_name_plural = 'Глава'
         verbose_name = 'Глава'
-
+        
     def __str__(self):
         return f'Комментарий {str(self.user)} {self.id}'
 

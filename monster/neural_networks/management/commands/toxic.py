@@ -1,23 +1,7 @@
 from transformers import BertTokenizer, BertForSequenceClassification
 import asyncio
-from copy import deepcopy
-import random
-import aiohttp
-from typing import Any, Coroutine
-import json
-import re
 from django.core.management.base import BaseCommand, CommandError
-import logging
-from logging.handlers import TimedRotatingFileHandler
 import time
-from asgiref.sync import sync_to_async
-import django.db.models
-from manga.models import Manga, Chapter, Page, Moderated, Team, Comment, MangaUser
-import requests
-from django.utils.dateparse import parse_datetime
-import string
-from django.db.models import Count, Q, F, FloatField, QuerySet, Value, Func
-from django.db.models.functions import Concat, Cast
 from icecream import ic
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
