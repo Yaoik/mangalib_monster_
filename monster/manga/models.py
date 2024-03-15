@@ -352,6 +352,28 @@ class Page(models.Model):
     def href(self):
         return f'{self.chapter_id.href}?p={self.slug}'
        
+       
+class Emotion(models.Model):
+    name = models.CharField(max_length=9, primary_key=True, unique=True)
+    class Meta:
+        verbose_name_plural = 'Эмоция'
+        verbose_name = 'Эмоция'
+        
+    def __str__(self) -> str:
+        return f'Эмоция {self.name}'
+    
+class CommentEmotion(models.Model):
+    comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
+    emotion = models.ForeignKey('Emotion', on_delete=models.CASCADE)
+    power = models.FloatField()
+    
+    class Meta:
+        verbose_name_plural = 'Эмоция комментария'
+        verbose_name = 'Эмоция комментария'
+        
+    def __str__(self) -> str:
+        return f'{str(self.emotion)} с силой {self.power}'
+    
 class Comment(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')
@@ -368,6 +390,11 @@ class Comment(models.Model):
     relation_id = models.PositiveIntegerField(null=True)
     deleted = models.PositiveSmallIntegerField(null=True, default=None)
     
+    toxic = models.FloatField(null=True, default=None)
+    emotion = models.ManyToManyField(Emotion, through="CommentEmotion")
+    
+    ids = None
+    
     class Meta:
         verbose_name_plural = 'Глава'
         verbose_name = 'Глава'
@@ -375,6 +402,13 @@ class Comment(models.Model):
     def __str__(self):
         return f'Комментарий {str(self.user)} {self.id}'
 
+    @classmethod
+    def random(cls):
+        if cls.ids is None:
+            cls.ids = tuple(cls.objects.all().values_list('pk', flat=True))
+        obj = cls.objects.filter(id=random.choice(cls.ids)).first()
+        assert obj is not None
+        return obj
 
 
 

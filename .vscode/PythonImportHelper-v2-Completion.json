@@ -81,6 +81,22 @@
         "documentation": {}
     },
     {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Coroutine",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "launch",
         "importPath": "pyppeteer",
         "description": "pyppeteer",
@@ -155,6 +171,22 @@
         "documentation": {}
     },
     {
+        "label": "BaseCommand",
+        "importPath": "django.core.management.base",
+        "description": "django.core.management.base",
+        "isExtraImport": true,
+        "detail": "django.core.management.base",
+        "documentation": {}
+    },
+    {
+        "label": "CommandError",
+        "importPath": "django.core.management.base",
+        "description": "django.core.management.base",
+        "isExtraImport": true,
+        "detail": "django.core.management.base",
+        "documentation": {}
+    },
+    {
         "label": "logging",
         "kind": 6,
         "isExtraImport": true,
@@ -178,6 +210,14 @@
         "isExtraImport": true,
         "importPath": "copy",
         "description": "copy",
+        "detail": "copy",
+        "documentation": {}
+    },
+    {
+        "label": "deepcopy",
+        "importPath": "copy",
+        "description": "copy",
+        "isExtraImport": true,
         "detail": "copy",
         "documentation": {}
     },
@@ -221,6 +261,22 @@
         "description": "logging.handlers",
         "isExtraImport": true,
         "detail": "logging.handlers",
+        "documentation": {}
+    },
+    {
+        "label": "TimedRotatingFileHandler",
+        "importPath": "logging.handlers",
+        "description": "logging.handlers",
+        "isExtraImport": true,
+        "detail": "logging.handlers",
+        "documentation": {}
+    },
+    {
+        "label": "sync_to_async",
+        "importPath": "asgiref.sync",
+        "description": "asgiref.sync",
+        "isExtraImport": true,
+        "detail": "asgiref.sync",
         "documentation": {}
     },
     {
@@ -313,6 +369,62 @@
         "documentation": {}
     },
     {
+        "label": "Count",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Q",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "F",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "FloatField",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "QuerySet",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Value",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Func",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
         "label": "Manga",
         "importPath": "manga.models",
         "description": "manga.models",
@@ -666,6 +778,62 @@
     },
     {
         "label": "Comment",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Manga",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Chapter",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Page",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Moderated",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Team",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "Comment",
+        "importPath": "manga.models",
+        "description": "manga.models",
+        "isExtraImport": true,
+        "detail": "manga.models",
+        "documentation": {}
+    },
+    {
+        "label": "MangaUser",
         "importPath": "manga.models",
         "description": "manga.models",
         "isExtraImport": true,
@@ -687,6 +855,14 @@
         "description": "requests",
         "isExtraImport": true,
         "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "parse_datetime",
+        "importPath": "django.utils.dateparse",
+        "description": "django.utils.dateparse",
+        "isExtraImport": true,
+        "detail": "django.utils.dateparse",
         "documentation": {}
     },
     {
@@ -720,6 +896,30 @@
         "description": "django.db.models.functions",
         "isExtraImport": true,
         "detail": "django.db.models.functions",
+        "documentation": {}
+    },
+    {
+        "label": "Concat",
+        "importPath": "django.db.models.functions",
+        "description": "django.db.models.functions",
+        "isExtraImport": true,
+        "detail": "django.db.models.functions",
+        "documentation": {}
+    },
+    {
+        "label": "Cast",
+        "importPath": "django.db.models.functions",
+        "description": "django.db.models.functions",
+        "isExtraImport": true,
+        "detail": "django.db.models.functions",
+        "documentation": {}
+    },
+    {
+        "label": "ic",
+        "importPath": "icecream",
+        "description": "icecream",
+        "isExtraImport": true,
+        "detail": "icecream",
         "documentation": {}
     },
     {
@@ -1445,6 +1645,47 @@
         "description": "django.core.wsgi",
         "isExtraImport": true,
         "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "BertTokenizer",
+        "importPath": "transformers",
+        "description": "transformers",
+        "isExtraImport": true,
+        "detail": "transformers",
+        "documentation": {}
+    },
+    {
+        "label": "BertForSequenceClassification",
+        "importPath": "transformers",
+        "description": "transformers",
+        "isExtraImport": true,
+        "detail": "transformers",
+        "documentation": {}
+    },
+    {
+        "label": "AutoTokenizer",
+        "importPath": "transformers",
+        "description": "transformers",
+        "isExtraImport": true,
+        "detail": "transformers",
+        "documentation": {}
+    },
+    {
+        "label": "AutoModelForSequenceClassification",
+        "importPath": "transformers",
+        "description": "transformers",
+        "isExtraImport": true,
+        "detail": "transformers",
+        "documentation": {}
+    },
+    {
+        "label": "torch",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch",
+        "description": "torch",
+        "detail": "torch",
         "documentation": {}
     },
     {
@@ -2291,7 +2532,7 @@
         "kind": 5,
         "importPath": "monster.monster.settings",
         "description": "monster.monster.settings",
-        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles', \n    'users',",
+        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles', \n    'neural_networks',",
         "detail": "monster.monster.settings",
         "documentation": {}
     },
@@ -2300,7 +2541,7 @@
         "kind": 5,
         "importPath": "monster.monster.settings",
         "description": "monster.monster.settings",
-        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles', \n    'users',\n    'manga',\n    'rest_framework', ",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles', \n    'neural_networks',\n    'users',\n    'manga',",
         "detail": "monster.monster.settings",
         "documentation": {}
     },
@@ -2437,6 +2678,51 @@
         "description": "monster.monster.wsgi",
         "peekOfCode": "application = get_wsgi_application()",
         "detail": "monster.monster.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "ToxicityAnalyzer",
+        "kind": 6,
+        "importPath": "monster.neural_networks.management.commands.toxic",
+        "description": "monster.neural_networks.management.commands.toxic",
+        "peekOfCode": "class ToxicityAnalyzer:\n    tokenizer = BertTokenizer.from_pretrained('SkolkovoInstitute/russian_toxicity_classifier')\n    if torch.cuda.is_available():\n        device = 'cuda'\n    else:\n        device = 'cpu'\n    model = BertForSequenceClassification.from_pretrained('SkolkovoInstitute/russian_toxicity_classifier').to(device)\n    def __init__(self) -> None:\n        pass\n    def text_to_prob(self, text:str):",
+        "detail": "monster.neural_networks.management.commands.toxic",
+        "documentation": {}
+    },
+    {
+        "label": "EmotionAnalyzer",
+        "kind": 6,
+        "importPath": "monster.neural_networks.management.commands.toxic",
+        "description": "monster.neural_networks.management.commands.toxic",
+        "peekOfCode": "class EmotionAnalyzer:\n    tokenizer = BertTokenizer.from_pretrained('cointegrated/rubert-tiny2-cedr-emotion-detection')\n    if torch.cuda.is_available():\n        device = 'cuda'\n    else:\n        device = 'cpu'\n    model = BertForSequenceClassification.from_pretrained('cointegrated/rubert-tiny2-cedr-emotion-detection').to(device)\n    #if torch.cuda.is_available():\n    #    model.to('cuda')\n    def __init__(self) -> None:",
+        "detail": "monster.neural_networks.management.commands.toxic",
+        "documentation": {}
+    },
+    {
+        "label": "SmallToxicityAnalyzer",
+        "kind": 6,
+        "importPath": "monster.neural_networks.management.commands.toxic",
+        "description": "monster.neural_networks.management.commands.toxic",
+        "peekOfCode": "class SmallToxicityAnalyzer:\n    tokenizer = BertTokenizer.from_pretrained('cointegrated/rubert-tiny-toxicity')    \n    if torch.cuda.is_available():\n        device = 'cuda'\n    else:\n        device = 'cpu'\n    model = BertForSequenceClassification.from_pretrained('cointegrated/rubert-tiny-toxicity').to(device)\n    #if torch.cuda.is_available():\n    #    model.to('cuda')\n    def __init__(self) -> None:",
+        "detail": "monster.neural_networks.management.commands.toxic",
+        "documentation": {}
+    },
+    {
+        "label": "Command",
+        "kind": 6,
+        "importPath": "monster.neural_networks.management.commands.toxic",
+        "description": "monster.neural_networks.management.commands.toxic",
+        "peekOfCode": "class Command(BaseCommand):\n    help = 'Closes the specified poll for voting'\n    def handle(self, *args, **options):\n        textst = [\n            'Данный фрагмент текста не содержит абсолютно никаких эмоций', \n            'Ты мне нравишься. Я тебя люблю', \n            'Минато, ты переступаешь черту...', \n            'Пхех приманочка XD', \n            'Спасибо.', \n            'Не пфыкай мне тут! 😠',",
+        "detail": "monster.neural_networks.management.commands.toxic",
+        "documentation": {}
+    },
+    {
+        "label": "show",
+        "kind": 2,
+        "importPath": "monster.neural_networks.management.commands.toxic",
+        "description": "monster.neural_networks.management.commands.toxic",
+        "peekOfCode": "def show(neural_network, texts:list[str]):\n    start = time.perf_counter()\n    ic()\n    ic(neural_network.text_to_prob('Данный фрагмент текста не содержит абсолютно никаких эмоций'))\n    ic(neural_network.text_to_prob('Ты мне нравишься. Я тебя люблю'))\n    ic(neural_network.text_to_prob('Минато, ты переступаешь черту...'))\n    ic(neural_network.text_to_prob('Пхех приманочка XD'))\n    ic(neural_network.text_to_prob('Спасибо.'))\n    ic(neural_network.text_to_prob('Не пфыкай мне тут! 😠'))\n    ic(neural_network.text_to_prob('Этот прицел просто имба'))",
+        "detail": "monster.neural_networks.management.commands.toxic",
         "documentation": {}
     },
     {

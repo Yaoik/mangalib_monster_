@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles', 
-    
+    'neural_networks',
     'users',
     'manga',
     'rest_framework', 
