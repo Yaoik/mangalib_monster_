@@ -91,7 +91,7 @@ class SmallToxicityAnalyzer:
         device = 'cuda'
     else:
         device = 'cpu'
-    device = 'cpu'
+    device = 'cuda'
     model = BertForSequenceClassification.from_pretrained('cointegrated/rubert-tiny-toxicity').to(device)  # type: ignore 
     #if torch.cuda.is_available():
     #    model.to('cuda')
@@ -99,7 +99,7 @@ class SmallToxicityAnalyzer:
     def __init__(self) -> None:
         pass
 
-    def text_to_prob(self, text:str):
+    async def text_to_prob(self, text:str):
         
         with torch.no_grad():
             inputs = self.tokenizer(text, return_tensors='pt', truncation=True, padding=True).to(self.device) # type: ignore 
@@ -173,13 +173,13 @@ class EmotionAnalizerNew:
         device = 'cuda'
     else:
         device = 'cpu'
-    device = 'cpu'
+    device = 'cuda'
     model = BertForSequenceClassification.from_pretrained('Aniemore/rubert-tiny2-russian-emotion-detection').to(device)  # type: ignore 
         
     def __init__(self) -> None:
         pass
 
-    def text_to_prob(self, text:str):
+    async def text_to_prob(self, text:str):
         
         with torch.no_grad():
             inputs = self.tokenizer(text, max_length=512, padding=True, truncation=True, return_tensors='pt').to(self.device)
@@ -200,8 +200,10 @@ class Processor:
 
     async def text_to_res(self, text:str):
         res = {}
-        res.update(self.e.text_to_prob(text))
-        res.update(self.t.text_to_prob(text))
+        res_e = asyncio.create_task(self.e.text_to_prob(text))
+        res_t = asyncio.create_task(self.t.text_to_prob(text))
+        res.update(await res_e)
+        res.update(await res_t)
         return res
         
 class Command(BaseCommand):
