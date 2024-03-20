@@ -1,11 +1,12 @@
 from django.db import models
 from manga.models import Manga, Page, Chapter, Comment
 from annoying.fields import AutoOneToOneField
-
+from icecream import ic
+import logging
 
 class MangaPage(models.Model):
     manga = AutoOneToOneField(Manga, primary_key=True, related_name='site_page', on_delete=models.CASCADE)
-    update_at = models.DateField(auto_now=True)
+    update_at = models.DateTimeField(auto_now=True)
     
     comments_count = models.IntegerField(default=None, null=True)
     page_count = models.IntegerField(default=None, null=True)
@@ -30,12 +31,16 @@ class MangaPage(models.Model):
         return f'Страница манги {str(self.manga)}'
 
     async def update_fields(self):
+        logging.info(f'{str(self)}   start update_fields')
+        ic()
         await self.__set_count()
         await self.__set_most_popular()
         await self.__set_page_at_chapter_avg()
         await self.__set_chapter_likes()
         await self.__set_comments_toxic()
         await self.__set_comments_emotions()
+        ic()
+        logging.info(f'{str(self)}   end update_fields')
        
     
     async def __set_comments_emotions(self):
@@ -85,9 +90,9 @@ class MangaPage(models.Model):
         await self.__set_chapter_count()
         
     async def __set_comments_count(self):
-        ...
+        self.comments_count = await Comment.objects.filter(post_page__chapter_id__manga_id=self.manga).acount()
     async def __set_page_count(self):
-        ...
+        self.page_count = await Page.objects.filter(chapter_id__manga_id=self.manga).acount()
     async def __set_chapter_count(self):
-        ...
+        self.chapter_count = await Chapter.objects.filter(manga_id=self.manga).acount()
     
