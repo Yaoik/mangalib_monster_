@@ -47,8 +47,8 @@ class Team(models.Model):
     cover = models.JSONField() # cover
     details = models.JSONField(null=True)
     model = models.CharField(max_length=10, null=True)
-    vk = models.CharField(max_length=255, null=True) # name
-    discord = models.CharField(max_length=255, null=True) # name
+    vk = models.CharField(max_length=255, null=True) 
+    discord = models.CharField(max_length=255, null=True) 
 
     class Meta:
         verbose_name_plural = 'Переводчики'

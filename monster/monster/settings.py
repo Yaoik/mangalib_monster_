@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'neural_networks',
     'users',
     'manga',
+    'manga_page',
     'rest_framework', 
 ]
 

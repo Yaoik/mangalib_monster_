@@ -7,11 +7,7 @@ from django.core.management.base import BaseCommand
 import asyncio
 import time
 from asgiref.sync import sync_to_async
-from django.core.paginator import Paginator
-from django.db import transaction
 import logging
-import concurrent.futures
-
 
 
 class CommentProcessor(Processor):
@@ -64,7 +60,7 @@ async def main(processor: CommentProcessor):
     comment_count = 92_547_673
 
     next_comments_chunk = False
-    for chunk in range(2_548_000, comment_count, chunk_size):
+    for chunk in range(4_300_000, comment_count, chunk_size):
         start = time.process_time()
         
         if next_comments_chunk is not False:
@@ -76,16 +72,20 @@ async def main(processor: CommentProcessor):
         
         res = await processor.add_emotions_to_comments(comments_chunk)
         
+        end1= time.process_time()
+        
+        next_comments_chunk = await next_comments_chunk
+        
         end = time.process_time()
-        t = end-start
+        t_long = end-start
+        t_short = end1-start
         chunk_now = '{:0>9}'.format(chunk)
         chunk_next = '{:0>9}'.format(chunk+chunk_size)
         chunk_now = '_'.join([chunk_now[i:i+3] for i in range(0, len(chunk_now), 3)])
         chunk_next = '_'.join([chunk_next[i:i+3] for i in range(0, len(chunk_next), 3)])
-        ic(chunk_now, t)
-        logging.debug(f'{chunk_now} - {chunk_next}   process_time = {t:.3}')
+        ic(chunk_now, t_short, t_long)
+        logging.debug(f'{chunk_now} - {chunk_next}   process_time = {t_long:.3}')
         
-        next_comments_chunk = await next_comments_chunk
 
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
