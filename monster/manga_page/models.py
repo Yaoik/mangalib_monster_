@@ -3,6 +3,9 @@ from manga.models import Manga, Page, Chapter, Comment
 from annoying.fields import AutoOneToOneField
 from icecream import ic
 import logging
+from django.db.models import Avg, Case, Count, F, Max, Min, Prefetch, Q, Sum, When, FloatField, BigIntegerField, IntegerField
+from django.db.models.functions import Cast
+
 
 class MangaPage(models.Model):
     manga = AutoOneToOneField(Manga, primary_key=True, related_name='site_page', on_delete=models.CASCADE)
@@ -16,6 +19,10 @@ class MangaPage(models.Model):
     most_popular_page = models.OneToOneField(Page, on_delete=models.SET_NULL, null=True)
     most_popular_chapter = models.OneToOneField(Chapter, on_delete=models.SET_NULL, null=True)
     
+    least_popular_comment = models.OneToOneField(Comment, on_delete=models.SET_NULL, null=True)
+    least_popular_page = models.OneToOneField(Page, on_delete=models.SET_NULL, null=True)
+    least_popular_chapter = models.OneToOneField(Chapter, on_delete=models.SET_NULL, null=True)
+ 
     page_at_chapter_avg = models.DecimalField(default=None, null=True, max_digits=8, decimal_places=5)
     
     chapter_likes_sum = models.IntegerField(default=None, null=True)
@@ -72,17 +79,31 @@ class MangaPage(models.Model):
     
     
     async def __set_most_popular(self):
-        await self.__set_most_popular_comment()
+        await self.__set_most_and_least_popular_comment()
         await self.__set_most_popular_page()
         await self.__set_most_popular_chapter()
     
-    async def __set_most_popular_comment(self):
-        ...
+    async def __set_most_and_least_popular_comment(self):
+        comments = (
+                    Comment.objects
+                    .filter(post_page__chapter_id__manga_id=self.manga)
+                    .annotate(rating=Cast(F('votes_up'), IntegerField())-Cast(F('votes_down'), IntegerField()))
+                    .order_by('-rating')
+                    )
+        self.most_popular_comment = await comments.afirst()
+        self.least_popular_comment = await comments.alast()
+        
     async def __set_most_popular_page(self):
         ...
     async def __set_most_popular_chapter(self):
-        ...
-        
+        chapters = (
+                    Chapter.objects
+                    .filter(manga_id=self.manga)
+                    .filter(likes_count__isnull=False)
+                    .order_by('-likes_count')
+                    )
+        self.most_popular_chapter = await chapters.afirst()
+        self.least_popular_chapter = await chapters.alast()
         
     async def __set_count(self):
         await self.__set_comments_count()
