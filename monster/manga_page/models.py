@@ -7,7 +7,7 @@ from django.db.models import Avg, Case, Count, F, Max, Min, Prefetch, Q, Sum, Wh
 from django.db.models.functions import Cast
 
 
-class MangaPage(models.Model):
+class MangaPage():
     manga = AutoOneToOneField(Manga, primary_key=True, related_name='site_page', on_delete=models.CASCADE)
     update_at = models.DateTimeField(auto_now=True)
     
@@ -15,13 +15,13 @@ class MangaPage(models.Model):
     page_count = models.IntegerField(default=None, null=True)
     chapter_count = models.IntegerField(default=None, null=True)
     
-    most_popular_comment = models.OneToOneField(Comment, on_delete=models.SET_NULL, null=True)
-    most_popular_page = models.OneToOneField(Page, on_delete=models.SET_NULL, null=True)
-    most_popular_chapter = models.OneToOneField(Chapter, on_delete=models.SET_NULL, null=True)
-    
-    least_popular_comment = models.OneToOneField(Comment, on_delete=models.SET_NULL, null=True)
-    least_popular_page = models.OneToOneField(Page, on_delete=models.SET_NULL, null=True)
-    least_popular_chapter = models.OneToOneField(Chapter, on_delete=models.SET_NULL, null=True)
+    #most_popular_comment = models.ForeignKey(Comment, on_delete=models.SET_NULL, null=True, related_name='most_popular_comment')
+    #most_popular_page = models.ForeignKey(Page, on_delete=models.SET_NULL, null=True, related_name='most_popular_page')
+    #most_popular_chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, null=True, related_name='most_popular_chapter')
+    #
+    #least_popular_comment = models.ForeignKey(Comment, on_delete=models.SET_NULL, null=True, related_name='least_popular_comment')
+    #least_popular_page = models.ForeignKey(Page, on_delete=models.SET_NULL, null=True, related_name='least_popular_page')
+    #least_popular_chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, null=True, related_name='least_popular_chapter')
  
     page_at_chapter_avg = models.DecimalField(default=None, null=True, max_digits=8, decimal_places=5)
     

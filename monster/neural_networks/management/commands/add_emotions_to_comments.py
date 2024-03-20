@@ -1,4 +1,3 @@
-from functools import partial
 from django.db.models.manager import BaseManager
 from manga.models import Comment, Emotion, CommentEmotion
 from neural_networks.management.commands.toxic import Processor
@@ -60,7 +59,7 @@ async def main(processor: CommentProcessor):
     comment_count = 92_547_673
 
     next_comments_chunk = False
-    for chunk in range(4_300_000, comment_count, chunk_size):
+    for chunk in range(8_349_000, comment_count, chunk_size):
         start = time.process_time()
         
         if next_comments_chunk is not False:
