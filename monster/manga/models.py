@@ -4,7 +4,7 @@ from django.db import models
 import re
 from django.db.models import Q, Max
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from asgiref.sync import sync_to_async
 
 class AgeRestriction(models.Model):
     id = models.SmallIntegerField(primary_key=True, null=False, unique=True)
@@ -352,6 +352,11 @@ class Page(models.Model):
     
     @property
     def href(self):
+        return f'{self.chapter_id.href}?p={self.slug}'
+    
+    @property
+    @sync_to_async
+    def ahref(self):
         return f'{self.chapter_id.href}?p={self.slug}'
        
        
