@@ -1,16 +1,16 @@
 from django.db import models
-from manga.models import Manga, Page, Chapter, Comment, Emotion, CommentEmotion
-from annoying.fields import AutoOneToOneField
 from icecream import ic
 import logging
 from django.db.models import Avg, Case, Count, F, Max, Min, Prefetch, Q, Sum, When, FloatField, BigIntegerField, IntegerField
 from django.db.models.functions import Cast
 from asgiref.sync import sync_to_async
 from copy import deepcopy
+from annoying.fields import AutoOneToOneField
+from manga.models import Manga, Page, Chapter, Comment, Emotion, CommentEmotion
 
 class MangaPage(models.Model):
     manga = AutoOneToOneField(Manga, primary_key=True, related_name='site_page', on_delete=models.CASCADE)
-    update_at = models.DateTimeField(auto_now=True)
+    update_at = models.DateTimeField(auto_now=True, editable=False)
     
     comments_count = models.IntegerField(default=None, null=True)
     page_count = models.IntegerField(default=None, null=True)
@@ -22,35 +22,39 @@ class MangaPage(models.Model):
     population_page = models.JSONField(default=None, null=True)
     population_chapter = models.JSONField(default=None, null=True)
  
-    page_at_chapter_avg = models.DecimalField(default=None, null=True, max_digits=8, decimal_places=5)
+    page_at_chapter_avg = models.DecimalField(default=None, null=True, max_digits=8, decimal_places=4)
     
     chapter_likes_sum = models.IntegerField(default=None, null=True)
-    chapter_likes_avg = models.DecimalField(default=None, null=True, max_digits=12, decimal_places=8)
+    chapter_likes_avg = models.DecimalField(default=None, null=True, max_digits=12, decimal_places=4)
     
     #comments_toxic_count = models.IntegerField(default=None, null=True)
-    comments_toxic_avg = models.DecimalField(default=None, null=True, max_digits=8, decimal_places=7)
+    comments_toxic_avg = models.DecimalField(default=None, null=True, max_digits=7, decimal_places=6)
     
     comments_emotions_data = models.JSONField(default=None, null=True)
     
-    
     def __str__(self) -> str:
         return f'Страница манги {str(self.manga)}'
-
+    
     async def update_fields(self):
         logging.info(f'{str(self)}   start update_fields')
-        ic()
         await self.__set_count()
-        ic()
-        #await self.__set_population()
-        ic()
+        await self.asave()
+        logging.debug(f'{str(self)}   end __set_count')
+        await self.__set_population()
+        await self.asave()
+        logging.debug(f'{str(self)}   end __set_population')
         await self.__set_page_at_chapter_avg()
-        ic()
+        await self.asave()
+        logging.debug(f'{str(self)}   end __set_page_at_chapter_avg')
         await self.__set_chapter_likes()
-        ic()
-        #await self.__set_comments_toxic()
-        ic()
+        await self.asave()
+        logging.debug(f'{str(self)}   end __set_chapter_likes')
+        await self.__set_comments_toxic()
+        await self.asave()
+        logging.debug(f'{str(self)}   end __set_comments_toxic')
         await self.__set_comments_emotions()
-        ic()
+        await self.asave()
+        logging.debug(f'{str(self)}   end __set_comments_emotions')
         logging.info(f'{str(self)}   end update_fields')
        
     
@@ -81,7 +85,10 @@ class MangaPage(models.Model):
             data_list.append(data_dict)
         
         for i in data_list:
-            i['%_amount'] = round(i['count'] / result_sum, 5)
+            try:
+                i['%_amount'] = round(i['count'] / result_sum, 5)
+            except ZeroDivisionError:
+                i['%_amount'] = 0.0
         self.comments_emotions_data = deepcopy(data_list)
     
     
