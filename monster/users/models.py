@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from users.managers import UserManager
-    
+from django.contrib import admin
     
 class User(AbstractUser):
     email = models.EmailField(_("email address"), blank=False, null=False, unique=True)
@@ -18,3 +18,8 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.email}'
+
+
+class UserAdmin(admin.ModelAdmin):
+    search_fields = ("email",)
+

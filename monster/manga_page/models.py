@@ -8,6 +8,8 @@ from copy import deepcopy
 from annoying.fields import AutoOneToOneField
 from manga.models import Manga, Page, Chapter, Comment, Emotion, CommentEmotion
 
+
+
 class MangaPage(models.Model):
     manga = AutoOneToOneField(Manga, primary_key=True, related_name='site_page', on_delete=models.CASCADE)
     update_at = models.DateTimeField(auto_now=True, editable=False)
@@ -31,6 +33,8 @@ class MangaPage(models.Model):
     comments_toxic_avg = models.DecimalField(default=None, null=True, max_digits=7, decimal_places=6)
     
     comments_emotions_data = models.JSONField(default=None, null=True)
+    
+    
     
     def __str__(self) -> str:
         return f'Страница манги {str(self.manga)}'

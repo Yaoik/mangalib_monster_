@@ -171,7 +171,7 @@ class Manga(models.Model):
     artists = models.ManyToManyField(People, related_name='artist_manga_set')
     authors = models.ManyToManyField(People, related_name='author_manga_set')
     
-    parse_priority = models.SmallIntegerField(null=False, default=1)
+
     class Meta:
         verbose_name_plural = 'Манга'
         verbose_name = 'Манга'
@@ -202,8 +202,7 @@ class Manga(models.Model):
     @staticmethod
     def generate_random_mangas(priority=0):
         logging.info(f'Запущен generate_random_mangas с приоритетом {priority}')
-        prior = Q(parse_priority=priority)
-        all_mangas = list(Manga.objects.filter(prior).values_list('pk', flat=True))
+        all_mangas = list(Manga.objects.values_list('pk', flat=True))
         while True:
             random_mangas = random.choices(all_mangas, k=1)
             for manga_pk in random_mangas:
@@ -403,8 +402,8 @@ class Comment(models.Model):
     ids = None
     
     class Meta:
-        verbose_name_plural = 'Глава'
-        verbose_name = 'Глава'
+        verbose_name_plural = 'Комметарий'
+        verbose_name = 'Комметарий'
         
     def __str__(self):
         return f'Комментарий {str(self.user)} {self.id}'

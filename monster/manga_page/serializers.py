@@ -1,7 +1,18 @@
 from rest_framework import serializers
 from .models import MangaPage 
 
-class YourModelSerializer(serializers.ModelSerializer):
+
+
+class MangaPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = MangaPage
-        fields = '__all__'  # или перечислите поля, которые вы хотите включить в сериализацию
+        fields = [
+                'chapter_count', 
+                'chapter_likes_avg', 
+                'chapter_likes_sum',
+                'comments_count',
+                'manga',
+                'page_at_chapter_avg',
+                'page_count',
+                ]
+        fields = '__all__'
