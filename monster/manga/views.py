@@ -1,3 +1,4 @@
+from django.db.models.manager import BaseManager
 from django.shortcuts import render
 import django_filters.rest_framework
 from .serializers import MangaSerializer
@@ -13,40 +14,37 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.throttling import UserRateThrottle
-from .utils import q_search
+from .utils import q_search, q_url_to_q
 from .serializers import MangaSerializer, PreviewMangaSerializer
 import re
+from django.core.paginator import Page, Paginator
+
+
+
 
 @api_view(['GET'])
 def search(request:WSGIRequest) -> Response:
     query = request.GET.get('q', False)
-
+    page = request.GET.get('page', 1)
+    
     if query:
         query = str(query)
         ic(query)
-        if query.startswith(('https://mangalib.me/', 'https://test-front.mangalib.me/')):
-            if query.startswith('https://mangalib.me/'):
-                pattern = r"https:\/\/mangalib\.me\/(.*?)[(\/)(?)]"
-                #https://mangalib.me/oyasumi-punpun?section=info&ui=425502
-            else:
-                pattern = r"https:\/\/test-front\.mangalib\.me\/[^\/]+\/manga\/[^\/]+--([^\/?]+)\?"
-            ic(pattern)
-                
-            matches = re.findall(pattern, query)
-            ic(matches)
-            
-            if len(matches)<1:
-                return Response([], status=400)
-            query = matches[0]
         
-            ic(query)
+        if query.startswith(('https://mangalib.me/', 'https://test-front.mangalib.me/')):
+            query = q_url_to_q(query)
+        
         if len(str(query))<3:
             return Response([], status=400)
         
-        res = q_search(query)
+        manga_manager: BaseManager[Manga] = q_search(query).order_by('id')
         
-        res = PreviewMangaSerializer(res, many=True)
+        paginator = Paginator(manga_manager, 10)
+        current_page: Page = paginator.page(int(page))
+        
+        
+        res = PreviewMangaSerializer(current_page, many=True)
 
-        return Response(res.data, status=200)
+        return Response({'data':res.data, 'meta':{'next':current_page.has_next(), 'current': current_page.number,'previous':current_page.has_previous()}}, status=200)
     
     return Response([], status=400)

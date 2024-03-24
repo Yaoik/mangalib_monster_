@@ -224,7 +224,7 @@ class Manga(models.Model):
 #    label = models.PositiveSmallIntegerField(null=False, primary_key=True)
 #
 #
-#class StatsRating(models.Model):
+#class StatsRating(models.Model): 
 #    pass
 #
 #class StatsBookmarks(models.Model):
@@ -237,7 +237,7 @@ class Manga(models.Model):
 #    bookmarks_count = models.PositiveIntegerField()
 
 class Stats(models.Model):
-    manga = AutoOneToOneField(Manga, primary_key=True, related_name='site_page', on_delete=models.CASCADE)
+    manga = AutoOneToOneField(Manga, primary_key=True, related_name='stats', on_delete=models.CASCADE)
     bookmarks = models.JSONField()
     rating = models.JSONField()
     # https://api.lib.social/api/manga/2262--oyasumi-punpun/stats?bookmarks=true&rating=true
