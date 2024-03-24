@@ -5,6 +5,8 @@ import re
 from django.db.models import Q, Max
 from django.core.validators import MaxValueValidator, MinValueValidator
 from asgiref.sync import sync_to_async
+from annoying.fields import AutoOneToOneField
+
 
 class AgeRestriction(models.Model):
     id = models.SmallIntegerField(primary_key=True, null=False, unique=True)
@@ -136,7 +138,7 @@ class ScanlateStatus(models.Model):
 
     def __str__(self):
         return f'{self.label}'
-    
+
 class Manga(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     name = models.CharField(max_length=255)
@@ -215,6 +217,32 @@ class Manga(models.Model):
                 else:
                     return Manga.generate_random_mangas(priority=Manga.objects.aggregate(Max('parse_priority')).get('parse_priority__max', 0))
 
+#class Bookmarks(models.Model):
+#    label = models.CharField(null=False, primary_key=True, max_length=16)
+#
+#class Rating(models.Model):
+#    label = models.PositiveSmallIntegerField(null=False, primary_key=True)
+#
+#
+#class StatsRating(models.Model):
+#    pass
+#
+#class StatsBookmarks(models.Model):
+#    bookmarks = models.ForeignKey(Bookmarks, verbose_name=_(""), on_delete=models.CASCADE)
+#
+#
+#class Stats(models.Model):
+#    manga = AutoOneToOneField(Manga, primary_key=True, related_name='site_page', on_delete=models.CASCADE)
+#    rating_count = models.PositiveIntegerField()
+#    bookmarks_count = models.PositiveIntegerField()
+
+class Stats(models.Model):
+    manga = AutoOneToOneField(Manga, primary_key=True, related_name='site_page', on_delete=models.CASCADE)
+    bookmarks = models.JSONField()
+    rating = models.JSONField()
+    # https://api.lib.social/api/manga/2262--oyasumi-punpun/stats?bookmarks=true&rating=true
+    
+    
 class MangaUser(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     username = models.CharField(max_length=255, null=False, unique=False)

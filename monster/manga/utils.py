@@ -20,8 +20,7 @@ def q_search(query:str):
     
     result = Manga.objects.filter(q_objects)
     
-    ic(result)
-    ic(len(result))
+    ic(len(result), result)
     
     return result
     

@@ -186,9 +186,6 @@ class Parser:
             if not isinstance(data, dict):
                 return
             if data.get('data') == []:
-                self.manga_object.parse_priority=-1
-                await self.manga_object.asave()
-                logger.info(f'Приоритет {str(self.manga_object)} понижен до {self.manga_object.parse_priority}')
                 return
             chapter_parser = ChaptersToDb(data, self.manga_object)
             results = await chapter_parser.create_models()

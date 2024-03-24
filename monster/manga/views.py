@@ -14,7 +14,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.throttling import UserRateThrottle
 from .utils import q_search
-from .serializers import MangaSerializer
+from .serializers import MangaSerializer, PreviewMangaSerializer
 import re
 
 @api_view(['GET'])
@@ -45,7 +45,7 @@ def search(request:WSGIRequest) -> Response:
         
         res = q_search(query)
         
-        res = MangaSerializer(res, many=True)
+        res = PreviewMangaSerializer(res, many=True)
 
         return Response(res.data, status=200)
     
