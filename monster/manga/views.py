@@ -29,7 +29,6 @@ def search(request:WSGIRequest) -> Response:
     
     if query:
         query = str(query)
-        ic(query)
         
         if query.startswith(('https://mangalib.me/', 'https://test-front.mangalib.me/')):
             query = q_url_to_q(query)
@@ -48,3 +47,4 @@ def search(request:WSGIRequest) -> Response:
         return Response({'data':res.data, 'meta':{'next':current_page.has_next(), 'current': current_page.number,'previous':current_page.has_previous()}}, status=200)
     
     return Response([], status=400)
+

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'django.contrib.postgres',
+    'index',
 ]
 
 REST_FRAMEWORK = {
@@ -62,6 +63,8 @@ REST_FRAMEWORK = {
         'anon': '20/minute',
         'user': '20/minute'
     },
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
 }
 
 MIDDLEWARE = [
@@ -79,7 +82,7 @@ ROOT_URLCONF = 'monster.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -91,6 +94,11 @@ TEMPLATES = [
         },
     },
 ]
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
 
 WSGI_APPLICATION = 'monster.wsgi.application'
 

@@ -5,6 +5,11 @@ from .views import search
 
 app_name = 'manga'
 
-urlpatterns = [
+api = [
     path('search/', search, name='manga_list'),
+]
+
+
+urlpatterns = [
+    path('api/', include(api)),
 ]
