@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Home - Your Website{% endblock %}
-
-
-
+{% block title %}{{manga.slug}}{% endblock %}
 
 {% block content %}
 {% include 'top_bar.html' %}
@@ -12,7 +9,11 @@
 
 
 <div class="container border-2 border-black mx-auto w-[75%] text-center">
-    FFFFFFFFFF
+    {{manga.rus_name}}
+</div>
+
+<div class="container border-2 border-black mx-auto w-[75%] text-center">
+    <img src={{manga.cover.default}} class='m-auto'>
 </div>
 
 

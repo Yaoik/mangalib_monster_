@@ -4,6 +4,9 @@ from .serializers import MangaSerializer
 from icecream import ic
 from django.db.models import Q
 import re
+from manga_page.models import MangaPage
+
+
 
 def q_search(query:str) -> BaseManager[Manga]:
     #query = SearchQuery("red tomato")
@@ -37,3 +40,17 @@ def q_url_to_q(query:str) -> str:
         return ''
     query = matches[0]
     return query
+
+
+
+def comments_count(manga:Manga):
+    page:MangaPage = manga.site_page # type:ignore
+    return page.comments_count
+
+def page_count(manga:Manga):
+    page:MangaPage = manga.site_page # type:ignore
+    return page.page_count
+
+def chapter_count(manga:Manga):
+    page:MangaPage = manga.site_page # type:ignore
+    return page.chapter_count

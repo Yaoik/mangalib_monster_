@@ -14,19 +14,20 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.throttling import UserRateThrottle
-from .utils import q_search, q_url_to_q
+from .utils import q_search, q_url_to_q, comments_count, page_count, chapter_count
 from .serializers import MangaSerializer, PreviewMangaSerializer
 import re
 from django.core.paginator import Page, Paginator
-
-
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
+from rest_framework.decorators import renderer_classes
 
 
 @api_view(['GET'])
+@renderer_classes([TemplateHTMLRenderer, JSONRenderer])
 def search(request:WSGIRequest) -> Response:
     query = request.GET.get('q', False)
     page = request.GET.get('page', 1)
-    
+    ic(query)
     if query:
         query = str(query)
         
@@ -44,7 +45,26 @@ def search(request:WSGIRequest) -> Response:
         
         res = PreviewMangaSerializer(current_page, many=True)
 
-        return Response({'data':res.data, 'meta':{'next':current_page.has_next(), 'current': current_page.number,'previous':current_page.has_previous()}}, status=200)
+        return Response({'data':res.data, 'meta':{'next':current_page.has_next(), 'current': current_page.number,'previous':current_page.has_previous()}}, status=200, template_name='manga_card.html')
     
     return Response([], status=400)
+
+
+@api_view(['GET'])
+def manga_page_count(request:WSGIRequest, slug:str) -> Response:
+    manga = Manga.objects.get(slug=slug)
+    data = {}
+    data['comments_count'] = comments_count(manga)
+    data['page_count'] = page_count(manga)
+    data['chapter_count'] = chapter_count(manga)
+    return Response(data)
+
+
+
+
+def manga_page(request:WSGIRequest, slug:str):
+    manga = Manga.objects.get(slug=slug)
+    return render(request, 'manga.html', context={'manga':manga})
+
+
 
