@@ -6,7 +6,7 @@ from django.db.models import Q, Max
 from django.core.validators import MaxValueValidator, MinValueValidator
 from asgiref.sync import sync_to_async
 from annoying.fields import AutoOneToOneField
-
+from django.db.models.query import QuerySet
 
 class AgeRestriction(models.Model):
     id = models.SmallIntegerField(primary_key=True, null=False, unique=True)
@@ -173,7 +173,9 @@ class Manga(models.Model):
     artists = models.ManyToManyField(People, related_name='artist_manga_set')
     authors = models.ManyToManyField(People, related_name='author_manga_set')
     
-
+    def get_all_comments(self) -> QuerySet:
+        return Comment.objects.filter(post_page__chapter_id__manga_id=self)
+    
     class Meta:
         verbose_name_plural = 'Манга'
         verbose_name = 'Манга'

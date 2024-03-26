@@ -503,6 +503,10 @@ class Command(BaseCommand):
             if manga is None:
                 manga = asyncio.run(self.main(parser))
             
+            if manga.get_all_comments().count() == 0:
+                self.full_manga_parse(manga)
+            
+            continue
             chapters: QuerySet[Chapter] = manga.chapters # type: ignore
             if not chapters.exists():
                 self.full_manga_parse(manga)

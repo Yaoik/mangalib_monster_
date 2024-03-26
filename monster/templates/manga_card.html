@@ -27,5 +27,5 @@
 
 {% endfor %}
 
-<div id='next' hidden data-next={% if meta.next %}1{% else %}0{% endif %} data-exists-{% if data %}1{% else %}0{% endif %}></div>
+<div id='next' hidden data-page={{meta.current}} data-next={% if meta.next %}1{% else %}0{% endif %}></div>
 {% comment %} <div> {% endcomment %}
