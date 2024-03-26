@@ -127,7 +127,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': os.path.join('logs', 'pars_py_log.log'),
+            'filename': os.path.join('../logs', 'pars_py_log.log'),
             'when': 'midnight',
             'interval': 1,
             'backupCount': 10,

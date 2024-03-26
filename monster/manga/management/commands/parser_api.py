@@ -32,26 +32,26 @@ from icecream import ic
 #logger.addHandler(console_handler)
 
 
-# Создание объекта логгера
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-
-# Создание TimedRotatingFileHandler
-handler = TimedRotatingFileHandler(filename='logs\\pars_py_log.log', when='midnight', interval=1, backupCount=10, encoding='utf-8')
-handler.setLevel(logging.DEBUG)
-
-# Создание форматтера
-formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-handler.setFormatter(formatter)
-
-# Добавление обработчика к логгеру
-logger.addHandler(handler)
-
-# Добавление потокового обработчика для вывода в консоль
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
-console_handler.setFormatter(logging.Formatter('%(message)s'))
-logger.addHandler(console_handler)
+## Создание объекта логгера
+#logger = logging.getLogger()
+#logger.setLevel(logging.DEBUG)
+#
+## Создание TimedRotatingFileHandler
+#handler = TimedRotatingFileHandler(filename='logs\\pars_py_log.log', when='midnight', interval=1, backupCount=10, encoding='utf-8')
+#handler.setLevel(logging.DEBUG)
+#
+## Создание форматтера
+#formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+#handler.setFormatter(formatter)
+#
+## Добавление обработчика к логгеру
+#logger.addHandler(handler)
+#
+## Добавление потокового обработчика для вывода в консоль
+#console_handler = logging.StreamHandler()
+#console_handler.setLevel(logging.INFO)
+#console_handler.setFormatter(logging.Formatter('%(message)s'))
+#logger.addHandler(console_handler)
 
 
 
@@ -123,7 +123,7 @@ class Parser:
                 async with aiohttp.ClientSession(headers=self.headers) as session:
                     async with session.get(url) as response:
                         if response.status in self.death_code:
-                            logger.warning(f'{url=}\t{response.status=}')
+                            logging.warning(f'{url=}\t{response.status=}')
                             return None
                         if response.status == 429:
                             time_sleep = float(response.headers.get("Retry-After", random.random()+random.random()))/2
@@ -196,7 +196,7 @@ class Parser:
                 return
             chapter_parser = ChaptersToDb(data, self.manga_object)
             results = await chapter_parser.create_models()
-            logger.info(results)
+            logging.info(results)
             return results
         except AssertionError as e:
             logging.critical(e)

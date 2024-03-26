@@ -5,6 +5,8 @@ from icecream import ic
 from django.db.models import Q
 import re
 from manga_page.models import MangaPage
+from django.db.models import Avg, Case, Count, F, Max, Min, Prefetch, Q, Sum, When
+
 
 def get_rgb_value(number: float):
     t = 3
@@ -32,7 +34,12 @@ def q_search(query:str) -> BaseManager[Manga]:
         #q_objects |= Q(slug_url__icontains=token)
         q_objects |= Q(name__icontains=token)
     
-    result = Manga.objects.filter(q_objects)
+    # chapters__pages__comments
+
+    result: BaseManager[Manga] = Manga.objects.filter(q_objects)
+
+    #result = result.annotate(comments_num=Count('chapters__pages__comments')).filter(comments_num__gt=0)
+
     
     #ic(len(result), result)
     
