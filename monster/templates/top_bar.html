@@ -1,5 +1,27 @@
-<div class="w-full h-16 flex border-b-2 border-gray-50 bg-gray-50 justify-between mb-4">
-    <a class="ml-2 w-48 h-16 bg-slate-50" href={% url "index:index" %}>{% include 'logo.html' %}</a>
+<div class="w-full h-16 flex border-gray-50 bg-[#252527] justify-between mb-0">
 
-    <div class="w-64 h-16 bg-slate-50">{% include 'search.html' %}</div>
+    <a class="ml-2 w-48 h-16 bg-[#252527]" href={% url "index:index" %}>
+        {% include 'logo.html' %}
+    </a>
+
+    <div class="w-64 h-16 bg-[#252527]" id='searrrr'>
+        {% include 'search.html' %}
+    </div>
+
+    <div class="w-64 h-16 bg-[#252527]" id='nextttt'>
+
+    </div>
+
 </div>
+
+
+
+
+
+{% block extra_css %}
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

@@ -1,12 +1,6 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
-<div class="bg-[1c1c1c] p-3 flex items-center align-middle flex-col">
+{% comment %} <div class="bg-[1c1c1c] p-3 flex items-center align-middle flex-col"> {% endcomment %}
 {% for manga in data %}
-<div class='w-[700px] hover:h-48 h-32 rounded-lg bg-[#252526] hover:bg-[#313134] duration-300 my-2 mx-2 overflow-hidden'>
+<div class='w-[700px] h-32 min-h-32 rounded-lg bg-[#252526] hover:bg-[#313134] duration-300 my-2 mx-2 overflow-hidden'>
     <a class='w-full h-full flex p-2 justify-between gap-4' href={% url 'manga:manga' slug=manga.slug %}>
         <img class='h-full w-auto rounded-md' src={{manga.cover.default}} >
         <div class='h-full w-full rounded-md flex flex-col my-auto justify-center'>
@@ -23,5 +17,15 @@
         </div>
     </a>
 </div>
+{% empty %}
+
+<div class='w-[700px] h-32 min-h-32 rounded-lg bg-[#252526] my-2 mx-2 flex items-center align-middle'>
+    <div class='w-auto h-auto text-center m-auto text-[#BFBFBF]'>
+        Ничего не найдено   
+    </div>
+</div>
+
 {% endfor %}
-<div>
+
+<div id='next' hidden data-next={% if meta.next %}1{% else %}0{% endif %} data-exists-{% if data %}1{% else %}0{% endif %}></div>
+{% comment %} <div> {% endcomment %}

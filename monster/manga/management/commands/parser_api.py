@@ -79,22 +79,23 @@ class Parser:
         self.death_code = [404, 422]
         self.manga_object = None
         headers = {
-            'authority': 'api.lib.social',
             'accept': '*/*',
             'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-            'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDU5N2YzYmViYTdiYzU1NzZjMjUxZGQwMTBkM2ExYjU1NDIxOWVhZmU5N2VkNDIxOWI1MzZkZDg1ZWRjMWY4NTU5MDIyZTJkNDc1M2YxODciLCJpYXQiOjE3MDcyMzM5MzguMjI1MzMyLCJuYmYiOjE3MDcyMzM5MzguMjI1MzMzLCJleHAiOjE3MDk3Mzk1MzguMjE5OTE1LCJzdWIiOiI0MjU1MDIiLCJzY29wZXMiOltdfQ.Q0HCTNpoX791Y-FhvQTbrjzQ634LgrUxP6pp46da4-vbAnkdPllNZrIALOwJoevG6Haj5OkBNU415ZFmvFA9RuNqFxi7EpNFU7zNcHOqEmMVShkxpbikIRJaLv3RpAtJibLQWKsMclw0mc5FohGb6xpb7tCsIFRWP8JBfPkVUZX5Q9mS2T6Aawf0vpWNuV6go9bsihbTz8A1UXxwQ6KsROavrKLpq91f48tBNjlW71hwpLPVITVJlbhSubTioODt1BIIRYHH_T2Zk3_OMiS_4wQIgWlaCSKccWZerrJ5g-XmMMWxgspfpUm8y__x62n-T3LTxl1bSTFI8UXPXg-oGHt6rHSU1-d9nSSN8AOagHYsWvVvsiRyb-YkMXs6ItKjHyHrjohpxpMBllY58sAPp0zIavNaEIC3E4_PmZ8oyLTmTK0IJK3ofvsQV0grN04qPowDcrNE_t-RpEm3qoE3Yfl3_ZFE6ZJP94ck9ZEL-eIkbq7WeVS-qZlzjrZskXOgbgNdkH3Lhk-XMgAZwFKywMNnVZ5Gos9v4FArVcOW-vSgq3tkV4Qccx-nlYYMGg_mPbF2C9QMFiwWNn6i-k3yE2MCikm-9lqZHxQ3AWadWAKEffkH0VJiNYCQSmaDai6e8sz1m-I3ZQ5zESNQgJTzaoKFTthR_-oYfxC4Qqvdyjs',
+            'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNjgxOTQyNDg5ZWIzMDdmYzcyOWJiYWVhYzI2M2Q5ODUxMDQxMjE0NWI5YThkYTIzZjJiYjRjZTZhOTJjYjE0M2RiMzIzY2YxOGU0ZWNiZTYiLCJpYXQiOjE3MDk5ODkwNjguNTY5NTg5LCJuYmYiOjE3MDk5ODkwNjguNTY5NTkxLCJleHAiOjE3MTI2Njc0NjguNTY3MTcyLCJzdWIiOiI0MjU1MDIiLCJzY29wZXMiOltdfQ.xCKXS6-HX7S00rBEyG4j57WQ5MGCZHbyJ4REbt-zje3THUpwF9DSNnm4LAnSLHnsIxetKzbMnMLjoCtLmmEF9m3FPqnC7mvfuV2CP_6mIa4Pl8vuaY37Dk2dXRNkNN3ahfN0b2X8MktTFNTqL3pkN26wKZDDApZIHaxxh_w9r_dCTLr-aeGAm3B22m0KV5oMb4PElQt1gchTdnEgRayAVN1uubeJyHJRb8ZzdWObI_v25WWP7Jw7B6DuOpxRQQ10jqrc2yyI7ChvgUEU6Xg36qYXMNmp9IMW4u9ARlkzHZ9vF4CAjhUHeqdNvwx_QNIXb64bzmQLVTUABEIE377_9-YnioFTPQER_bvnBDu8Pz_iAPJSac2QWE3LhlqLI9aHxwYrnV1_wu74rSPTEKHVgDBEWQd6aC095YOhqRGizl9CHeW2onLkVR96qjXyA0GaTLb4B4Q519z4M6TBf4qsgWYo0udK9QQgl0BLHEI0SQJp2JwR0bVDfhDWJSOziCIoR84U4_Cr_9JZJrfsyhbfMRx97FLs1SFXEGL2u_8NoK8LOcyTNh5HocrVvPUSrsxAlgbPWjebaKfvFlvp495h3UZaJrEAcDEWZ1LfQOHdBKZXQc3NcFT0Rh9Npl4TOyarBwFA63I6HVHof-pihWYAxBnv1CfTRnezo8IcFbUtrEk',
+            'cache-control': 'no-cache',
             'content-type': 'application/json',
             'dnt': '1',
             'origin': 'https://test-front.mangalib.me',
+            'pragma': 'no-cache',
             'referer': 'https://test-front.mangalib.me/',
-            'sec-ch-ua': '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
+            'sec-ch-ua': '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
             'sec-fetch-dest': 'empty',
             'sec-fetch-mode': 'cors',
             'sec-fetch-site': 'cross-site',
             'site-id': '1',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
         }
         self.headers = headers
         #if (x:=Manga.objects.filter(slug=self.slug)).exists():
@@ -112,14 +113,14 @@ class Parser:
     
     @staticmethod
     def _data_url(slug:str):
-        return f'https://api.lib.social/api/manga/{slug}?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format'
+        return f'https://api.lib.social/api/manga/{slug}?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=franchise&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format'
     
     async def _fetch_data(self, url, headers=None):
         while True:
             try:
                 #headers_t = {'authorization':headers['authorization']}
                 #logging.info(headers_t)
-                async with aiohttp.ClientSession(headers=headers) as session:
+                async with aiohttp.ClientSession(headers=self.headers) as session:
                     async with session.get(url) as response:
                         if response.status in self.death_code:
                             logger.warning(f'{url=}\t{response.status=}')
@@ -160,17 +161,23 @@ class Parser:
         return self
         
     async def parse_manga(self):
+        ic()
         if not isinstance(self.manga_data, dict):
+            ic()
             await self._fetch_manga()
         assert isinstance(self.manga_data, dict)
+        ic()
         manga_to_db = MangaToDb(self.manga_data)
         #manga_to_db.show()
+        ic()
         try:
+            ic()
             manga, iscreate = await manga_to_db.create_model()
         except Exception as e:
             logging.error(f'{e=}\t{manga_to_db.href=}\t{e.args=}')
             raise Exception(e)
         self.manga_object: Manga | None = manga
+        ic()
         return manga
 
     async def parse_chapters(self, manga:Manga|None=None):
@@ -368,6 +375,9 @@ def manga_urls_generator(page:int):
     response = requests.get(
         f'https://api.lib.social/api/manga?fields[]=rate&fields[]=rate_avg&fields[]=userBookmark&site_id[]=1&page={page}',
     )
+    response = requests.get(
+        f'https://api.lib.social/api/manga?fields[]=rate&fields[]=rate_avg&fields[]=userBookmark&page={page}&seed=c56cf1f3a6c95e269e99cf193ff37fd4&site_id[]=1'
+    )
     if response.status_code<300:
         try:
             for manga in response.json().get('data'):
@@ -398,9 +408,13 @@ def get_manga():
 
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
-    async def main(self):
-        url = 'https://test-front.mangalib.me/ru/manga/7965--chainsaw-man?section=info'
-        return await Parser('https://test-front.mangalib.me/ru/manga/160510--dou-ganbattemo-ecchi-ni-nacchau-osananajimi?ui=425502').parse_manga()
+    async def main(self, parser:Parser):
+        
+        manga = await parser.parse_manga()
+        assert isinstance(manga, Manga)
+        return manga
+        breakpoint()
+        
         #parser = Parser(url)
         #print(parser.clear_url)
         #print(parser.data_url)
@@ -470,8 +484,30 @@ class Command(BaseCommand):
         res = asyncio.get_event_loop().run_until_complete(parser.parse_all_comments_from_manga(manga=None, chapters=chapters))
         return res
     
+    from annoying.fields import AutoOneToOneField
+   
+    
     def handle(self, *args, **options):
+        t = True
+        from annoying.functions import get_object_or_None
         
+        for i in manga_urls_generator(1):
+            ic(i) 
+            if i in ['https://test-front.mangalib.me/ru/manga/i-alone-level-up']:
+                continue
+            parser = Parser(i)
+            manga = get_object_or_None(Manga, slug=parser.slug)
+            ic(manga)
+            #breakpoint()
+            
+            if manga is None:
+                manga = asyncio.run(self.main(parser))
+            
+            chapters: QuerySet[Chapter] = manga.chapters # type: ignore
+            if not chapters.exists():
+                self.full_manga_parse(manga)
+            
+        return
         #result = get_manga()
         
         #manga = Manga.objects.get(id=4)
@@ -562,3 +598,19 @@ class Command(BaseCommand):
 
 
 
+
+#https://api.lib.social/api/manga/sweet-home-kim-carnby-?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=franchise&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format
+
+#https://api.lib.social/api/manga/sweet-home-kim-carnby-?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format
+
+
+
+
+
+
+
+
+
+#https://api.lib.social/api/manga/sweet-home-kim-carnby-?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=franchise&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format
+
+#https://api.lib.social/api/manga/sweet-home-kim-carnby-?fields[]=background&fields[]=eng_name&fields[]=otherNames&fields[]=summary&fields[]=releaseDate&fields[]=type_id&fields[]=caution&fields[]=views&fields[]=close_view&fields[]=rate_avg&fields[]=rate&fields[]=genres&fields[]=tags&fields[]=teams&fields[]=franchise&fields[]=authors&fields[]=publisher&fields[]=userRating&fields[]=moderated&fields[]=metadata&fields[]=metadata.count&fields[]=metadata.close_comments&fields[]=manga_status_id&fields[]=chap_count&fields[]=status_id&fields[]=artists&fields[]=format

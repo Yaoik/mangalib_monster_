@@ -1,3 +1,23 @@
-<form action="{% url 'manga:search' %}" method="get" class='w-64 h-16 bg-slate-100 flex justify-center align-middle content-center'>
-    <input name="q" type="text" placeholder="Search..." class="w-full h-8">
-</form>
+{% load static %}
+
+<div class='w-64 h-auto flex flex-col gap-2 items-center'>
+    <div class='w-64 h-16 bg-[#232324] flex align-middle content-center border-[#2b2b2c] border justify-center'>
+        <input data-url="{% url 'manga:search' %}" id='q' name="q" type="text" placeholder="Search..." class="w-full h-12 my-auto p-3 bg-[#232324] text-[#BFBFBF]">
+
+    </div>
+
+    <div id='result' class='w-fit flex flex-col max-h-[800px] gap-1 z-50 border-2 border-[#1c1c1c] relative bg-[#1c1c1c] overflow-auto rounded-lg'>
+        
+    </div>
+
+</div>  
+
+
+
+{% block extra_css %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script src='{% static "search.js" %}'></script>
+{% endblock %}

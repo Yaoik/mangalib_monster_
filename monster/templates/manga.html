@@ -5,18 +5,58 @@
 
 {% block content %}
 {% include 'top_bar.html' %}
+<style>
+    .test {
+        background-color: rgb(255, 255, 255); 
+        box-shadow: rgba(0, 0, 0, 0.1) 0px -100px 100px 0px inset;
+    }
+</style>
 
+<div class="w-8/12 mx-auto flex flex-col justify-center items-center bg-black h-full p-4 font-mono rounded-md min-h-96 mt-4">
+    <img src={{manga.background.url}} class='rounded-lg brightness-75 test'>
+    <div class="w-full flex flex-row justify-between items-center -mt-10 z-10">
+        <div class="w-full flex flex-col items-center">
+            <div class="w-48 h-auto ">
+                <img src={{manga.cover.default}} class='m-auto rounded-lg'>
+            </div>
 
+            <h2 class="text-center text-lg">
+                {{manga.rus_name}}
+            </h2>
 
-<div class="container border-2 border-black mx-auto w-[75%] text-center">
-    {{manga.rus_name}}
+            <div class="text-center w-2/12">
+                {{manga.type}}
+            </div>
+        </div>
+        <div class="w-full flex flex-col items-center">
+            <div class="w-48 h-auto ">
+                <img src={{manga.cover.default}} class='m-auto rounded-lg'>
+            </div>
+
+            <h2 class="text-center text-lg">
+                {{manga.rus_name}}
+            </h2>
+
+            <div class="text-center w-2/12">
+                {{manga.type}}
+            </div>
+        </div>
+        <div class="w-full flex flex-col items-center">
+            <div class="w-48 h-auto ">
+                <img src={{manga.cover.default}} class='m-auto rounded-lg'>
+            </div>
+
+            <h2 class="text-center text-lg">
+                {{manga.rus_name}}
+            </h2>
+
+            <div class="text-center w-2/12">
+                {{manga.type}}
+            </div>
+        </div>
+    </div>
+
 </div>
-
-<div class="container border-2 border-black mx-auto w-[75%] text-center">
-    <img src={{manga.cover.default}} class='m-auto'>
-</div>
-
-
 
 {% endblock %}
 
