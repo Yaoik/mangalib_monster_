@@ -35,6 +35,8 @@ function add_elems(data) {
         console.info(load_more)
 
         load_more.on('click', () => {
+            next_data.remove()
+
             search_add(q_el, page+1)
         }
     )

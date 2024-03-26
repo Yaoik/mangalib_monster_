@@ -10,13 +10,15 @@
 {% include 'top_bar.html' %}
 
 
+{% load custom_filters %}
 
-{% comment %} 
-<a class="ml-2 w-48 h-16 bg-[#252527]" href={% url "index:index" %}>
-    {% include 'logo.html' %}
-</a> 
-{% endcomment %}
+<div class='w-16 h-full flex flex-col justify-center items-center align-middle m-auto my-10'>
+    {% for i in '9876543210'|make_list %}
 
+        <div class='w-16 h-16 items-center text-center align-middle' style="background-color: {{ i|get_color }}">{{i}}</div>
+
+    {% endfor %}
+</div>
 
 {% endblock %}
 
@@ -28,7 +30,6 @@
 
 
 {% block extra_css %}
-<!-- Любые дополнительные стили для этой страницы -->
 {% endblock %}
 
 {% block extra_js %}

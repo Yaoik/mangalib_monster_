@@ -6,6 +6,16 @@ from django.db.models import Q
 import re
 from manga_page.models import MangaPage
 
+def get_rgb_value(number: float):
+    t = 3
+    normalized_number = max(0, min((number - t) / (10-t), 1))
+
+    red = int((1 - normalized_number) * 255)
+    green = int(normalized_number * 255)
+    blue = 0  
+
+    return red, green, blue
+
 
 
 def q_search(query:str) -> BaseManager[Manga]:

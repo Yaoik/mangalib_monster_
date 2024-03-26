@@ -1,4 +1,6 @@
 {% comment %} <div class="bg-[1c1c1c] p-3 flex items-center align-middle flex-col"> {% endcomment %}
+{% load custom_filters %}
+
 {% for manga in data %}
 <div class='w-[700px] h-32 min-h-32 rounded-lg bg-[#252526] hover:bg-[#313134] duration-300 my-2 mx-2 overflow-hidden'>
     <a class='w-full h-full flex p-2 justify-between gap-4' href={% url 'manga:manga' slug=manga.slug %}>
@@ -7,7 +9,7 @@
             <span class='text-xs text-[#BFBFBF]'>{{manga.status}}</span>
             <span class='text-[#BFBFBF] text-sm mb-2'>{{manga.rus_name}}</span>
             <div class='text-sm  mt-2'>
-                <span class='text-[#EBEBF580] text-xs '>
+                <span class='text-[#EBEBF580] text-xs' style="color: {{ manga.rating.average|get_color }}">
                     {{manga.rating.average}}
                 <span>
                 <span class='text-[#EBEBF580] text-xs'>
