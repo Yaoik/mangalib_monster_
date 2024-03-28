@@ -198,6 +198,18 @@ class Manga(models.Model):
     
     def get_all_pages(self):
         return Page.objects.filter(chapter_id__manga_id=self)
+    
+    @property
+    def chapters_count(self):
+        return self.chapters.count() # type: ignore
+    
+    @property
+    def manga_status(self):
+        return str(self.status.label) # type: ignore
+    
+    @property
+    def translate_status(self):
+        return str(self.scanlate_status.label) # type: ignore
     #total_mangas = Manga.objects.filter(prior).count()
     #logging.info(f'generate_random_mangas {total_mangas=}')
     #used_indexes = set([i for i in range(1, total_mangas + 1)])

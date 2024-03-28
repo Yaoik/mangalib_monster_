@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
-
 {% block title %}{{manga.slug}}{% endblock %}
 
 {% block content %}
+{% load custom_filters %}
+{% load static %}
+
 {% include 'top_bar.html' %}
 <style>
     .test {
@@ -12,47 +14,189 @@
     }
 </style>
 
-<div class="w-8/12 mx-auto flex flex-col justify-center items-center bg-black h-full p-4 font-mono rounded-md min-h-96 mt-4">
-    <img src={{manga.background.url}} class='rounded-lg brightness-75 test'>
-    <div class="w-full flex flex-row justify-between items-center -mt-10 z-10">
-        <div class="w-full flex flex-col items-center">
-            <div class="w-48 h-auto ">
+<div class="w-[1300px] mx-auto flex flex-col justify-center items-center bg-[#0a0a0a] h-full p-4 font-mono rounded-md min-h-96 mt-4 [&_*]:duration-300">
+    <img src={{manga.background.url}} class='rounded-lg brightness-75 test w-[1300px] h-[380px] object-cover'>
+
+    <div class="w-full h-full flex flex-row justify-between -mt-20 z-10 border-red-900 border-1 px-4 [&>div]:border-1 [&>div]:border-yellow-300 gap-4">
+        {% comment %} left block {% endcomment %}
+        <div class="w-[260px] flex flex-col items-center align-middle text-white gap-8">
+            {% comment %} image {% endcomment %}
+            <div class="w-[260px] h-auto rounded-lg">
                 <img src={{manga.cover.default}} class='m-auto rounded-lg'>
             </div>
 
-            <h2 class="text-center text-lg">
-                {{manga.rus_name}}
-            </h2>
-
-            <div class="text-center w-2/12">
-                {{manga.type}}
+            <div class='w-[260px] h-auto hover:[&>div]:cursor-pointer bg-[#1c1c1c] [&>div]:gap-1 [&>div]:text-left [&>div]:p-2 [&>div]:rounded-lg rounded-lg flex flex-col [&>div]:text-sm p-2 [&>div]:w-full [&>div]:h-auto hover:[&>div]:bg-[#252526]'>
+                {% comment %} {% for i in '0123456'|make_list %} {% endcomment %}
+                <div>
+                    <div class="text-[#EBEBF580] items-start text-left">
+                        Тип
+                    </div>  
+                    <div class='text-[#BFBFBF] text-base '>
+                        {% if manga.model == 'manga' %}
+                            Манга
+                        {% elif manga.model == 'manhva' %}
+                            Манхва
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-[#EBEBF580] items-start text-left">
+                        Выпуск
+                    </div>  
+                    <div class='text-[#BFBFBF] text-base '>
+                        {{manga.release_date_string}}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-[#EBEBF580] items-start text-left">
+                        Глав
+                    </div>  
+                    <div class='text-[#BFBFBF] text-base '>
+                        {{manga.chapters_count}}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-[#EBEBF580] items-start text-left">
+                        Статус
+                    </div>  
+                    <div class='text-[#BFBFBF] text-base '>
+                        {{manga.manga_status}}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-[#EBEBF580] items-start text-left">
+                        Перевод
+                    </div>  
+                    <div class='text-[#BFBFBF] text-base '>
+                        {{manga.translate_status}}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-[#EBEBF580] items-start text-left">
+                        Автор
+                    </div>  
+                    <div class='text-[#BFBFBF] text-base '>
+                        {% for people in manga.authors.all %}
+                            <a {{people.id}}>
+                                {{people.name}}
+                            </a>
+                            
+                        {% endfor %}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-[#EBEBF580] items-start text-left">
+                        Художник
+                    </div>  
+                    <div class='text-[#BFBFBF] text-base '>
+                        {% for people in manga.artists.all %}
+                            <a {{people.id}}>
+                                {{people.name}}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-[#EBEBF580] items-start text-left">
+                        Издатели
+                    </div>  
+                    <div class='text-[#BFBFBF] text-base '>
+                        {% for people in manga.publishers.all %}
+                            <a {{people.id}}>
+                                {{people.name}}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% if manga.other_names %}
+                    <div>
+                        <div class="text-[#EBEBF580] items-start text-left">
+                            Альтернативные названия
+                        </div>  
+                        <div class='text-[#BFBFBF] text-base '>
+                            {% for name in manga.other_names %}
+                                {{name}}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                {% comment %} {% endfor %} {% endcomment %}
             </div>
+
         </div>
-        <div class="w-full flex flex-col items-center">
-            <div class="w-48 h-auto ">
-                <img src={{manga.cover.default}} class='m-auto rounded-lg'>
+
+        {% comment %} right block {% endcomment %}
+        <div class="w-full h-full flex flex-col justify-between items-center align-middle bg-[#0a0a0a] bg-opacity-70 rounded-lg">
+            <div class="w-full h-[100px] flex justify-between text-white px-4 py-2 rounded-lg">
+                <div class="">
+                    <div class='line-[36px] text-[24px]'>
+                        {{manga.rus_name}}
+                    </div>
+                    <div class='text-lg'>
+                        {{manga.name}}
+                    </div>
+                </div>
+
+                <div class='w-auto h-8 rounded-lg flex justify-between items-center align-middle px-2 text-lg'>
+                    <div class=' flex flex-row justify-between items-center align-middle gap-1'>
+                        <div style="color: {{ manga.rating.average|get_color }}">
+                        {{manga.rating.average}}
+                        </div>
+                        <img src='https://img.icons8.com/?size=48&id=19295&format=png' class='w-4 h-4'>
+                    </div>
+                    <div>
+                        / {{manga.rating.votesFormated}}
+                    </div>
+                </div>
             </div>
 
-            <h2 class="text-center text-lg">
-                {{manga.rus_name}}
-            </h2>
 
-            <div class="text-center w-2/12">
-                {{manga.type}}
-            </div>
-        </div>
-        <div class="w-full flex flex-col items-center">
-            <div class="w-48 h-auto ">
-                <img src={{manga.cover.default}} class='m-auto rounded-lg'>
-            </div>
 
-            <h2 class="text-center text-lg">
-                {{manga.rus_name}}
-            </h2>
+            <div class='bg-[#1c1c1c] w-full h-auto z-30 rounded-lg py-4 px-4'>
 
-            <div class="text-center w-2/12">
-                {{manga.type}}
+                <div class='w-full hover:bg-[#252526] p-2 rounded-lg'>
+                    <div class='text-[#EBEBF580]'>
+                        Описание
+                    </div>
+                    <div class='text-[#BFBFBF]'>
+                        {{manga.summary}}
+                    </div>
+                </div>
+                {% comment %} 
+
+                bg-[#0a0a0a] основной фон
+
+                bg-[#252526] фон элементов
+                bg-[#1c1c1c] фон элементов при наведении
+
+                {% endcomment %}
+                <div class='w-full hover:bg-[#252526] p-2 rounded-lg'>
+                    <div class='text-[#EBEBF580]'>
+                        Теги
+                    </div>
+                    <div class='text-[#BFBFBF] [&>div]:text-sm hover:[&>div]:cursor-pointer hover:[&>div]:bg-[#313134] [&>div]:border [&>div]:border-[#464649] [&>div]:rounded-md [&>div]:w-auto [&>div]:h-auto [&>div]:px-2 flex gap-2 flex-wrap [&>div]:bg-[#242425]'>
+                        
+                        <div class='!bg-[#2c2323] text-[#DE7072] !border-[#eb7678] hover:!bg-[#392929]'>
+                            {{manga.age_restriction.label}}
+                        </div>
+
+                        {% for tag in manga.tags.all %}
+                        <div>
+                            {{tag.name|capfirst }}
+                        </div>   
+                        {% endfor %}
+                        {% for tag in manga.genres.all %}
+                        <div>
+                            {{tag.name|capfirst }}
+                        </div>  
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                
             </div>
+        
         </div>
     </div>
 
@@ -66,11 +210,10 @@
 
 
 
-
 {% block extra_css %}
 <!-- Любые дополнительные стили для этой страницы -->
 {% endblock %}
 
 {% block extra_js %}
-<!-- Любые дополнительные скрипты для этой страницы -->
+<script src='{% static "search.js" %}'></script>
 {% endblock %}
