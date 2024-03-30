@@ -173,6 +173,12 @@ class Manga(models.Model):
     artists = models.ManyToManyField(People, related_name='artist_manga_set')
     authors = models.ManyToManyField(People, related_name='author_manga_set')
     
+    
+    @classmethod
+    def make_json(cls):
+        pass
+    
+    
     def get_all_comments(self) -> QuerySet:
         return Comment.objects.filter(post_page__chapter_id__manga_id=self)
     

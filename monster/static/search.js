@@ -2,7 +2,6 @@ var search_bar = $('#search_bar')
 var result = $('#result')
 
 document.addEventListener('click', (event) => {
-    console.log(event.target)
     if (!search_bar[0].contains(event.target)){
         result.html('')
     }
