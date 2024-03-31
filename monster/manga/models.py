@@ -189,10 +189,7 @@ class Manga(models.Model):
         if cls.meta_data is not None:
             if cls.meta_data.get('len(stats)') == len(stats):
                 return cls.meta_data
-        #   rating
-        #   bookmarks
 
-        
         res = stats.annotate(
             bookmarks_count=Cast(KT('bookmarks__count'), IntegerField()), # type: ignore
             bookmarks_read_percent=Cast(KT('bookmarks__stats__0__percent'), FloatField()), # type: ignore

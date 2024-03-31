@@ -120,7 +120,7 @@ DATABASES = {
     }
 }
 
-LOGGING = {
+LOGGING1 = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {

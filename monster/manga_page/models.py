@@ -9,7 +9,7 @@ from annoying.fields import AutoOneToOneField
 from manga.models import Manga, Page, Chapter, Comment, Emotion, CommentEmotion
 
 
-
+ 
 class MangaPage(models.Model):
     manga = AutoOneToOneField(Manga, primary_key=True, related_name='site_page', on_delete=models.CASCADE)
     update_at = models.DateTimeField(auto_now=True, editable=False)
@@ -24,6 +24,9 @@ class MangaPage(models.Model):
     population_page = models.JSONField(default=None, null=True)
     population_chapter = models.JSONField(default=None, null=True)
  
+    population_page_compressed = models.JSONField(default=None, null=True)
+    population_chapter_compressed = models.JSONField(default=None, null=True)
+    
     page_at_chapter_avg = models.DecimalField(default=None, null=True, max_digits=8, decimal_places=4)
     
     chapter_likes_sum = models.IntegerField(default=None, null=True)
@@ -40,26 +43,27 @@ class MangaPage(models.Model):
         return f'Страница манги {str(self.manga)}'
     
     async def update_fields(self):
-        logging.info(f'{str(self)}   start update_fields')
-        await self.__set_count()
-        await self.asave()
-        logging.debug(f'{str(self)}   end __set_count')
+        ic(1) 
+        ic(f'{str(self)}   start update_fields')
+        #await self.__set_count()
+        #await self.asave()
+        ic(f'{str(self)}   end __set_count')
         await self.__set_population()
         await self.asave()
-        logging.debug(f'{str(self)}   end __set_population')
+        ic(f'{str(self)}   end __set_population')
         await self.__set_page_at_chapter_avg()
         await self.asave()
-        logging.debug(f'{str(self)}   end __set_page_at_chapter_avg')
+        ic(f'{str(self)}   end __set_page_at_chapter_avg')
         await self.__set_chapter_likes()
         await self.asave()
-        logging.debug(f'{str(self)}   end __set_chapter_likes')
-        await self.__set_comments_toxic()
-        await self.asave()
-        logging.debug(f'{str(self)}   end __set_comments_toxic')
-        await self.__set_comments_emotions()
-        await self.asave()
-        logging.debug(f'{str(self)}   end __set_comments_emotions')
-        logging.info(f'{str(self)}   end update_fields')
+        ic(f'{str(self)}   end __set_chapter_likes')
+        #await self.__set_comments_toxic()
+        #await self.asave()
+        ic(f'{str(self)}   end __set_comments_toxic')
+        #await self.__set_comments_emotions()
+        #await self.asave()
+        ic(f'{str(self)}   end __set_comments_emotions')
+        ic(f'{str(self)}   end update_fields')
        
     
     async def __set_comments_emotions(self):
@@ -155,19 +159,27 @@ class MangaPage(models.Model):
                 .filter(chapter_id__manga_id=self.manga)
                 .values('id')
                 .annotate(comment_count=Count('comments'))
-                .order_by('-comment_count')
                 )
-        self.population_page = (await sync_to_async(list)(pages))
+
+        self.population_page_compressed = [page['comment_count'] for page in await sync_to_async(list)(pages)]
+
+        pages = (await sync_to_async(list)(pages.order_by('-comment_count')))
+        self.population_page = {'most':pages[:25], 'least':pages[-25:]}
         
     async def __set_population_chapter(self):
         chapters = (
                     Chapter.objects
                     .filter(manga_id=self.manga)
-                    .values('id')
-                    .filter(likes_count__isnull=False)
-                    .order_by('-likes_count')
+                    .values('id', 'likes_count')
                     )
-        self.population_chapter = (await sync_to_async(list)(chapters))
+        chapters = (await sync_to_async(list)(chapters.order_by('-likes_count')))
+
+        res = []
+        for chapter in chapters:
+            res.append((chapter['likes_count'], chapter['id']))
+            
+        self.population_chapter_compressed = [item[0] for item in sorted(res, key=lambda x: x[1])]
+        self.population_chapter = {'most': chapters[:25], 'least':chapters[-25:]}
         
         
     async def __set_count(self):

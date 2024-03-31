@@ -6,7 +6,7 @@ from django.db.models import Q
 import re
 from manga_page.models import MangaPage
 from django.db.models import Avg, Case, Count, F, Max, Min, Prefetch, Q, Sum, When
-
+from manga.models import Manga, Page, Chapter, Comment, Emotion, CommentEmotion
 
 def get_rgb_value(number: float):
     t = 3
@@ -62,12 +62,12 @@ def q_url_to_q(query:str) -> str:
 
 def comments_count(manga:Manga):
     page:MangaPage = manga.site_page # type:ignore
-    return page.comments_count
+    return Comment.objects.filter(post_page__chapter_id__manga_id=manga).count()
 
 def page_count(manga:Manga):
     page:MangaPage = manga.site_page # type:ignore
-    return page.page_count
+    return Page.objects.filter(chapter_id__manga_id=manga).count()
 
 def chapter_count(manga:Manga):
     page:MangaPage = manga.site_page # type:ignore
-    return page.chapter_count
+    return Chapter.objects.filter(manga_id=manga).count()

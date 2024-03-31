@@ -10,7 +10,6 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from icecream import ic
 from django.core.handlers.wsgi import WSGIRequest
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.throttling import UserRateThrottle
@@ -80,7 +79,7 @@ def search(request:WSGIRequest) -> Response:
         return Response({'data':res.data, 'meta':{'next':current_page.has_next(), 'current': current_page.number,'previous':current_page.has_previous()}}, status=200, template_name='manga_card.html')
     
     return Response([], status=400)
-
+ 
 
 @api_view(['GET'])
 def manga_page_count(request:WSGIRequest, slug:str) -> Response:

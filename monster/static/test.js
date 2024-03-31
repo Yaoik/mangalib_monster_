@@ -1,3 +1,94 @@
+function render_main_info(manga_name) {
+    var stats_url = $('#urls')
+    let url = stats_url.data('get-site-page')
+
+    $.ajax({
+        url: url, // Замените на URL вашего серверного скрипта
+        type: 'GET', // Или 'POST', в зависимости от вашего запроса
+        dataType: 'json', // Ожидаемый тип данных
+        success: function(data){
+            let population_page_compressed = $('#population_page_compressed')
+            let population_page_compressed_text = $('#population_page_compressed_text')
+            population_page_compressed_text.text('Количество комментариев по страницам')
+            let arr_population_page_compressed = (Array.from({length: data.population_page_compressed.length}, (_, i) => i + 1))
+            render_graph_one(population_page_compressed, arr_population_page_compressed, manga_name, data.population_page_compressed)
+
+            let population_chapter_compressed = $('#population_chapter_compressed')
+            let population_chapter_compressed_text = $('#population_chapter_compressed_text')
+            population_chapter_compressed_text.text('Количество комментариев по главам')
+            let arr_population_chapter_compressed = (Array.from({length: data.population_chapter_compressed.length}, (_, i) => i + 1))
+            render_graph_one(population_chapter_compressed, arr_population_chapter_compressed, manga_name, data.population_chapter_compressed)
+        },
+        error: function(xhr, status, error){
+            alert(status)
+            alert(error)
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+function render_graph_one(canvas, labels, label_dataset, data) {
+    
+    var percentage_config = {
+        type: 'bar', // указываем тип графика (например, 'bar', 'line', 'pie' и т. д.)
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: label_dataset,
+                    data: data,
+                    backgroundColor: 'rgb(40, 167, 69, .9)',
+                    stack: 'Stack 2',
+                },
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                display: true,
+                position: 'top', // Позиция легенды
+                labels: {
+                    fontColor: 'green', // Новый цвет текста легенды
+                    fontSize: 16 // Новый размер текста легенды
+                }
+            },
+            scales: {
+                y: {
+                    min: 0,
+                    stacked: false,
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            family: 'Arial', // Новый шрифт
+                            size: 14, // Новый размер
+                            style: 'italic', // Новый стиль (например, 'normal', 'italic', 'oblique')
+                            color: 'blue' // Новый цвет
+                        },
+                        callback: function(value) {
+                            return value;
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    titleFont: {
+                        size: 16
+                    },
+                    bodyFont: {
+                        size: 16
+                    },
+                    footerFont: {
+                        size: 16 // there is no footer by default
+                    },
+                }
+            },
+        },
+    }
+
+    // Создаем и отображаем график
+    var myChart = new Chart(canvas, config=percentage_config);
+}
 
 
 $(document).ready(function(){
@@ -17,7 +108,7 @@ $(document).ready(function(){
     
     render_similar(manga_name)
     render_relations(manga_name)
-
+    render_main_info(manga_name)
     $.ajax({
         url: url, // Замените на URL вашего серверного скрипта
         type: 'GET', // Или 'POST', в зависимости от вашего запроса
@@ -52,6 +143,7 @@ $(document).ready(function(){
             $('#bookmarks_text').text('В списках у '+ data.data.bookmarks.count + ' человек')
             $('#rating_text').text(data.data.rating.count+' оценок пользователей')
             add_stats(data)
+            render_main_info()
         },
         error: function(xhr, status, error){
             // Обработка ошибки

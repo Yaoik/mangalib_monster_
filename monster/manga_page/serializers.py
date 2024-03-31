@@ -1,18 +1,16 @@
 from rest_framework import serializers
 from .models import MangaPage 
 
-
+ 
 
 class MangaPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = MangaPage
-        fields = [
-                'chapter_count', 
-                'chapter_likes_avg', 
-                'chapter_likes_sum',
-                'comments_count',
-                'manga',
-                'page_at_chapter_avg',
-                'page_count',
-                ]
-        fields = '__all__'
+        exclude = ['population_page_compressed', 'population_chapter_compressed']
+        
+
+
+class MangaPageSerializerCompressed(serializers.ModelSerializer):
+    class Meta:
+        model = MangaPage
+        fields = ['population_page_compressed', 'population_chapter_compressed']
