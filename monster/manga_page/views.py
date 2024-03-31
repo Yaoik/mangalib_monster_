@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
-from .serializers import MangaPageSerializer, MangaPageSerializerCompressed
+from .serializers import MangaPageSerializer, MangaPageSerializerPopulationCompressed, MangaPageSerializerToxicCompressed
  
 
 
@@ -27,6 +27,11 @@ def get_page(request:Request, slug:str) -> Response:
     return Response(MangaPageSerializer(page).data)
 
 @api_view(['GET'])
-def get_compressed(request:Request, slug:str) -> Response:
+def get_population_compressed(request:Request, slug:str) -> Response:
     page = MangaPage.objects.get(manga__slug=slug)
-    return Response(MangaPageSerializerCompressed(page).data)
+    return Response(MangaPageSerializerPopulationCompressed(page).data)
+
+@api_view(['GET'])
+def get_toxic_compressed(request:Request, slug:str) -> Response:
+    page = MangaPage.objects.get(manga__slug=slug)
+    return Response(MangaPageSerializerToxicCompressed(page).data)

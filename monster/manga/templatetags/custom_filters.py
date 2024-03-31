@@ -1,5 +1,5 @@
 from django import template
-from manga.utils import get_rgb_value, comments_count, page_count, chapter_count
+from manga.utils import get_rgb_value, comments_count, page_count, chapter_count, avg_toxic
 from manga.models import Manga
 
 
@@ -22,3 +22,8 @@ def get_page_count(manga:Manga):
 @register.filter
 def get_chapter_count(manga:Manga):
     return chapter_count(manga)
+
+
+@register.filter
+def get_avg_toxic(manga:Manga):
+    return avg_toxic(manga)

@@ -27,6 +27,8 @@ class MangaPage(models.Model):
     population_page_compressed = models.JSONField(default=None, null=True)
     population_chapter_compressed = models.JSONField(default=None, null=True)
     
+    chapter_toxic_compressed = models.JSONField(default=None, null=True)
+    
     page_at_chapter_avg = models.DecimalField(default=None, null=True, max_digits=8, decimal_places=4)
     
     chapter_likes_sum = models.IntegerField(default=None, null=True)
@@ -57,9 +59,9 @@ class MangaPage(models.Model):
         await self.__set_chapter_likes()
         await self.asave()
         ic(f'{str(self)}   end __set_chapter_likes')
-        #await self.__set_comments_toxic()
-        #await self.asave()
-        ic(f'{str(self)}   end __set_comments_toxic')
+        await self.__set_toxic()
+        await self.asave()
+        ic(f'{str(self)}   end __set_toxic')
         #await self.__set_comments_emotions()
         #await self.asave()
         ic(f'{str(self)}   end __set_comments_emotions')
@@ -100,9 +102,16 @@ class MangaPage(models.Model):
         self.comments_emotions_data = deepcopy(data_list)
     
     
-    async def __set_comments_toxic(self):
+    async def __set_toxic(self):
         #await self.__set_comments_toxic_count()
+        await self.__set_chapter_toxic()
         await self.__set_comments_toxic_avg()
+        
+    async def __set_chapter_toxic(self):
+        chapters = Chapter.objects.filter(manga_id=self.manga)
+        comments = Comment.objects.filter(post_page__chapter_id__in=chapters)
+        res = comments.values('post_page__chapter_id').annotate(avg_toxic=Avg('toxic'))
+        self.chapter_toxic_compressed = [round(i['avg_toxic'], 3) for i in (await sync_to_async(list)(res))]
         
     async def __set_comments_toxic_count(self):
         comments_toxic_count = await Comment.objects.filter(post_page__chapter_id__manga_id=self.manga).filter(toxic__isnull=False).acount()
@@ -152,7 +161,7 @@ class MangaPage(models.Model):
         self.top_10_least_popular_comment = worst_comments
         self.top_10_most_popular_comment = best_comments
         
-        
+           
     async def __set_population_page(self):
         pages = (
                 Page.objects

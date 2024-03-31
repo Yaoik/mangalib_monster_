@@ -1,9 +1,8 @@
 function render_main_info(manga_name) {
     var stats_url = $('#urls')
-    let url = stats_url.data('get-site-page')
 
     $.ajax({
-        url: url, // Замените на URL вашего серверного скрипта
+        url: stats_url.data('page-compressed'), // Замените на URL вашего серверного скрипта
         type: 'GET', // Или 'POST', в зависимости от вашего запроса
         dataType: 'json', // Ожидаемый тип данных
         success: function(data){
@@ -18,6 +17,7 @@ function render_main_info(manga_name) {
             population_chapter_compressed_text.text('Количество комментариев по главам')
             let arr_population_chapter_compressed = (Array.from({length: data.population_chapter_compressed.length}, (_, i) => i + 1))
             render_graph_one(population_chapter_compressed, arr_population_chapter_compressed, manga_name, data.population_chapter_compressed)
+
         },
         error: function(xhr, status, error){
             alert(status)
@@ -25,6 +25,24 @@ function render_main_info(manga_name) {
             console.error(xhr.responseText);
         }
     });
+    $.ajax({
+        url: stats_url.data('page-compressed-toxic'), // Замените на URL вашего серверного скрипта
+        type: 'GET', // Или 'POST', в зависимости от вашего запроса
+        dataType: 'json', // Ожидаемый тип данных
+        success: function(data){
+            let canvas = $('#toxic_chapters_compressed')
+            let lable = $('#toxic_chapters_compressed_text')
+            lable.text('Средняя токсичность глав')
+            let arr = (Array.from({length: data.chapter_toxic_compressed.length}, (_, i) => i + 1))
+            render_graph_one(canvas, arr, manga_name, data.chapter_toxic_compressed)
+        },
+        error: function(xhr, status, error){
+            alert(status)
+            alert(error)
+            console.error(xhr.responseText);
+        }
+    });
+
 }
 
 function render_graph_one(canvas, labels, label_dataset, data) {
@@ -143,7 +161,6 @@ $(document).ready(function(){
             $('#bookmarks_text').text('В списках у '+ data.data.bookmarks.count + ' человек')
             $('#rating_text').text(data.data.rating.count+' оценок пользователей')
             add_stats(data)
-            render_main_info()
         },
         error: function(xhr, status, error){
             // Обработка ошибки

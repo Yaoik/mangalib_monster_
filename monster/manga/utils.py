@@ -71,3 +71,7 @@ def page_count(manga:Manga):
 def chapter_count(manga:Manga):
     page:MangaPage = manga.site_page # type:ignore
     return Chapter.objects.filter(manga_id=manga).count()
+
+def avg_toxic(manga:Manga):
+    page:MangaPage = manga.site_page # type:ignore
+    return page.comments_toxic_avg
