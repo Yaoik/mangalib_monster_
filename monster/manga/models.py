@@ -2,11 +2,17 @@ import logging
 import random
 from django.db import models
 import re
-from django.db.models import Q, Max
+from django.db.models import Q, Max, Min, Avg, Sum
 from django.core.validators import MaxValueValidator, MinValueValidator
 from asgiref.sync import sync_to_async
 from annoying.fields import AutoOneToOneField
 from django.db.models.query import QuerySet
+from icecream import ic
+from django.db.models.fields.json import KT
+from django.db.models import IntegerField, FloatField
+from django.db.models.functions import Cast
+import time
+
 
 class AgeRestriction(models.Model):
     id = models.SmallIntegerField(primary_key=True, null=False, unique=True)
@@ -173,12 +179,78 @@ class Manga(models.Model):
     artists = models.ManyToManyField(People, related_name='artist_manga_set')
     authors = models.ManyToManyField(People, related_name='author_manga_set')
     
+    meta_data = None
     
     @classmethod
     def make_json(cls):
-        pass
-    
-    
+        start = time.time()
+        stats = Stats.objects.filter(Q(rating__isnull=False) & Q(bookmarks__isnull=False))
+
+        if cls.meta_data is not None:
+            if cls.meta_data.get('len(stats)') == len(stats):
+                return cls.meta_data
+        #   rating
+        #   bookmarks
+
+        
+        res = stats.annotate(
+            bookmarks_count=Cast(KT('bookmarks__count'), IntegerField()), # type: ignore
+            bookmarks_read_percent=Cast(KT('bookmarks__stats__0__percent'), FloatField()), # type: ignore
+            bookmarks_in_plan_percent=Cast(KT('bookmarks__stats__1__percent'), FloatField()), # type: ignore
+            bookmarks_drop_percent=Cast(KT('bookmarks__stats__2__percent'), FloatField()), # type: ignore
+            bookmarks_readed_percent=Cast(KT('bookmarks__stats__3__percent'), FloatField()), # type: ignore
+            bookmarks_favorite_percent=Cast(KT('bookmarks__stats__4__percent'), FloatField()), # type: ignore
+            bookmarks_another_percent=Cast(KT('bookmarks__stats__5__percent'), FloatField()), # type: ignore
+            
+            rating_count=Cast(KT('rating__count'), IntegerField()), # type: ignore
+            rating_10_percent=Cast(KT('rating__stats__0__percent'), FloatField()), # type: ignore 
+            rating_9_percent=Cast(KT('rating__stats__1__percent'), FloatField()), # type: ignore 
+            rating_8_percent=Cast(KT('rating__stats__2__percent'), FloatField()), # type: ignore 
+            rating_7_percent=Cast(KT('rating__stats__3__percent'), FloatField()), # type: ignore 
+            rating_6_percent=Cast(KT('rating__stats__4__percent'), FloatField()), # type: ignore 
+            rating_5_percent=Cast(KT('rating__stats__5__percent'), FloatField()), # type: ignore 
+            rating_4_percent=Cast(KT('rating__stats__6__percent'), FloatField()), # type: ignore 
+            rating_3_percent=Cast(KT('rating__stats__7__percent'), FloatField()), # type: ignore 
+            rating_2_percent=Cast(KT('rating__stats__8__percent'), FloatField()), # type: ignore 
+            rating_1_percent=Cast(KT('rating__stats__9__percent'), FloatField()), # type: ignore
+        )
+        
+        bookmarks = res.aggregate(
+            bookmarks_count_avg=Avg('bookmarks_count'),
+            bookmarks_read_percent_avg=Avg('bookmarks_read_percent'),
+            bookmarks_in_plan_percent_avg=Avg('bookmarks_in_plan_percent'),
+            bookmarks_drop_percent_avg=Avg('bookmarks_drop_percent'),
+            bookmarks_readed_percent_avg=Avg('bookmarks_readed_percent'),
+            bookmarks_favorite_percent_avg=Avg('bookmarks_favorite_percent'),
+            bookmarks_another_percent_avg=Avg('bookmarks_another_percent'),
+        )
+        
+        rating = res.aggregate(
+            rating_count_avg=Avg('rating_count'),
+            rating_1_percent_avg=Avg('rating_1_percent'),
+            rating_2_percent_avg=Avg('rating_2_percent'),
+            rating_3_percent_avg=Avg('rating_3_percent'),
+            rating_4_percent_avg=Avg('rating_4_percent'),
+            rating_5_percent_avg=Avg('rating_5_percent'),
+            rating_6_percent_avg=Avg('rating_6_percent'),
+            rating_7_percent_avg=Avg('rating_7_percent'),
+            rating_8_percent_avg=Avg('rating_8_percent'),
+            rating_9_percent_avg=Avg('rating_9_percent'),
+            rating_10_percent_avg=Avg('rating_10_percent'),
+        )
+        data = {
+            'bookmarks': {key:round(value, 3) for key, value in bookmarks.items()},
+            'rating': {key:round(value, 3) for key, value in rating.items()},
+            'len(stats)': len(stats),
+            }
+        
+        end = time.time()
+        duration = end-start
+        ic(duration)
+        cls.meta_data = data
+
+        return cls.meta_data
+        
     def get_all_comments(self) -> QuerySet:
         return Comment.objects.filter(post_page__chapter_id__manga_id=self)
     
@@ -237,29 +309,12 @@ class Manga(models.Model):
                 else:
                     return Manga.generate_random_mangas(priority=Manga.objects.aggregate(Max('parse_priority')).get('parse_priority__max', 0))
 
-#class Bookmarks(models.Model):
-#    label = models.CharField(null=False, primary_key=True, max_length=16)
-#
-#class Rating(models.Model):
-#    label = models.PositiveSmallIntegerField(null=False, primary_key=True)
-#
-#
-#class StatsRating(models.Model): 
-#    pass
-#
-#class StatsBookmarks(models.Model):
-#    bookmarks = models.ForeignKey(Bookmarks, verbose_name=_(""), on_delete=models.CASCADE)
-#
-#
-#class Stats(models.Model):
-#    manga = AutoOneToOneField(Manga, primary_key=True, related_name='site_page', on_delete=models.CASCADE)
-#    rating_count = models.PositiveIntegerField()
-#    bookmarks_count = models.PositiveIntegerField()
 
 class Stats(models.Model):
     manga = AutoOneToOneField(Manga, primary_key=True, related_name='stats', on_delete=models.CASCADE)
-    bookmarks = models.JSONField()
-    rating = models.JSONField()
+    bookmarks = models.JSONField(null=True, default=None)
+    rating = models.JSONField(null=True, default=None)
+    last_update = models.DateTimeField(auto_now=True, editable=False)
     # https://api.lib.social/api/manga/2262--oyasumi-punpun/stats?bookmarks=true&rating=true
     
     

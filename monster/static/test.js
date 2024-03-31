@@ -1,6 +1,5 @@
 
 
-
 $(document).ready(function(){
     // Выполняем AJAX-запрос после загрузки страницы
     const pattert = 'manga/(.*?)/'
@@ -16,15 +15,43 @@ $(document).ready(function(){
         console.log("Не удалось найти совпадение в URL");
     }
     
-    
+    render_similar(manga_name)
+    render_relations(manga_name)
+
     $.ajax({
         url: url, // Замените на URL вашего серверного скрипта
         type: 'GET', // Или 'POST', в зависимости от вашего запроса
         dataType: 'json', // Ожидаемый тип данных
-        success: function(data){
-            console.log(data)
-            render_bookmarks(data.data.bookmarks.stats, manga_name)
-            render_rating(data.data.rating.stats, manga_name)
+        success: async function(data){
+
+            var data_1 = await get_avg()
+
+            var arr = {'bookmarks':[], 'rating':[]}
+
+            arr['rating'].unshift(data_1['rating']['rating_1_percent_avg'])
+            arr['rating'].unshift(data_1['rating']['rating_2_percent_avg'])
+            arr['rating'].unshift(data_1['rating']['rating_3_percent_avg'])
+            arr['rating'].unshift(data_1['rating']['rating_4_percent_avg'])
+            arr['rating'].unshift(data_1['rating']['rating_5_percent_avg'])
+            arr['rating'].unshift(data_1['rating']['rating_6_percent_avg'])
+            arr['rating'].unshift(data_1['rating']['rating_7_percent_avg'])
+            arr['rating'].unshift(data_1['rating']['rating_8_percent_avg'])
+            arr['rating'].unshift(data_1['rating']['rating_9_percent_avg'])
+            arr['rating'].unshift(data_1['rating']['rating_10_percent_avg'])
+
+            arr['bookmarks'].unshift(data_1['bookmarks']['bookmarks_another_percent_avg'])
+            arr['bookmarks'].unshift(data_1['bookmarks']['bookmarks_favorite_percent_avg'])
+            arr['bookmarks'].unshift(data_1['bookmarks']['bookmarks_readed_percent_avg'])
+            arr['bookmarks'].unshift(data_1['bookmarks']['bookmarks_drop_percent_avg'])
+            arr['bookmarks'].unshift(data_1['bookmarks']['bookmarks_in_plan_percent_avg'])
+            arr['bookmarks'].unshift(data_1['bookmarks']['bookmarks_read_percent_avg'])
+
+            render_bookmarks(data.data.bookmarks.stats, manga_name, data_avg=arr['bookmarks'])
+            render_rating(data.data.rating.stats, manga_name, data_avg=arr['rating'])
+
+            $('#bookmarks_text').text('В списках у '+ data.data.bookmarks.count + ' человек')
+            $('#rating_text').text(data.data.rating.count+' оценок пользователей')
+            add_stats(data)
         },
         error: function(xhr, status, error){
             // Обработка ошибки
@@ -32,10 +59,120 @@ $(document).ready(function(){
         }
     });
 
-
-
-
 });
+
+function render_similar(manga_name) {
+
+    let url = `https://api.lib.social/api/manga/${manga_name}/similar`
+    let similar_div = $('#similar')
+
+    
+
+    $.ajax({
+        url: url, // Замените на URL вашего серверного скрипта
+        type: 'GET', // Или 'POST', в зависимости от вашего запроса
+        dataType: 'json', // Ожидаемый тип данных
+        success: function(data){
+            console.log(data)
+            if (data.data.length == 0) {
+                similar_div.append('<div class=" text-center w-full h-full align-middle text-3xl text-[#BFBFBF] my-auto ">Тут ничего нет</div>')
+            }
+            data.data.forEach(el => {
+                similar_div.append(`
+                                <div class="w-auto min-w-96 h-32 rounded-lg bg-[#252527] flex m-1"> 
+                                    <img src='${el.media.cover.default}' class='h-32 w-auto max-w-28 rounded-lg object-cover overflow-hidden '></img>
+                                    <div class='flex flex-col justify-start m-2 w-auto'>
+                                        <span class='text-[#77A5D8] text-sm'>${el.similar}</span>
+                                        <span class='text-[#BFBFBF]'>${el.media.rus_name}</span>
+                                        <span class='text-[#EBEBF580] text-sm mt-auto'>${el.media.type.label} . ${el.media.status.label}</span>
+                                    </div>
+                                </div>
+                                `)
+            });
+        },
+        error: function(xhr, status, error){
+            console.error(xhr.responseText); // Вывод ошибки в консоль
+        }
+    });
+}
+
+function render_relations(manga_name) {
+
+    let url = `https://api.lib.social/api/manga/${manga_name}/relations`
+    let relations_div = $('#relations')
+
+    $.ajax({
+        url: url, // Замените на URL вашего серверного скрипта
+        type: 'GET', // Или 'POST', в зависимости от вашего запроса
+        dataType: 'json', // Ожидаемый тип данных
+        success: function(data){
+            console.log(data)
+            if (data.data.length == 0) {
+                relations_div.append('<div class=" text-center w-full h-full align-middle text-3xl text-[#BFBFBF] my-auto ">Тут ничего нет</div>')
+            }
+            data.data.forEach(el => {
+                relations_div.append(`
+                                    <div class="w-auto min-w-96 h-32 rounded-lg bg-[#252527] flex m-1"> 
+                                        <img src='${el.media.cover.default}' class='h-32 w-auto max-w-28 rounded-lg object-cover overflow-hidden '></img>
+                                        <div class='flex flex-col justify-start m-2 w-auto'>
+                                            <span class='text-[#77A5D8] text-sm'>${el.related_type.label}</span>
+                                            <span class='text-[#BFBFBF]'>${el.media.rus_name}</span>
+                                            <span class='text-[#EBEBF580] text-sm mt-auto'>${el.media.type.label} . ${el.media.status.label}</span>
+                                        </div>
+                                    </div>
+                                    `)
+            });
+
+
+        },
+        error: function(xhr, status, error){
+            console.error(xhr.responseText); // Вывод ошибки в консоль
+        }
+    });
+}
+
+function get_avg() {
+    return new Promise((resolve, reject) => {
+
+    var stats_url = $('#urls')
+
+    $.ajax({
+        url: stats_url.data('get-stats-urs'), // Замените на URL вашего серверного скрипта
+        type: 'GET', // Или 'POST', в зависимости от вашего запроса
+        dataType: 'json', // Ожидаемый тип данных
+        success: function(data){
+            resolve(data)
+        },
+        error: function(xhr, status, error){
+            console.error(xhr.responseText); // Вывод ошибки в консоль
+        }
+    });
+
+    })
+    
+}
+
+function add_stats(data) {
+    var stats_url = $('#urls')
+
+    $.ajax({
+        url: stats_url.data('stats'), // Замените на URL вашего серверного скрипта
+        type: 'POST', // Или 'POST', в зависимости от вашего запроса
+        dataType: 'json', // Ожидаемый тип данных
+        data: {'data': JSON.stringify(data.data), 'manga':stats_url.data('manga-id')},
+        headers: {
+            'X-CSRFToken': stats_url.data('csrf') // Установка CSRF-токена в заголовок
+        },
+        success: function(data){
+
+        },
+        error: function(xhr, status, error){
+            alert(status)
+            alert(error)
+            console.error(xhr.responseText);
+        }
+    });
+}
 
 function render_graph(labels, label_data, label_avg, data, data_avg, canvas) {
     
@@ -122,7 +259,7 @@ function render_graph(labels, label_data, label_avg, data, data_avg, canvas) {
     var myChart = new Chart(canvas, config=percentage_config);
 }
 
-function render_rating(data, manga_name) {
+function render_rating(data, manga_name, data_avg) {
     
     // Инициализируем новый график с помощью Chart.js
     var labels = data.map(item => item.label);
@@ -135,12 +272,11 @@ function render_rating(data, manga_name) {
 
     var ctx = document.getElementById('rating').getContext('2d');
     
-    var data_avg = [10,10,5,35,30,10,0,0,0,0]
     render_graph(labels, manga_name, 'test', percentages, data_avg, ctx)
 }
 
 
-function render_bookmarks(data, manga_name) {
+function render_bookmarks(data, manga_name, data_avg) {
     
     // Инициализируем новый график с помощью Chart.js
     var labels = data.map(item => item.label);
@@ -153,8 +289,6 @@ function render_bookmarks(data, manga_name) {
 
     var ctx = document.getElementById('bookmarks').getContext('2d');
     
-
-    var data_avg = [10,10,5,35,30,10]
     render_graph(labels, manga_name, 'test', percentages, data_avg, ctx)
 }
 

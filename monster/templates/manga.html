@@ -13,8 +13,10 @@
         box-shadow: rgba(0, 0, 0, 0.1) 0px -100px 100px 0px inset;
     }
 </style>
+<div hidden id='urls' data-stats='{% url "manga:add_stats" %}' data-csrf={{ csrf_token }} data-manga-id='{{manga.id}}' data-get-stats-urs={% url "manga:get_stats" %}></div>
 
 <div class="w-[1300px] mx-auto flex flex-col justify-center items-center bg-[#0a0a0a] h-full p-4 font-mono rounded-md min-h-96 mt-4 [&_*]:duration-300">
+
     <img src={{manga.background.url}} class='rounded-lg brightness-75 test w-[1300px] h-[380px] object-cover'>
 
     <div class="w-full h-full flex flex-row justify-between -mt-20 z-10 border-red-900 border-1 px-4 [&>div]:border-1 [&>div]:border-yellow-300 gap-4">
@@ -153,7 +155,7 @@
             </div>
 
 
-            <div class='bg-[#1c1c1c] w-full h-auto z-30 rounded-lg py-4 px-4'>
+            <div class='bg-[#1c1c1c] w-full h-full rounded-lg py-4 px-4'>
 
                 <div class='w-full hover:bg-[#252526] p-2 rounded-lg'>
                     <div class='text-[#EBEBF580]'>
@@ -212,9 +214,24 @@
                     </div>
                 </div>
 
-                <div class='border border-black rounded-lg mt-4 flex flex-wrap w-full h-full'>
 
 
+                <div class='w-full p-2 rounded-lg mt-4'>
+                    <div class='text-[#EBEBF580]'>
+                        Связанное
+                    </div>
+                    <div id='relations' class='w-full h-auto max-w-[928px] min-h-32 border border-[#0a0a0a] rounded-lg flex justify-start overflow-x-auto gap-4'>
+
+                    </div>
+                </div>
+
+                <div class='w-full p-2 rounded-lg mt-4'>
+                    <div class='text-[#EBEBF580]'>
+                        Похожее
+                    </div>
+                    <div id='similar' class='w-full h-auto max-w-[928px] min-h-32 border border-[#0a0a0a] rounded-lg flex justify-start overflow-x-auto gap-4'>
+
+                    </div>
                 </div>
 
             </div>
@@ -223,17 +240,26 @@
 
     </div>
 
-    <div class='w-full h-full flex flex-row justify-between gap-4 px-4 bg-[#252526] rounded-lg m-4 p-4'>
-        
-        <div class='border border-black rounded-lg mt-4 flex flex-wrap w-full h-auto pm-4'>
 
-            <div class='[&>canvas]:bg-[#252526] [&>canvas]:rounded-lg w-full h-auto text-[#BFBFBF] rounded-lg flex justify-between gap-2'>
-                <canvas id="bookmarks" class='w-auto h-64'></canvas>
-                <canvas id="rating" class='w-auto h-64'></canvas>
+    <div class='w-full h-full flex flex-col justify-between [&>*]:bg-[#252526] rounded-lg gap-0 mt-4 px-4'>
+        <div class='bg-[#0a0a0a] flex flex-col justify-between rounded-lg gap-4 px-0 py-4'>
+            {% for i in '0123'|make_list %}
+
+            <div class='w-full rounded-lg h-auto'>
+                <div class='w-full h-80 [&_canvas]:border [&_canvas]:border-[#0a0a0a] [&_canvas]:bg-[#252526] [&_canvas]:rounded-lg text-[#BFBFBF] rounded-lg flex justify-between gap-2 px-4'>
+                    <div class='text-center h-80 w-full items-start flex flex-col'>
+                        <span id='bookmarks_text' class='w-full h-auto'></span>
+                        <canvas id="bookmarks" class='w-full !h-full'></canvas>
+                    </div>
+                    <div class='text-center h-80 w-full items-start flex flex-col'>
+                        <span id='rating_text' class='w-full h-auto'></span>
+                        <canvas id="rating" class='w-full !h-full'></canvas>
+                    </div>
+                </div>
             </div>
 
+            {% endfor %}
         </div>
-
     </div>  
 
 </div>

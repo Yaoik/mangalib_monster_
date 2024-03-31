@@ -1,7 +1,12 @@
 from rest_framework import serializers
-from .models import Manga 
+from .models import Manga, Stats
 
 
+class StatsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stats
+        fields = ['rating', 'bookmarks']
+        
         
 class MangaSerializer(serializers.ModelSerializer):
     class Meta:
