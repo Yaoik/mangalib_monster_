@@ -1,8 +1,7 @@
 [графики]
-График выхода (Chapter, Comments) по дням недели
 График выхода (Chapter, Comments) по месяцам
 График выхода (Chapter, Comments) по годам
-График выхода (Chapter, Comments) по времени суток
+График выхода (Chapter, Comments) по часам суток
 
 Токсичность (Comments) по дням недели
 Токсичность (Comments) по времени суток

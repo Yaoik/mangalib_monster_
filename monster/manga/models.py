@@ -314,7 +314,6 @@ class Stats(models.Model):
     last_update = models.DateTimeField(auto_now=True, editable=False)
     # https://api.lib.social/api/manga/2262--oyasumi-punpun/stats?bookmarks=true&rating=true
     
-    
 class MangaUser(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     username = models.CharField(max_length=255, null=False, unique=False)
@@ -331,7 +330,6 @@ class MangaUser(models.Model):
     
     def comments_href_old(self, page_num:int) -> str:
         return f'https://test-front.mangalib.me/ru/user/{self.id}/comments?page={page_num}'
-    
     
 class Branch(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)

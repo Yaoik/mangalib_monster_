@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.urls import include, path, re_path
-from .views import ListMangaPage, get_page, get_population_compressed, get_toxic_compressed
+from .views import ListMangaPage, get_page, get_population_compressed, get_toxic_compressed, get_at_days
 
 app_name = 'manga_page'
 
 api = [
     path('manga_data/<slug:slug>/compressed', get_population_compressed, name='manga_data_population_compressed'),
     path('manga_data/<slug:slug>/toxic', get_toxic_compressed, name='manga_data_toxic_compressed'),
+    path('manga_data/<slug:slug>/at_days', get_at_days, name='manga_data_at_days'),
     path('manga_data/<slug:slug>/', get_page, name='manga_data'),
 ]
 

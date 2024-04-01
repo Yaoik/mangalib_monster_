@@ -17,9 +17,14 @@ class MangaPageSerializer(serializers.ModelSerializer):
             'chapter_likes_sum',
             'chapter_likes_avg',
             'comments_toxic_avg',
+            'chapters_at_days_of_the_week',
+            'comments_at_days_of_the_week',
             ]
         
-
+class MangaPageSerializerDays(serializers.ModelSerializer):
+    class Meta:
+        model = MangaPage
+        fields = ['chapters_at_days_of_the_week', 'comments_at_days_of_the_week']
 
 class MangaPageSerializerPopulationCompressed(serializers.ModelSerializer):
     class Meta:

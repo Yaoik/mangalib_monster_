@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from manga.models import Manga, Stats
+from manga.models import Manga, Stats, Comment
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
 
 class StatsSerializer(serializers.ModelSerializer):
     class Meta:

@@ -43,6 +43,30 @@ function render_main_info(manga_name) {
         }
     });
 
+    $.ajax({
+        url: $('#at_days').text(), // Замените на URL вашего серверного скрипта
+        type: 'GET', // Или 'POST', в зависимости от вашего запроса
+        dataType: 'json', // Ожидаемый тип данных
+        success: function(data){
+            arr = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресение']
+
+            canvas = $('#comments_at_days_of_the_week')
+            lable = $('#comments_at_days_of_the_week' + '_text')
+            lable.text('Написание комментариев по дням недели')
+            render_graph_one(canvas, arr, manga_name, data.comments_at_days_of_the_week)
+
+            canvas = $('#chapters_at_days_of_the_week')
+            lable = $('#chapters_at_days_of_the_week' + '_text')
+            lable.text('Выход глав по дням недели')
+            render_graph_one(canvas, arr, manga_name, data.chapters_at_days_of_the_week)
+        },
+        error: function(xhr, status, error){
+            alert(status)
+            alert(error)
+            console.error(xhr.responseText);
+        }
+    });
+    
 }
 
 function render_graph_one(canvas, labels, label_dataset, data) {

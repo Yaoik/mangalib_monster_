@@ -7,7 +7,9 @@ from asgiref.sync import sync_to_async
 from copy import deepcopy
 from annoying.fields import AutoOneToOneField
 from manga.models import Manga, Page, Chapter, Comment, Emotion, CommentEmotion
-
+from django.db.models import Count
+from django.utils import timezone
+from django.db.models.functions import ExtractWeekDay
 
  
 class MangaPage(models.Model):
@@ -39,34 +41,75 @@ class MangaPage(models.Model):
     
     comments_emotions_data = models.JSONField(default=None, null=True)
     
+    chapters_at_days_of_the_week = models.JSONField(default=None, null=True)
+    comments_at_days_of_the_week = models.JSONField(default=None, null=True)
     
+    days_of_the_week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресение']
     
     def __str__(self) -> str:
         return f'Страница манги {str(self.manga)}'
     
     async def update_fields(self):
-        ic(1) 
+        ic()
         ic(f'{str(self)}   start update_fields')
         #await self.__set_count()
         #await self.asave()
         ic(f'{str(self)}   end __set_count')
-        await self.__set_population()
-        await self.asave()
+        #await self.__set_population()
+        #await self.asave()
         ic(f'{str(self)}   end __set_population')
-        await self.__set_page_at_chapter_avg()
-        await self.asave()
+        #await self.__set_page_at_chapter_avg()
+        #await self.asave()
         ic(f'{str(self)}   end __set_page_at_chapter_avg')
-        await self.__set_chapter_likes()
-        await self.asave()
+        #await self.__set_chapter_likes()
+        #await self.asave()
         ic(f'{str(self)}   end __set_chapter_likes')
-        await self.__set_toxic()
-        await self.asave()
+        #await self.__set_toxic()
+        #await self.asave()
         ic(f'{str(self)}   end __set_toxic')
         #await self.__set_comments_emotions()
         #await self.asave()
         ic(f'{str(self)}   end __set_comments_emotions')
+        await self.__set_at_days_of_the_week()
+        await self.asave()
+        ic(f'{str(self)}   end __set_at_days_of_the_week')
         ic(f'{str(self)}   end update_fields')
-       
+        ic()
+    
+    async def __set_at_days_of_the_week(self):
+        await self.__set_chapters_at_days_of_the_week()
+        await self.__comments_at_days_of_the_week()
+        
+    async def __set_chapters_at_days_of_the_week(self):
+        results = (Chapter.objects
+            .filter(manga_id=self.manga)
+            .annotate(weekday=ExtractWeekDay('created_at')) 
+            .values('weekday')                          
+            .annotate(count=Count('id'))                  
+            .values('weekday', 'count')) 
+        res = {i:0 for i in range(7)}
+        for result in await sync_to_async(list)(results):
+            if result['weekday'] == 1:
+                res[6] = result['count']
+            else:
+                res[result['weekday']-2] = result['count']
+        self.chapters_at_days_of_the_week = [value for key, value in res.items()]
+         
+    async def __comments_at_days_of_the_week(self):
+        results = (Comment.objects
+            .filter(post_page__chapter_id__manga_id=self.manga)
+            .annotate(weekday=ExtractWeekDay('created_at')) 
+            .values('weekday')                          
+            .annotate(count=Count('id'))                  
+            .values('weekday', 'count')) 
+        
+        res = {i:0 for i in range(7)}
+        for result in await sync_to_async(list)(results):
+            if result['weekday'] == 1:
+                res[6] = result['count']
+            else:
+                res[result['weekday']-2] = result['count']
+        self.comments_at_days_of_the_week = [value for key, value in res.items()]
     
     async def __set_comments_emotions(self):
         
@@ -111,7 +154,15 @@ class MangaPage(models.Model):
         chapters = Chapter.objects.filter(manga_id=self.manga)
         comments = Comment.objects.filter(post_page__chapter_id__in=chapters)
         res = comments.values('post_page__chapter_id').annotate(avg_toxic=Avg('toxic'))
-        self.chapter_toxic_compressed = [round(i['avg_toxic'], 3) for i in (await sync_to_async(list)(res))]
+        try:
+            self.chapter_toxic_compressed = [round(i['avg_toxic'], 3) for i in (await sync_to_async(list)(res))]
+        except Exception as e:
+            ic(e)
+            from neural_networks.management.commands.add_emotions_to_comments import CommentProcessor
+            processor = await sync_to_async(CommentProcessor)()
+            comments = Comment.objects.filter(post_page__chapter_id__manga_id=self.manga)
+            await processor.add_emotions_to_comments(comments)
+            self.chapter_toxic_compressed = [round(i['avg_toxic'], 3) for i in (await sync_to_async(list)(res))]
         
     async def __set_comments_toxic_count(self):
         comments_toxic_count = await Comment.objects.filter(post_page__chapter_id__manga_id=self.manga).filter(toxic__isnull=False).acount()

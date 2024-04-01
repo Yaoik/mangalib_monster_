@@ -119,6 +119,7 @@ DATABASES = {
         },
     }
 }
+TIME_ZONE = 'UTC'
 
 LOGGING1 = {
     'version': 1,
