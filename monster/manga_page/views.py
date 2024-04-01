@@ -27,6 +27,28 @@ def get_at_days(request:Request, slug:str) -> Response:
     return Response(MangaPageSerializerDays(page).data)
 
 @api_view(['GET'])
+def get_at_days_percent(request:Request, slug:str) -> Response:
+    page = MangaPage.objects.get(manga__slug=slug)
+    result = {}
+    
+    if page.chapters_at_days_of_the_week is not None:
+        chapters_at_days_of_the_week_sum = sum(page.chapters_at_days_of_the_week)
+        result['chapters_at_days_of_the_week_percent'] = [round(i/chapters_at_days_of_the_week_sum*100, 3) for i in page.chapters_at_days_of_the_week] # type: ignore
+    else:
+        chapters_at_days_of_the_week_sum = 0
+    if page.comments_at_days_of_the_week is not None:
+        comments_at_days_of_the_week_sum = sum(page.comments_at_days_of_the_week)
+        result['comments_at_days_of_the_weekk_percent'] = [round(i/comments_at_days_of_the_week_sum*100, 3) for i in page.comments_at_days_of_the_week] # type: ignore
+    else:
+        chapters_at_days_of_the_week_sum = 0
+        
+    avg = MangaPage.get_at_days_of_the_week_avg()
+    result['chapters_at_days_of_the_week_percent_avg'] = avg['chapters_at_days_of_the_week_avg_percent']
+    result['comments_at_days_of_the_weekk_percent_avg'] = avg['comments_at_days_of_the_week_avg_percent']
+    return Response(result)
+
+
+@api_view(['GET'])
 def get_page(request:Request, slug:str) -> Response:
     page = MangaPage.objects.get(manga__slug=slug)
     return Response(MangaPageSerializer(page).data)
@@ -40,3 +62,4 @@ def get_population_compressed(request:Request, slug:str) -> Response:
 def get_toxic_compressed(request:Request, slug:str) -> Response:
     page = MangaPage.objects.get(manga__slug=slug)
     return Response(MangaPageSerializerToxicCompressed(page).data)
+

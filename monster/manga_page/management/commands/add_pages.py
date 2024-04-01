@@ -30,11 +30,11 @@ async def main():
     
     #manga = await Manga.objects.aget(id=2262)
     #await add_site_page_to_manga(manga=manga)
-    start_at = 20
+    start_at = 0
     for manga in await wrapper(slice(start_at, 1000, None)):
-        if manga.id < 79:
-            continue
         ic(manga.id)
+        if manga.id<28:
+            continue
         await add_site_page_to_manga(manga=manga)
 
 
