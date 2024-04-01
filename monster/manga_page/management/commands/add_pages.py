@@ -33,8 +33,10 @@ async def main():
     start_at = 0
     for manga in await wrapper(slice(start_at, 1000, None)):
         ic(manga.id)
-        if manga.id<28:
+        if manga.id<0:
             continue
+        if manga.id>560:
+            break
         await add_site_page_to_manga(manga=manga)
 
 

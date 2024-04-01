@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
-from .serializers import MangaPageSerializer, MangaPageSerializerPopulationCompressed, MangaPageSerializerToxicCompressed, MangaPageSerializerDays
+from .serializers import MangaPageSerializer, MangaPageSerializerPopulationCompressed, MangaPageSerializerToxicCompressed, MangaPageSerializerDays, MangaPageSerializer24
  
 
 
@@ -20,7 +20,11 @@ class ListMangaPage(APIView):
         pages = [MangaPageSerializer(page).data for page in MangaPage.objects.all()[slice(0, 1, None)]]
         return Response(pages)
     
-    
+@api_view(['GET'])
+def get_24(request:Request, slug:str) -> Response:
+    page = MangaPage.objects.get(manga__slug=slug)
+    return Response(MangaPageSerializer24(page).data)
+
 @api_view(['GET'])
 def get_at_days(request:Request, slug:str) -> Response:
     page = MangaPage.objects.get(manga__slug=slug)

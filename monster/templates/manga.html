@@ -17,6 +17,7 @@
 </div>
 <div hidden id='at_days'>{% url "manga_page:manga_data_at_days" slug=manga.slug %}</div>
 <div hidden id='at_days_percent'>{% url "manga_page:manga_data_at_days_percent" slug=manga.slug %}</div>
+<div hidden id='at_24_h'>{% url "manga_page:manga_data_24" slug=manga.slug %}</div>
 <div hidden id='pass'>{% url "manga_page:manga_data_at_days_percent" slug=manga.slug %}</div>
 
 <div class="w-[1300px] mx-auto flex flex-col justify-center items-center bg-[#0a0a0a] h-full p-4 font-mono rounded-md min-h-96 mt-4 [&_*]:duration-300">
@@ -332,6 +333,19 @@
                     <div class='text-center h-80 w-full items-start flex flex-col'>
                         <span id='chapters_at_days_of_the_week_percent_text' class='w-full h-auto'></span>
                         <canvas id="chapters_at_days_of_the_week_percent" class='w-full !h-full'></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class='w-full rounded-lg h-auto'>
+                <div class='w-full h-auto [&_canvas]:border [&_canvas]:border-[#0a0a0a] [&_canvas]:bg-[#252526] [&_canvas]:rounded-lg text-[#BFBFBF] rounded-lg flex justify-between gap-2 px-4'>
+                    <div class='text-center h-[calc(598px + 6)] w-full items-start flex flex-col'>
+                        <span id='chapters_at_24_hours_text' class='w-full h-6'></span>
+                        <canvas id="chapters_at_24_hours" class='w-full !h-full'></canvas>
+                    </div>
+                    <div class='text-center h-[calc(598px + 6)] w-full items-start flex flex-col'>
+                        <span id='comments_at_24_hours_text' class='w-full h-6'></span>
+                        <canvas id="comments_at_24_hours" class='w-full !h-full'></canvas>
                     </div>
                 </div>
             </div>

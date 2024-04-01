@@ -19,7 +19,14 @@ class MangaPageSerializer(serializers.ModelSerializer):
             'comments_toxic_avg',
             'chapters_at_days_of_the_week',
             'comments_at_days_of_the_week',
+            'chapters_at_24_hours',
+            'comments_at_24_hours',
             ]
+        
+class MangaPageSerializer24(serializers.ModelSerializer):
+    class Meta:
+        model = MangaPage
+        fields = ['chapters_at_24_hours', 'comments_at_24_hours']
         
 class MangaPageSerializerDays(serializers.ModelSerializer):
     class Meta:

@@ -13,6 +13,9 @@ from django.utils import timezone
 from django.db.models.functions import ExtractWeekDay
 import time
 from time import time as ttt
+from django.db.models.functions import Trunc
+from django.db.models.functions import ExtractHour
+
 
 class MyIceCreamDebugger(IceCreamDebugger):
     
@@ -73,6 +76,9 @@ class MangaPage(models.Model):
     chapters_at_days_of_the_week = models.JSONField(default=None, null=True)
     comments_at_days_of_the_week = models.JSONField(default=None, null=True)
     
+    chapters_at_24_hours = models.JSONField(default=None, null=True)
+    comments_at_24_hours = models.JSONField(default=None, null=True)
+    
     chapters_at_days_of_the_week_avg_percent = None
     comments_at_days_of_the_week_avg_percent = None
     
@@ -124,45 +130,75 @@ class MangaPage(models.Model):
             
     async def update_fields(self):
         ic()
+        ic(await Comment.objects.filter(post_page__chapter_id__manga_id=self.manga).acount())
         ic(f'{str(self)}   start update_fields')
         start = time.time()
-        await self.__set_count()
+        #await self.__set_count()
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_count   {end-start:.3f}')
         start = time.time()
-        await self.__set_population()
+        #await self.__set_population()
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_population   {end-start:.3f}')
         start = time.time()
-        await self.__set_page_at_chapter_avg()
+        #await self.__set_page_at_chapter_avg()
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_page_at_chapter_avg   {end-start:.3f}')
         start = time.time()
-        await self.__set_chapter_likes()
+        #await self.__set_chapter_likes() 
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_chapter_likes   {end-start:.3f}')
         start = time.time()
-        await self.__set_toxic()
+        #await self.__set_toxic()
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_toxic   {end-start:.3f}')
         start = time.time()
-        await self.__set_comments_emotions()
+        #await self.__set_comments_emotions()
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_comments_emotions   {end-start:.3f}')
         start = time.time()
-        await self.__set_at_days_of_the_week()
+        #await self.__set_at_days_of_the_week()
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_at_days_of_the_week   {end-start:.3f}')
+        start = time.time()
+        await self.__set_at_24_hours()
+        await self.asave()
+        end = time.time()
+        print(f'{str(self)}   end __set_at_24_hours   {end-start:.3f}')
         ic(f'{str(self)}   end update_fields')
         ic()
     
+    async def __set_at_24_hours(self):
+        chapters = Chapter.objects.filter(manga_id=self.manga).filter(created_at__isnull=False)
+        comments = Comment.objects.filter(post_page__chapter_id__in=chapters).filter(created_at__isnull=False)
+        
+        hourly_counts_chapters = chapters.annotate(hour=ExtractHour('created_at')).values('hour').annotate(count=Count('id')).order_by('hour')
+        hourly_counts_comments = comments.annotate(hour=ExtractHour('created_at')).values('hour').annotate(count=Count('id')).order_by('hour')
+        
+        hourly_counts_chapters_list = [0] * 24
+        hourly_counts_comments_list = [0] * 24
+
+        # Заполним массив сгруппированными значениями
+        async for item in hourly_counts_chapters.aiterator(): # type: ignore
+            hourly_counts_chapters_list[item['hour']] = item['count'] 
+            
+        # Заполним массив сгруппированными значениями
+        async for item in hourly_counts_comments.aiterator(): # type: ignore
+            hourly_counts_comments_list[item['hour']] = item['count']  
+            
+        ic(hourly_counts_chapters_list)
+        ic(hourly_counts_comments_list)
+
+        self.chapters_at_24_hours = hourly_counts_chapters_list
+        self.comments_at_24_hours = hourly_counts_comments_list
+        
     async def __set_at_days_of_the_week(self):
         await self.__set_chapters_at_days_of_the_week()
         await self.__comments_at_days_of_the_week()
@@ -315,7 +351,7 @@ class MangaPage(models.Model):
         pages = (
                 Page.objects
                 .filter(chapter_id__manga_id=self.manga)
-                .values('id')
+                .values('id', 'url')
                 .annotate(comment_count=Count('comments'))
                 )
 
