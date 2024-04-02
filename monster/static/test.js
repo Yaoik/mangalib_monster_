@@ -36,16 +36,32 @@ function render_main_info(manga_name) {
             canvas = $('#toxic_chapters_compressed')
             lable = $('#toxic_chapters_compressed_text')
             lable.text('Средняя токсичность глав')
-            arr = (Array.from({length: data.chapter_toxic_compressed.length}, (_, i) => i + 1))
-            render_graph_one(canvas, arr, manga_name, data.chapter_toxic_compressed)
+            arr = Object.keys(data.chapter_toxic_compressed)
+            let arr_new = []
+            arr.forEach(element => {
+                element = parseFloat(element)
+                arr_new.push(element)
+            });
+            arr_new = arr_new.sort(function(a,b) { return a - b;});
+            let new_dict = {}
+            arr_new.forEach(element => {
+                new_dict[element] = data.chapter_toxic_compressed[element]
+            });
+            render_graph_one(canvas, [], manga_name, new_dict)
 
+            function getKeyByValue(object, value) {
+                return Object.keys(object).find(key => object[key] === value);
+            }
             canvas = $('#page_of_chapter_toxic_compressed')
             lable = $('#page_of_chapter_toxic_compressed'+'_text')
-            arr = (Array.from({length: data.page_of_chapter_toxic_compressed.length}, (_, i) => i + 1))
-            let m = Math.max(...data.page_of_chapter_toxic_compressed)
-            let index = data.page_of_chapter_toxic_compressed.indexOf(m)
-            lable.text('Средняя токсичность страниц на самой токсичной главе ' + `(${arr[index]})`)
-            render_graph_one(canvas, arr, manga_name, data.page_of_chapter_toxic_compressed)
+            new_arr = (Array.from({length: data.page_of_chapter_toxic_compressed.length}, (_, i) => i + 1))
+            let m = Math.max(...Object.values(data.chapter_toxic_compressed))
+            console.log(m)
+            let index = getKeyByValue(data.chapter_toxic_compressed, m)
+            console.log(data.chapter_toxic_compressed)
+            console.log(index)
+            lable.text('Средняя токсичность страниц на самой токсичной главе ' + `(${index})`)
+            render_graph_one(canvas, new_arr, manga_name, data.page_of_chapter_toxic_compressed)
         },
         error: function(xhr, status, error){
             alert(status)

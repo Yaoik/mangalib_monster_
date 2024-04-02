@@ -382,6 +382,11 @@ class Chapter(models.Model):
     def href(self):
         return f'https://test-front.mangalib.me/ru/{self.manga_id.slug_url}/read/v{self.volume}/c{self.number}'
     
+    @property
+    @sync_to_async
+    def ahref(self):
+        return f'https://test-front.mangalib.me/ru/{self.manga_id.slug_url}/read/v{self.volume}/c{self.number}'
+    
     def get_all_pages(self):
         q:models.QuerySet[Page] = self.pages.all() # type: ignore
         assert isinstance(q, models.QuerySet)
@@ -506,6 +511,10 @@ class Comment(models.Model):
     def __str__(self):
         return f'Комментарий {str(self.user)} {self.id}'
 
+    def human_href(self):
+        f'https://test-front.mangalib.me/ru/1087--kamichu/read/v2/c18?comment_id=225401893&p=21&ui=425502'
+        return f'{self.post_page.chapter_id.href}?comment_id={self.id}&p={self.post_page.slug}'
+        
     @classmethod
     def random(cls):
         if cls.ids is None:

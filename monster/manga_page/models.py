@@ -134,22 +134,22 @@ class MangaPage(models.Model):
         ic(await Comment.objects.filter(post_page__chapter_id__manga_id=self.manga).acount())
         ic(f'{str(self)}   start update_fields')
         start = time.time()
-        #await self.__set_count()
+        #await self.__set_count() #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_count   {end-start:.3f}')
         start = time.time()
-        #await self.__set_population()
+        #await self.__set_population() #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_population   {end-start:.3f}')
         start = time.time()
-        #await self.__set_page_at_chapter_avg()
+        #await self.__set_page_at_chapter_avg() #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_page_at_chapter_avg   {end-start:.3f}')
         start = time.time()
-        #await self.__set_chapter_likes() 
+        #await self.__set_chapter_likes()  #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_chapter_likes   {end-start:.3f}')
@@ -159,17 +159,17 @@ class MangaPage(models.Model):
         end = time.time()
         print(f'{str(self)}   end __set_toxic   {end-start:.3f}')
         start = time.time()
-        #await self.__set_comments_emotions()
+        #await self.__set_comments_emotions() #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_comments_emotions   {end-start:.3f}')
         start = time.time()
-        #await self.__set_at_days_of_the_week()
+        #await self.__set_at_days_of_the_week() #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_at_days_of_the_week   {end-start:.3f}')
         start = time.time()
-        await self.__set_at_24_hours()
+        #await self.__set_at_24_hours()
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_at_24_hours   {end-start:.3f}')
@@ -276,7 +276,7 @@ class MangaPage(models.Model):
     async def __set_chapter_toxic(self):
         chapters = Chapter.objects.filter(manga_id=self.manga)
         comments  = Comment.objects.filter(post_page__chapter_id__in=chapters)
-        res = comments.values('post_page__chapter_id').annotate(avg_toxic=Avg('toxic'))
+        res = comments.values('post_page__chapter_id', 'post_page__chapter_id__number').annotate(avg_toxic=Avg('toxic'))
         try:
             self.chapter_toxic_compressed = [round(i['avg_toxic'], 3) if i['avg_toxic'] is not None else 0.0 for i in (await sync_to_async(list)(res))]
         except Exception as e:
@@ -294,14 +294,17 @@ class MangaPage(models.Model):
                 n+=1
                 comments_chunck = comments.filter(toxic__isnull=True)[slice(n*items_per_page, n*items_per_page+items_per_page, None)]
             res = comments.values('post_page__chapter_id').annotate(avg_toxic=Avg('toxic'))
-            self.chapter_toxic_compressed = [round(i['avg_toxic'], 3) if i['avg_toxic'] is not None else 0.0 for i in (await sync_to_async(list)(res))]
+        finally:
+            self.chapter_toxic_compressed = {i['post_page__chapter_id__number']:round(i['avg_toxic'], 3) if i['avg_toxic'] is not None else 0.0 for i in (await sync_to_async(list)(res))}
         
     async def __set_page_of_chapter_toxic_compressed(self):
         assert self.chapter_toxic_compressed is not None
         assert len(self.chapter_toxic_compressed) == self.chapter_count
-        m = max(self.chapter_toxic_compressed)
-        index = self.chapter_toxic_compressed.index(m)
         chapters = Chapter.objects.filter(manga_id=self.manga)
+        
+        key = max(self.chapter_toxic_compressed, key=self.chapter_toxic_compressed.get) # type: ignore
+        index = list(self.chapter_toxic_compressed.keys()).index(key) # type: ignore
+        
         chapter = (await sync_to_async(list)(chapters))[index]
         pages = chapter.pages
         pages = pages.annotate(avg_toxic=Avg('comments__toxic'))
@@ -309,7 +312,6 @@ class MangaPage(models.Model):
         res = []
         for page in pages:
             if page.avg_toxic is not None:
-                ic(page.avg_toxic, page.id)
                 res.append(page.avg_toxic)
             else:
                 res.append(0.0)
@@ -370,20 +372,20 @@ class MangaPage(models.Model):
         pages = (
                 Page.objects
                 .filter(chapter_id__manga_id=self.manga)
-                .values('id', 'url')
+                .values('id') # 'href'
                 .annotate(comment_count=Count('comments'))
                 )
 
         self.population_page_compressed = [page['comment_count'] for page in await sync_to_async(list)(pages)]
 
         pages = (await sync_to_async(list)(pages.order_by('-comment_count')))
-        self.population_page = {'most':pages[:25], 'least':pages[-25:]}
+        self.population_page = {'most':[p for p in pages[:25]], 'least':[p for p in pages[-25:]]}
         
     async def __set_population_chapter(self):
         chapters = (
                     Chapter.objects
                     .filter(manga_id=self.manga)
-                    .values('id', 'likes_count')
+                    .values('id', 'likes_count') #'href'
                     )
         chapters = (await sync_to_async(list)(chapters.order_by('-likes_count')))
 
