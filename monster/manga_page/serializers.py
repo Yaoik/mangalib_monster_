@@ -21,6 +21,7 @@ class MangaPageSerializer(serializers.ModelSerializer):
             'comments_at_days_of_the_week',
             'chapters_at_24_hours',
             'comments_at_24_hours',
+            'page_of_chapter_toxic_compressed',
             ]
         
 class MangaPageSerializer24(serializers.ModelSerializer):
@@ -41,4 +42,4 @@ class MangaPageSerializerPopulationCompressed(serializers.ModelSerializer):
 class MangaPageSerializerToxicCompressed(serializers.ModelSerializer):
     class Meta:
         model = MangaPage
-        fields = ['chapter_toxic_compressed']
+        fields = ['chapter_toxic_compressed', 'page_of_chapter_toxic_compressed']

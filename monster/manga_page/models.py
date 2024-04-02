@@ -62,6 +62,7 @@ class MangaPage(models.Model):
     population_chapter_compressed = models.JSONField(default=None, null=True)
     
     chapter_toxic_compressed = models.JSONField(default=None, null=True)
+    page_of_chapter_toxic_compressed = models.JSONField(default=None, null=True)
     
     page_at_chapter_avg = models.DecimalField(default=None, null=True, max_digits=8, decimal_places=4)
     
@@ -153,7 +154,7 @@ class MangaPage(models.Model):
         end = time.time()
         print(f'{str(self)}   end __set_chapter_likes   {end-start:.3f}')
         start = time.time()
-        #await self.__set_toxic()
+        await self.__set_toxic()
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_toxic   {end-start:.3f}')
@@ -192,9 +193,6 @@ class MangaPage(models.Model):
         # Заполним массив сгруппированными значениями
         async for item in hourly_counts_comments.aiterator(): # type: ignore
             hourly_counts_comments_list[item['hour']] = item['count']  
-            
-        ic(hourly_counts_chapters_list)
-        ic(hourly_counts_comments_list)
 
         self.chapters_at_24_hours = hourly_counts_chapters_list
         self.comments_at_24_hours = hourly_counts_comments_list
@@ -272,6 +270,7 @@ class MangaPage(models.Model):
     async def __set_toxic(self):
         #await self.__set_comments_toxic_count()
         await self.__set_chapter_toxic()
+        await self.__set_page_of_chapter_toxic_compressed()
         await self.__set_comments_toxic_avg()
         
     async def __set_chapter_toxic(self):
@@ -296,6 +295,26 @@ class MangaPage(models.Model):
                 comments_chunck = comments.filter(toxic__isnull=True)[slice(n*items_per_page, n*items_per_page+items_per_page, None)]
             res = comments.values('post_page__chapter_id').annotate(avg_toxic=Avg('toxic'))
             self.chapter_toxic_compressed = [round(i['avg_toxic'], 3) if i['avg_toxic'] is not None else 0.0 for i in (await sync_to_async(list)(res))]
+        
+    async def __set_page_of_chapter_toxic_compressed(self):
+        assert self.chapter_toxic_compressed is not None
+        assert len(self.chapter_toxic_compressed) == self.chapter_count
+        m = max(self.chapter_toxic_compressed)
+        index = self.chapter_toxic_compressed.index(m)
+        chapters = Chapter.objects.filter(manga_id=self.manga)
+        chapter = (await sync_to_async(list)(chapters))[index]
+        pages = chapter.pages
+        pages = pages.annotate(avg_toxic=Avg('comments__toxic'))
+        pages = (await sync_to_async(list)(pages))
+        res = []
+        for page in pages:
+            if page.avg_toxic is not None:
+                ic(page.avg_toxic, page.id)
+                res.append(page.avg_toxic)
+            else:
+                res.append(0.0)
+        self.page_of_chapter_toxic_compressed = res
+        
         
     async def __set_comments_toxic_count(self):
         comments_toxic_count = await Comment.objects.filter(post_page__chapter_id__manga_id=self.manga).filter(toxic__isnull=False).acount()
