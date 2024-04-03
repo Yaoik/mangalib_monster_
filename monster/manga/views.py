@@ -1,5 +1,5 @@
 from django.db.models.manager import BaseManager
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 import django_filters.rest_framework
 from .serializers import MangaSerializer
 from rest_framework import generics
@@ -22,7 +22,7 @@ from rest_framework.decorators import renderer_classes
 from rest_framework.request import Request
 import json
 from django.utils import timezone
-
+from django.db.models import Q
 
 @api_view(['GET'])
 def get_stats(request:Request) -> Response:
@@ -94,8 +94,12 @@ def manga_page_count(request:WSGIRequest, slug:str) -> Response:
 
 
 def manga_page(request:WSGIRequest, slug:str):
-    manga = Manga.objects.get(slug=slug)
-    return render(request, 'manga.html', context={'manga':manga})
+    manga = Manga.objects.filter(Q(slug_url=slug)|Q(slug=slug))
+    if manga.exists():
+        manga = manga.first()
+        assert isinstance(manga, Manga)
+        return render(request, 'manga.html', context={'manga':manga})
+    return redirect(f'https://test-front.mangalib.me/ru/manga/{slug}?section=info')
 
 
 

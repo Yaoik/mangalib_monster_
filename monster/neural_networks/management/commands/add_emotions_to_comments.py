@@ -1,5 +1,5 @@
 from django.db.models.manager import BaseManager
-from manga.models import Comment, Emotion, CommentEmotion
+from manga.models import Comment, Emotion, CommentEmotion, Manga
 from neural_networks.management.commands.toxic import Processor
 from icecream import ic
 from django.core.management.base import BaseCommand
@@ -44,10 +44,21 @@ class CommentProcessor(Processor):
         tasks = []
         async for com in comments:
             tasks.append(asyncio.create_task(self.add_emotion_to_comment(com)))
-        return await asyncio.gather(*tasks)
+        return await asyncio.gather(*tasks) 
 
 
-
+    async def add_emotions_to_manga_comments(self, manga:Manga):
+        comments = await manga.aget_all_comments
+        comments = comments.filter(toxic__isnull=True)
+        n = 0
+        items_per_page = 1000
+        comments_chunck = comments.filter(toxic__isnull=True)[slice(n*items_per_page, n*items_per_page+items_per_page, None)]
+        while await comments_chunck.acount()>0:
+            await self.add_emotions_to_comments(comments_chunck)
+            n+=1
+            comments_chunck = comments.filter(toxic__isnull=True)[slice(n*items_per_page, n*items_per_page+items_per_page, None)]
+        
+    
 async def main(processor: CommentProcessor):
 
     chunk_size = 1000

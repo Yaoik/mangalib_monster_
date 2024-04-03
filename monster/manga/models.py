@@ -247,9 +247,6 @@ class Manga(models.Model):
         cls.meta_data = data
 
         return cls.meta_data
-        
-    def get_all_comments(self) -> QuerySet:
-        return Comment.objects.filter(post_page__chapter_id__manga_id=self)
     
     class Meta:
         verbose_name_plural = 'Манга'
@@ -274,6 +271,11 @@ class Manga(models.Model):
     def get_all_pages(self):
         return Page.objects.filter(chapter_id__manga_id=self)
     
+    @property 
+    @sync_to_async
+    def aget_all_comments(self):
+        return Comment.objects.filter(post_page__chapter_id__in=self.chapters.all()) # type: ignore
+    
     @property
     def chapters_count(self):
         return self.chapters.count() # type: ignore
@@ -285,10 +287,6 @@ class Manga(models.Model):
     @property
     def translate_status(self):
         return str(self.scanlate_status.label) # type: ignore
-    #total_mangas = Manga.objects.filter(prior).count()
-    #logging.info(f'generate_random_mangas {total_mangas=}')
-    #used_indexes = set([i for i in range(1, total_mangas + 1)])
-    #random_indexes = random.sample(all_mangas, 1)
      
     @staticmethod
     def generate_random_mangas(priority=0):

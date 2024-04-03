@@ -56,10 +56,7 @@ function render_main_info(manga_name) {
             lable = $('#page_of_chapter_toxic_compressed'+'_text')
             new_arr = (Array.from({length: data.page_of_chapter_toxic_compressed.length}, (_, i) => i + 1))
             let m = Math.max(...Object.values(data.chapter_toxic_compressed))
-            console.log(m)
             let index = getKeyByValue(data.chapter_toxic_compressed, m)
-            console.log(data.chapter_toxic_compressed)
-            console.log(index)
             lable.text('Средняя токсичность страниц на самой токсичной главе ' + `(${index})`)
             render_graph_one(canvas, new_arr, manga_name, data.page_of_chapter_toxic_compressed)
         },
@@ -495,7 +492,7 @@ function render_similar(manga_name) {
             }
             data.data.forEach(el => {
                 similar_div.append(`
-                                <div class="w-auto min-w-96 h-32 rounded-lg bg-[#252527] flex m-1"> 
+                                <div class="w-auto min-w-96 h-32 rounded-lg bg-[#252527] flex m-1 similarr cursor-pointer" data-slug="${el.media.slug_url}"> 
                                     <img src='${el.media.cover.default}' class='h-32 w-auto max-w-28 rounded-lg object-cover overflow-hidden '></img>
                                     <div class='flex flex-col justify-start m-2 w-auto'>
                                         <span class='text-[#77A5D8] text-sm'>${el.similar}</span>
@@ -505,6 +502,11 @@ function render_similar(manga_name) {
                                 </div>
                                 `)
             });
+            $('.similarr').on("click", function() {
+                console.log($(this))
+                console.log($(this).data('slug'))
+                window.location.replace($("#manga").text().replace('pass', $(this).data('slug')))
+            })
         },
         error: function(xhr, status, error){
             console.error(xhr.responseText); // Вывод ошибки в консоль
@@ -527,7 +529,7 @@ function render_relations(manga_name) {
             }
             data.data.forEach(el => {
                 relations_div.append(`
-                                    <div class="w-auto min-w-96 h-32 rounded-lg bg-[#252527] flex m-1"> 
+                                    <div class="w-auto min-w-96 h-32 rounded-lg bg-[#252527] flex m-1 relationn cursor-pointer" data-slug="${el.media.slug_url}"> 
                                         <img src='${el.media.cover.default}' class='h-32 w-auto max-w-28 rounded-lg object-cover overflow-hidden '></img>
                                         <div class='flex flex-col justify-start m-2 w-auto'>
                                             <span class='text-[#77A5D8] text-sm'>${el.related_type.label}</span>
@@ -535,9 +537,14 @@ function render_relations(manga_name) {
                                             <span class='text-[#EBEBF580] text-sm mt-auto'>${el.media.type.label} . ${el.media.status.label}</span>
                                         </div>
                                     </div>
-                                    `)
-            });
-
+                                    `);
+            }
+            );
+            $('.relationn').on("click", function() {
+                console.log($(this))
+                console.log($(this).data('slug'))
+                window.location.replace($("#manga").text().replace('pass', $(this).data('slug')))
+            })
 
         },
         error: function(xhr, status, error){

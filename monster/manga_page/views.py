@@ -3,13 +3,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from .models import MangaPage
+from manga.models import Manga
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 from .serializers import MangaPageSerializer, MangaPageSerializerPopulationCompressed, MangaPageSerializerToxicCompressed, MangaPageSerializerDays, MangaPageSerializer24
- 
-
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 class ListMangaPage(APIView):
 
@@ -19,6 +20,17 @@ class ListMangaPage(APIView):
     def get(self, request, format=None):
         pages = [MangaPageSerializer(page).data for page in MangaPage.objects.all()[slice(0, 1, None)]]
         return Response(pages)
+    
+    
+@api_view(['GET'])
+def go_to_manga(request:Request, slug_url:str):
+    manga = Manga.objects.filter(slug_url=slug_url)
+    if manga.exists():
+        manga = manga.first()
+        assert isinstance(manga, Manga)
+        return redirect(f'{reverse("manga:manga", manga.slug)}')
+    return 
+
     
 @api_view(['GET'])
 def get_24(request:Request, slug:str) -> Response:

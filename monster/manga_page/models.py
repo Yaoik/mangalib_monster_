@@ -15,7 +15,9 @@ import time
 from time import time as ttt
 from django.db.models.functions import Trunc
 from django.db.models.functions import ExtractHour
+from neural_networks.management.commands.add_emotions_to_comments import CommentProcessor
 
+PROCESSOR = CommentProcessor()
 
 class MyIceCreamDebugger(IceCreamDebugger):
     
@@ -132,24 +134,29 @@ class MangaPage(models.Model):
     async def update_fields(self):
         ic()
         ic(await Comment.objects.filter(post_page__chapter_id__manga_id=self.manga).acount())
+        start = time.time()
+        await PROCESSOR.add_emotions_to_manga_comments(self.manga)
+        end: float = time.time()
+        print(f'add_emotions_to_manga_comments   {end-start:.3f}')
         ic(f'{str(self)}   start update_fields')
         start = time.time()
-        #await self.__set_count() #
+        await self.__set_count() #
         await self.asave()
+        if self.chapter_count == 0: return
         end = time.time()
         print(f'{str(self)}   end __set_count   {end-start:.3f}')
         start = time.time()
-        #await self.__set_population() #
+        await self.__set_population() #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_population   {end-start:.3f}')
         start = time.time()
-        #await self.__set_page_at_chapter_avg() #
+        await self.__set_page_at_chapter_avg() #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_page_at_chapter_avg   {end-start:.3f}')
         start = time.time()
-        #await self.__set_chapter_likes()  #
+        await self.__set_chapter_likes()  #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_chapter_likes   {end-start:.3f}')
@@ -159,22 +166,22 @@ class MangaPage(models.Model):
         end = time.time()
         print(f'{str(self)}   end __set_toxic   {end-start:.3f}')
         start = time.time()
-        #await self.__set_comments_emotions() #
+        await self.__set_comments_emotions() #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_comments_emotions   {end-start:.3f}')
         start = time.time()
-        #await self.__set_at_days_of_the_week() #
+        await self.__set_at_days_of_the_week() #
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_at_days_of_the_week   {end-start:.3f}')
         start = time.time()
-        #await self.__set_at_24_hours()
+        await self.__set_at_24_hours()
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_at_24_hours   {end-start:.3f}')
         ic(f'{str(self)}   end update_fields')
-        ic()
+        ic() 
     
     async def __set_at_24_hours(self):
         chapters = Chapter.objects.filter(manga_id=self.manga).filter(created_at__isnull=False)
@@ -277,29 +284,19 @@ class MangaPage(models.Model):
         chapters = Chapter.objects.filter(manga_id=self.manga)
         comments  = Comment.objects.filter(post_page__chapter_id__in=chapters)
         res = comments.values('post_page__chapter_id', 'post_page__chapter_id__number').annotate(avg_toxic=Avg('toxic'))
-        try:
-            self.chapter_toxic_compressed = [round(i['avg_toxic'], 3) if i['avg_toxic'] is not None else 0.0 for i in (await sync_to_async(list)(res))]
-        except Exception as e:
-            ic(e)
-            from neural_networks.management.commands.add_emotions_to_comments import CommentProcessor
-            processor = await sync_to_async(CommentProcessor)()
-            n = 0
-            items_per_page = 1000
-            ic()
-            comments_chunck = comments.filter(toxic__isnull=True)[slice(n*items_per_page, n*items_per_page+items_per_page, None)]
-            while await comments_chunck.acount()>0:
-                ic()
-                await processor.add_emotions_to_comments(comments_chunck)
-                ic()
-                n+=1
-                comments_chunck = comments.filter(toxic__isnull=True)[slice(n*items_per_page, n*items_per_page+items_per_page, None)]
-            res = comments.values('post_page__chapter_id').annotate(avg_toxic=Avg('toxic'))
-        finally:
-            self.chapter_toxic_compressed = {i['post_page__chapter_id__number']:round(i['avg_toxic'], 3) if i['avg_toxic'] is not None else 0.0 for i in (await sync_to_async(list)(res))}
+        self.chapter_toxic_compressed = {i.number:0.0 for i in await sync_to_async(list)(self.manga.chapters.all())}
+        self.chapter_toxic_compressed.update({i['post_page__chapter_id__number']:round(i['avg_toxic'], 3) if i['avg_toxic'] is not None else 0.0 for i in (await sync_to_async(list)(res))})
+
         
     async def __set_page_of_chapter_toxic_compressed(self):
         assert self.chapter_toxic_compressed is not None
-        assert len(self.chapter_toxic_compressed) == self.chapter_count
+        try:
+            assert len(self.chapter_toxic_compressed) == self.chapter_count or len(self.chapter_toxic_compressed) == len({i.number for i in await sync_to_async(list)(self.manga.chapters.all())})
+        except Exception as e:
+            ic(len(self.chapter_toxic_compressed))
+            ic(self.chapter_count)
+            ic(len({i.number for i in await sync_to_async(list)(self.manga.chapters.all())}))
+            raise Exception(e)
         chapters = Chapter.objects.filter(manga_id=self.manga)
         
         key = max(self.chapter_toxic_compressed, key=self.chapter_toxic_compressed.get) # type: ignore
@@ -407,5 +404,5 @@ class MangaPage(models.Model):
     async def __set_page_count(self):
         self.page_count = await Page.objects.filter(chapter_id__manga_id=self.manga).acount()
     async def __set_chapter_count(self):
-        self.chapter_count = await Chapter.objects.filter(manga_id=self.manga).acount()
+        self.chapter_count = await self.manga.chapters.acount()
     
