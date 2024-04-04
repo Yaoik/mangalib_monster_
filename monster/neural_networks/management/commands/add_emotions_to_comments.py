@@ -48,16 +48,43 @@ class CommentProcessor(Processor):
 
 
     async def add_emotions_to_manga_comments(self, manga:Manga):
-        comments = await manga.aget_all_comments
-        comments = comments.filter(toxic__isnull=True)
-        n = 0
-        items_per_page = 1000
-        comments_chunck = comments.filter(toxic__isnull=True)[slice(n*items_per_page, n*items_per_page+items_per_page, None)]
-        while await comments_chunck.acount()>0:
-            await self.add_emotions_to_comments(comments_chunck)
-            n+=1
-            comments_chunck = comments.filter(toxic__isnull=True)[slice(n*items_per_page, n*items_per_page+items_per_page, None)]
+        comments = Comment.objects.filter(post_page__chapter_id__manga_id=manga).filter(toxic__isnull=True)
+        if await comments.acount() == 0:
+            return
+
+        chunk_size = 1000
+        comment_queryset = comments
+        async def get_comment_queryset_chunk(chunk: int, chunk_size: int) -> BaseManager[Comment]:
+            comments = comment_queryset[chunk:chunk + chunk_size]
+            return comments
         
+
+        chunk = 0
+        next_comments_chunk = await get_comment_queryset_chunk(chunk, chunk_size)
+        while await next_comments_chunk.acount()>0:
+            start = time.process_time()
+            
+            if next_comments_chunk is not False:
+                comments_chunk: BaseManager[Comment] = next_comments_chunk
+            else:
+                comments_chunk: BaseManager[Comment] = await get_comment_queryset_chunk(chunk, chunk_size)
+                
+            next_comments_chunk = asyncio.create_task(get_comment_queryset_chunk(chunk+chunk_size, chunk_size))
+            
+            res = await self.add_emotions_to_comments(comments_chunk)
+            
+            end1= time.process_time()
+            
+            next_comments_chunk = await next_comments_chunk
+            chunk+=1000
+            
+            end = time.process_time()
+            
+            t_long = round(end-start, 1)
+            t_short = round(end1-start, 1)
+            ic(chunk, t_long, t_short)
+            
+
     
 async def main(processor: CommentProcessor):
 

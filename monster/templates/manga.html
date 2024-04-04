@@ -18,8 +18,11 @@
 <div hidden id='at_days'>{% url "manga_page:manga_data_at_days" slug=manga.slug %}</div>
 <div hidden id='at_days_percent'>{% url "manga_page:manga_data_at_days_percent" slug=manga.slug %}</div>
 <div hidden id='at_24_h'>{% url "manga_page:manga_data_24" slug=manga.slug %}</div>
+<div hidden id='manga_data_comment_at'>{% url "manga_page:manga_data_comment_at" slug=manga.slug %}</div>
 <div hidden id='manga'>{% url "manga:manga" slug="pass" %}</div>
 <div hidden id='pass'>{% url "manga_page:manga_data_at_days_percent" slug=manga.slug %}</div>
+
+
 
 <div class="w-[1300px] mx-auto flex flex-col justify-center items-center bg-[#0a0a0a] h-full p-4 font-mono rounded-md min-h-96 mt-4 [&_*]:duration-300">
 
@@ -27,12 +30,14 @@
 
     <div class="w-full h-full flex flex-row justify-between -mt-20 z-10 border-red-900 border-1 px-4 [&>div]:border-1 [&>div]:border-yellow-300 gap-4">
         {% comment %} left block {% endcomment %}
-        <div class="w-[260px] flex flex-col items-center align-middle text-white gap-8">
+        <div class="w-[260px] flex flex-col items-center align-middle text-[#BFBFBF] gap-4">
             {% comment %} image {% endcomment %}
             <div class="w-[260px] h-auto rounded-lg">
                 <img src={{manga.cover.default}} class='m-auto rounded-lg'>
             </div>
-
+            <div class='h-8 w-full bg-[#ef6c00] hover:bg-[#d86201] rounded-lg items-center align-middle flex'>
+                <a class='w-full h-full text-white text-center cursor-pointer select-none flex justify-center items-center' href="https://test-front.mangalib.me/ru/manga/{{manga.slug_url}}?section=info">Перейти на Mangalib</a>
+            </div>
             <div class='w-[260px] h-auto hover:[&>div]:cursor-pointer bg-[#1c1c1c] [&>div]:gap-1 [&>div]:text-left [&>div]:p-2 [&>div]:rounded-lg rounded-lg flex flex-col [&>div]:text-sm p-2 [&>div]:w-full [&>div]:h-auto hover:[&>div]:bg-[#252526]'>
                 {% comment %} {% for i in '0123456'|make_list %} {% endcomment %}
                 <div>
@@ -341,12 +346,25 @@
             <div class='w-full rounded-lg h-auto'>
                 <div class='w-full h-auto [&_canvas]:border [&_canvas]:border-[#0a0a0a] [&_canvas]:bg-[#252526] [&_canvas]:rounded-lg text-[#BFBFBF] rounded-lg flex justify-between gap-2 px-4'>
                     <div class='text-center h-[calc(598px + 6)] w-full items-start flex flex-col'>
+                        <span id='comments_at_24_hours_text' class='w-full h-6'></span>
+                        <canvas id="comments_at_24_hours" class='w-full !h-full'></canvas>
+                    </div>
+                    <div class='text-center h-[calc(598px + 6)] w-full items-start flex flex-col'>
                         <span id='chapters_at_24_hours_text' class='w-full h-6'></span>
                         <canvas id="chapters_at_24_hours" class='w-full !h-full'></canvas>
                     </div>
+                </div>
+            </div>
+
+            <div class='w-full rounded-lg h-auto'>
+                <div class='w-full h-auto [&_canvas]:border [&_canvas]:border-[#0a0a0a] [&_canvas]:bg-[#252526] [&_canvas]:rounded-lg text-[#BFBFBF] rounded-lg flex justify-between gap-2 px-4'>
                     <div class='text-center h-[calc(598px + 6)] w-full items-start flex flex-col'>
-                        <span id='comments_at_24_hours_text' class='w-full h-6'></span>
-                        <canvas id="comments_at_24_hours" class='w-full !h-full'></canvas>
+                        <span id='comments_toxic_avg_at_24_hour_text' class='w-full h-6'></span>
+                        <canvas id="comments_toxic_avg_at_24_hour" class='w-full !h-full'></canvas>
+                    </div>
+                    <div class='text-center h-[calc(598px + 6)] w-full items-start flex flex-col'>
+                        <span id='comments_toxic_avg_at_day_of_the_week_text' class='w-full h-6'></span>
+                        <canvas id="comments_toxic_avg_at_day_of_the_week" class='w-full !h-full'></canvas>
                     </div>
                 </div>
             </div>

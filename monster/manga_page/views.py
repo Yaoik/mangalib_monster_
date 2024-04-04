@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
-from .serializers import MangaPageSerializer, MangaPageSerializerPopulationCompressed, MangaPageSerializerToxicCompressed, MangaPageSerializerDays, MangaPageSerializer24
+from .serializers import MangaPageSerializer, MangaPageSerializerCommentsAt, MangaPageSerializerPopulationCompressed, MangaPageSerializerToxicCompressed, MangaPageSerializerDays, MangaPageSerializer24
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -31,7 +31,12 @@ def go_to_manga(request:Request, slug_url:str):
         return redirect(f'{reverse("manga:manga", manga.slug)}')
     return 
 
-    
+@api_view(['GET'])
+def get_comment_at(request:Request, slug:str) -> Response:
+    page = MangaPage.objects.get(manga__slug=slug)
+    return Response(MangaPageSerializerCommentsAt(page).data)
+
+
 @api_view(['GET'])
 def get_24(request:Request, slug:str) -> Response:
     page = MangaPage.objects.get(manga__slug=slug)
@@ -49,12 +54,18 @@ def get_at_days_percent(request:Request, slug:str) -> Response:
     
     if page.chapters_at_days_of_the_week is not None:
         chapters_at_days_of_the_week_sum = sum(page.chapters_at_days_of_the_week)
-        result['chapters_at_days_of_the_week_percent'] = [round(i/chapters_at_days_of_the_week_sum*100, 3) for i in page.chapters_at_days_of_the_week] # type: ignore
+        try:
+            result['chapters_at_days_of_the_week_percent'] = [round(i/chapters_at_days_of_the_week_sum*100, 3) for i in page.chapters_at_days_of_the_week] # type: ignore
+        except ZeroDivisionError:
+            result['chapters_at_days_of_the_week_percent'] = [0.0 for _ in range(7)]
     else:
         chapters_at_days_of_the_week_sum = 0
     if page.comments_at_days_of_the_week is not None:
         comments_at_days_of_the_week_sum = sum(page.comments_at_days_of_the_week)
-        result['comments_at_days_of_the_weekk_percent'] = [round(i/comments_at_days_of_the_week_sum*100, 3) for i in page.comments_at_days_of_the_week] # type: ignore
+        try:
+            result['comments_at_days_of_the_weekk_percent'] = [round(i/comments_at_days_of_the_week_sum*100, 3) for i in page.comments_at_days_of_the_week] # type: ignore
+        except ZeroDivisionError:
+            result['comments_at_days_of_the_weekk_percent'] = [0.0 for _ in range(7)]
     else:
         chapters_at_days_of_the_week_sum = 0
         

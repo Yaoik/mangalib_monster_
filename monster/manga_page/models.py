@@ -16,9 +16,11 @@ from time import time as ttt
 from django.db.models.functions import Trunc
 from django.db.models.functions import ExtractHour
 from neural_networks.management.commands.add_emotions_to_comments import CommentProcessor
+from django.db.models.manager import BaseManager
+
 
 PROCESSOR = CommentProcessor()
-
+ 
 class MyIceCreamDebugger(IceCreamDebugger):
     
     def _format(self, callFrame, *args):
@@ -85,6 +87,10 @@ class MangaPage(models.Model):
     chapters_at_days_of_the_week_avg_percent = None
     comments_at_days_of_the_week_avg_percent = None
     
+    comments_toxic_avg_at_day_of_the_week = models.JSONField(default=None, null=True)
+    comments_toxic_avg_at_24_hour = models.JSONField(default=None, null=True)
+    
+    
     days_of_the_week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресение']
     
     def __str__(self) -> str:
@@ -93,44 +99,55 @@ class MangaPage(models.Model):
     @classmethod
     def get_at_days_of_the_week_avg(cls):
         if cls.chapters_at_days_of_the_week_avg_percent is None:
-            pages = MangaPage.objects.filter(Q(chapters_at_days_of_the_week__isnull=False) & Q(comments_at_days_of_the_week__isnull=False))
-            
-            averages = [0] * 7 
-
-            for obj in pages:
-                at_days_of_the_week = obj.chapters_at_days_of_the_week
-                if at_days_of_the_week:
-                    for i, value in enumerate(at_days_of_the_week):
-                        averages[i] += value
-
-            total_objects_count = len(pages)
-            if total_objects_count > 0:
-                averages = [x / total_objects_count for x in averages]
-
-            cls.chapters_at_days_of_the_week_avg_percent = averages
+            cls.__set_chapters_at_days_of_the_week_avg_percent()
             
         if cls.comments_at_days_of_the_week_avg_percent is None:
-            pages = MangaPage.objects.filter(Q(chapters_at_days_of_the_week__isnull=False) & Q(comments_at_days_of_the_week__isnull=False))
-            
-            averages = [0] * 7 
-
-            for obj in pages:
-                at_days_of_the_week = obj.comments_at_days_of_the_week
-                if at_days_of_the_week:
-                    for i, value in enumerate(at_days_of_the_week):
-                        averages[i] += value
-
-            total_objects_count = len(pages)
-            if total_objects_count > 0:
-                averages = [x / total_objects_count for x in averages]
-
-            cls.comments_at_days_of_the_week_avg_percent = averages
+            cls.__set_comments_at_days_of_the_week_avg_percent()
+        
+        assert cls.chapters_at_days_of_the_week_avg_percent is not None
+        assert cls.comments_at_days_of_the_week_avg_percent is not None
         
         chapters_at_days_of_the_week_avg_percent_sum = sum(cls.chapters_at_days_of_the_week_avg_percent)
         comments_at_days_of_the_week_avg_percent_sum = sum(cls.comments_at_days_of_the_week_avg_percent)
         
         return {'comments_at_days_of_the_week_avg_percent':[round(i/comments_at_days_of_the_week_avg_percent_sum*100, 3) for i in cls.comments_at_days_of_the_week_avg_percent], 'chapters_at_days_of_the_week_avg_percent':[round(i/chapters_at_days_of_the_week_avg_percent_sum*100, 3) for i in cls.chapters_at_days_of_the_week_avg_percent]}
-            
+    
+    @classmethod      
+    def __set_chapters_at_days_of_the_week_avg_percent(cls):
+        pages = MangaPage.objects.filter(Q(chapters_at_days_of_the_week__isnull=False) & Q(comments_at_days_of_the_week__isnull=False))
+        
+        averages = [0] * 7 
+
+        for obj in pages:
+            at_days_of_the_week = obj.chapters_at_days_of_the_week
+            if at_days_of_the_week:
+                for i, value in enumerate(at_days_of_the_week):
+                    averages[i] += value
+
+        total_objects_count = len(pages)
+        if total_objects_count > 0:
+            averages = [x / total_objects_count for x in averages]
+
+        cls.chapters_at_days_of_the_week_avg_percent = averages
+    
+    @classmethod      
+    def __set_comments_at_days_of_the_week_avg_percent(cls):
+        pages = MangaPage.objects.filter(Q(chapters_at_days_of_the_week__isnull=False) & Q(comments_at_days_of_the_week__isnull=False))
+        
+        averages = [0] * 7 
+
+        for obj in pages:
+            at_days_of_the_week = obj.comments_at_days_of_the_week
+            if at_days_of_the_week:
+                for i, value in enumerate(at_days_of_the_week):
+                    averages[i] += value
+
+        total_objects_count = len(pages)
+        if total_objects_count > 0:
+            averages = [x / total_objects_count for x in averages]
+
+        cls.comments_at_days_of_the_week_avg_percent = averages
+    
     async def update_fields(self):
         ic()
         ic(await Comment.objects.filter(post_page__chapter_id__manga_id=self.manga).acount())
@@ -140,11 +157,16 @@ class MangaPage(models.Model):
         print(f'add_emotions_to_manga_comments   {end-start:.3f}')
         ic(f'{str(self)}   start update_fields')
         start = time.time()
-        await self.__set_count() #
+        await self.__set_count() # type: ignore
         await self.asave()
         if self.chapter_count == 0: return
         end = time.time()
         print(f'{str(self)}   end __set_count   {end-start:.3f}')
+        start = time.time()
+        await self.__set_at_days_of_the_week() #
+        await self.asave()
+        end = time.time()
+        print(f'{str(self)}   end __set_at_days_of_the_week   {end-start:.3f}')
         start = time.time()
         await self.__set_population() #
         await self.asave()
@@ -170,11 +192,6 @@ class MangaPage(models.Model):
         await self.asave()
         end = time.time()
         print(f'{str(self)}   end __set_comments_emotions   {end-start:.3f}')
-        start = time.time()
-        await self.__set_at_days_of_the_week() #
-        await self.asave()
-        end = time.time()
-        print(f'{str(self)}   end __set_at_days_of_the_week   {end-start:.3f}')
         start = time.time()
         await self.__set_at_24_hours()
         await self.asave()
@@ -207,6 +224,27 @@ class MangaPage(models.Model):
     async def __set_at_days_of_the_week(self):
         await self.__set_chapters_at_days_of_the_week()
         await self.__comments_at_days_of_the_week()
+        comments = Comment.objects.filter(Q(post_page__chapter_id__manga_id=self.manga) & Q(toxic__isnull=False))
+        await self.__set_comments_toxic_avg_at_day_of_the_week(comments=comments)
+        await self.__set_comments_toxic_avg_at_24_hour(comments=comments)
+        
+    async def __set_comments_toxic_avg_at_day_of_the_week(self, comments: BaseManager[Comment]):
+        res = comments.values('created_at__week_day').annotate(comments_count=Avg('toxic')).order_by('comments_count')
+        result = {i:0.0 for i in range(0, 6)}
+        async for r in res.aiterator(): # type: ignore
+            if r['created_at__week_day']-2==-1:
+                day = 6
+            else:
+                day = r['created_at__week_day']-2
+            result[day] = r['comments_count']
+        self.comments_toxic_avg_at_day_of_the_week = [value for key, value in result.items()]
+        
+    async def __set_comments_toxic_avg_at_24_hour(self, comments: BaseManager[Comment]):
+        res = comments.values('created_at__hour').annotate(comments_count=Avg('toxic')).order_by('comments_count')
+        result = {i:0.0 for i in range(0, 24)}
+        async for r in res.aiterator(): # type: ignore
+            result[r['created_at__hour']] = r['comments_count']
+        self.comments_toxic_avg_at_24_hour = [value for key, value in result.items()]
         
     async def __set_chapters_at_days_of_the_week(self):
         results = (Chapter.objects

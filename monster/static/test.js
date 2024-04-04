@@ -139,7 +139,76 @@ function render_main_info(manga_name) {
             console.error(xhr.responseText);
         }
     });
+
+    $.ajax({
+        url: $('#manga_data_comment_at').text(), // Замените на URL вашего серверного скрипта
+        type: 'GET', // Или 'POST', в зависимости от вашего запроса
+        dataType: 'json', // Ожидаемый тип данных
+        success: function(data){
+            arr = (Array.from({length: 24}, (_, i) => i + 1))
+
+            canvas = $('#comments_toxic_avg_at_24_hour')
+            lable = $('#comments_toxic_avg_at_24_hour' + '_text')
+            lable.text('Токсичность комментариев по часам')
+            render_graph_one_line(canvas, arr, manga_name, data.comments_toxic_avg_at_24_hour)
+
+            canvas = $('#comments_toxic_avg_at_day_of_the_week')
+            lable = $('#comments_toxic_avg_at_day_of_the_week' + '_text')
+            lable.text('Написание комментариев по часам')
+            render_graph_one_line(canvas, ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресение'], manga_name, data.comments_toxic_avg_at_day_of_the_week)
+        },
+        error: function(xhr, status, error){
+            alert(status)
+            alert(error)
+            console.error(xhr.responseText);
+        }
+    });
+
 }
+function render_graph_one_radar_at_zero(canvas, labels, label_dataset, data) {
+    
+    var percentage_config = {
+        type: 'radar', // указываем тип графика (например, 'bar', 'line', 'pie', 'radar')
+        data: {
+            labels: labels,
+            datasets: [
+                /* rgba(40, 167, 69, 0.9) */
+                {
+                    label: label_dataset,
+                    data: data,
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    borderColor: 'rgb(40, 167, 69, .9)',
+                    borderWidth: 1, // Толщина линии
+                    pointRadius: 2, // Радиус точек
+                    pointBackgroundColor: 'rgb(40, 167, 69, .9)', // Цвет точек
+                    pointBorderColor: 'rgb(40, 167, 69, .9)', // Цвет границ точек
+                    pointBorderWidth: 1, // Толщина границ точек
+
+                },
+            ]
+        },
+        options: {
+            scales: {
+                r: { // https://www.chartjs.org/docs/latest/axes/radial/
+                    ticks: { // https://www.chartjs.org/docs/latest/axes/radial/#ticks
+                        min:0,
+                        color: 'white',
+                        backdropColor: 'transparent' // https://www.chartjs.org/docs/latest/axes/_common_ticks.html
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true, // изменено на true
+                },
+            },
+        },
+    }
+
+    // Создаем и отображаем график
+    var myChart = new Chart(canvas, config=percentage_config);
+}
+
 function render_graph_one_pie(canvas, labels, label_dataset, data) {
     
     var percentage_config = {
@@ -479,8 +548,6 @@ function render_similar(manga_name) {
 
     let url = `https://api.lib.social/api/manga/${manga_name}/similar`
     let similar_div = $('#similar')
-
-    
 
     $.ajax({
         url: url, // Замените на URL вашего серверного скрипта
