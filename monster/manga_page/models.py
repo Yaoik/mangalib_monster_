@@ -93,9 +93,25 @@ class MangaPage(models.Model):
     
     days_of_the_week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресение']
     
+    is_ready = models.BooleanField(default=False, db_index=True)
+    
+    stats = {}
     def __str__(self) -> str:
         return f'Страница манги {str(self.manga)}'
     
+    @classmethod
+    def get_stats(cls):
+        mangas = Manga.objects.filter(site_page__is_ready=True)
+        cls.stats['manga_count'] = mangas.count()
+        chapters = Chapter.objects.filter(manga_id__in=mangas)
+        cls.stats['chapter_count'] = chapters.count()
+        pages = Page.objects.filter(chapter_id__in=chapters)
+        cls.stats['page_count'] = pages.count()
+        comments = Comment.objects.filter(Q(post_page__in=pages))
+        cls.stats['comment_count'] = comments.count()
+        return cls.stats
+    
+        
     @classmethod
     def get_at_days_of_the_week_avg(cls):
         if cls.chapters_at_days_of_the_week_avg_percent is None:
@@ -198,6 +214,8 @@ class MangaPage(models.Model):
         end = time.time()
         print(f'{str(self)}   end __set_at_24_hours   {end-start:.3f}')
         ic(f'{str(self)}   end update_fields')
+        self.is_ready = True
+        await self.asave()
         ic() 
     
     async def __set_at_24_hours(self):

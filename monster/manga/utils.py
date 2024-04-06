@@ -36,7 +36,7 @@ def q_search(query:str) -> BaseManager[Manga]:
     
     # chapters__pages__comments
 
-    result: BaseManager[Manga] = Manga.objects.filter(q_objects)
+    result: BaseManager[Manga] = Manga.objects.filter(q_objects & Q(site_page__is_ready=True))
 
     #result = result.annotate(comments_num=Count('chapters__pages__comments')).filter(comments_num__gt=0)
 

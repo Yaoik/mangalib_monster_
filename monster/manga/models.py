@@ -481,7 +481,7 @@ class CommentEmotion(models.Model):
         
     def __str__(self) -> str:
         return f'{str(self.emotion)} с силой {self.power}'
-     
+    
 class Comment(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, unique=True)
     root_id = models.ForeignKey('Comment', on_delete=models.SET_NULL, null=True, related_name='parent_comment_foreigth_key')
@@ -498,7 +498,7 @@ class Comment(models.Model):
     relation_id = models.PositiveIntegerField(null=True)
     deleted = models.PositiveSmallIntegerField(null=True, default=None)
     
-    toxic = models.FloatField(null=True, default=None)
+    toxic = models.FloatField(null=True, default=None, db_index=True)
 
     ids = None
     

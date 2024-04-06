@@ -154,7 +154,7 @@ function render_main_info(manga_name) {
 
             canvas = $('#comments_toxic_avg_at_day_of_the_week')
             lable = $('#comments_toxic_avg_at_day_of_the_week' + '_text')
-            lable.text('Написание комментариев по часам')
+            lable.text('Токсичность комментариев по дням недели')
             render_graph_one_line(canvas, ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресение'], manga_name, data.comments_toxic_avg_at_day_of_the_week)
         },
         error: function(xhr, status, error){

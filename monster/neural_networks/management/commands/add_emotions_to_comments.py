@@ -7,7 +7,7 @@ import asyncio
 import time
 from asgiref.sync import sync_to_async
 import logging
-
+from django.db.models import Avg, Case, Count, F, Max, Min, Prefetch, Q, Sum, When, FloatField, BigIntegerField, IntegerField
 
 class CommentProcessor(Processor):
 
@@ -40,24 +40,39 @@ class CommentProcessor(Processor):
 
         return comment
 
-    async def add_emotions_to_comments(self, comments:BaseManager[Comment]):
+    async def add_emotions_to_comments(self, comments:BaseManager[Comment]|tuple[Comment, ...]):
         tasks = []
-        async for com in comments:
-            tasks.append(asyncio.create_task(self.add_emotion_to_comment(com)))
+        if isinstance(comments, BaseManager):
+            async for com in comments:
+                tasks.append(asyncio.create_task(self.add_emotion_to_comment(com)))
+        elif isinstance(comments, tuple):
+            for com in comments:
+                tasks.append(asyncio.create_task(self.add_emotion_to_comment(com)))
         return await asyncio.gather(*tasks) 
 
 
     async def add_emotions_to_manga_comments(self, manga:Manga):
-        comments = Comment.objects.filter(post_page__chapter_id__manga_id=manga).filter(toxic__isnull=True)
-        if await comments.acount() == 0:
+        comments = Comment.objects.filter(Q(post_page__chapter_id__manga_id=manga) & Q(toxic__isnull=True)).order_by('id')
+        total_comments = await comments.acount()
+        if total_comments == 0:
             return
 
+        ic(total_comments)
         chunk_size = 1000
+        
+        comments = await sync_to_async(tuple)(comments)
+        for chunk in range(0, total_comments+1, chunk_size):
+            await self.add_emotions_to_comments(comments[chunk:chunk+chunk_size])
+            ic(total_comments, chunk)
+            ic()
+
+        
+        return
         comment_queryset = comments
         async def get_comment_queryset_chunk(chunk: int, chunk_size: int) -> BaseManager[Comment]:
             comments = comment_queryset[chunk:chunk + chunk_size]
             return comments
-        
+
 
         chunk = 0
         next_comments_chunk = await get_comment_queryset_chunk(chunk, chunk_size)
@@ -71,7 +86,9 @@ class CommentProcessor(Processor):
                 
             next_comments_chunk = asyncio.create_task(get_comment_queryset_chunk(chunk+chunk_size, chunk_size))
             
-            res = await self.add_emotions_to_comments(comments_chunk)
+            start_n = time.time()
+            await self.add_emotions_to_comments(comments_chunk)
+            end_n = time.time()
             
             end1= time.process_time()
             
@@ -82,7 +99,9 @@ class CommentProcessor(Processor):
             
             t_long = round(end-start, 1)
             t_short = round(end1-start, 1)
-            ic(chunk, t_long, t_short)
+            n_time = round(end_n-start_n, 1)
+            t_time = t_long+n_time
+            ic(chunk, total_comments, t_long, t_short, n_time, t_time)
             
 
     

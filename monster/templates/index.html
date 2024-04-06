@@ -11,13 +11,23 @@
 
 
 {% load custom_filters %}
+{% load manga_page_tags %}
 
-<div class='w-16 h-full flex flex-col justify-center items-center align-middle m-auto my-10'>
-    {% for i in '9876543210'|make_list %}
+{% get_stats as stats %}
 
-        <div class='w-16 h-16 items-center text-center align-middle' style="background-color: {{ i|get_color }}">{{i}}</div>
-
-    {% endfor %}
+<div class='w-[900px] h-full flex flex-col justify-center items-center align-middle m-auto my-10'>
+    <div class='text-[#BFBFBF]'>
+        Количество обработанных Манг: {{stats.manga_count}}
+    </div>
+    <div class='text-[#BFBFBF]'>
+        Количество обработанных Глав: {{stats.chapter_count}}
+    </div>
+    <div class='text-[#BFBFBF]'>
+        Количество обработанных Страниц: {{stats.page_count}}
+    </div>
+    <div class='text-[#BFBFBF]'>
+        Количество обработанных Комментариев: {{stats.comment_count}}
+    </div>
 </div>
 
 {% endblock %}
