@@ -101,6 +101,8 @@ class MangaPage(models.Model):
     
     @classmethod
     def get_stats(cls):
+        if all(i in cls.stats for i in ['manga_count', 'chapter_count', 'page_count', 'comment_count']):
+            return cls.stats
         mangas = Manga.objects.filter(site_page__is_ready=True)
         cls.stats['manga_count'] = mangas.count()
         chapters = Chapter.objects.filter(manga_id__in=mangas)
